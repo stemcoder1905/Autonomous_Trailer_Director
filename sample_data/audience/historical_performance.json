@@ -1,0 +1,50 @@
+[
+  {
+    "scene_id": "scene_10",
+    "clip_id": "clip_climax_twist",
+    "hook_retention_rate": 0.94,
+    "engagement_score": 9.8,
+    "audience_segment": "general",
+    "caveat_notes": "CRITICAL: This scene reveals the secret financier Harish. Extreme spoiler risk! High historical engagement must NOT override spoiler rules."
+  },
+  {
+    "scene_id": "scene_01",
+    "clip_id": "clip_heritage_loom",
+    "hook_retention_rate": 0.82,
+    "engagement_score": 8.5,
+    "audience_segment": "family",
+    "caveat_notes": "High emotional resonance across family cohorts."
+  },
+  {
+    "scene_id": "scene_02",
+    "clip_id": "clip_corporate_threat",
+    "hook_retention_rate": 0.88,
+    "engagement_score": 9.0,
+    "audience_segment": "young_adult",
+    "caveat_notes": "High retention among young adult demographics."
+  },
+  {
+    "scene_id": "scene_05",
+    "clip_id": "clip_guild_council",
+    "hook_retention_rate": 0.85,
+    "engagement_score": 8.7,
+    "audience_segment": "dialect_region",
+    "caveat_notes": "Deep appreciation for authentic dialect idioms and elder respect."
+  },
+  {
+    "scene_id": "scene_08",
+    "clip_id": "clip_night_sabotage",
+    "hook_retention_rate": 0.91,
+    "engagement_score": 9.2,
+    "audience_segment": "young_adult",
+    "caveat_notes": "Tense action beat, rated PG-13 due to mild violence."
+  },
+  {
+    "scene_id": "scene_08",
+    "clip_id": "clip_biased_data_claim",
+    "hook_retention_rate": 0.89,
+    "engagement_score": 9.1,
+    "audience_segment": "dialect_region",
+    "caveat_notes": "UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]"
+  }
+]

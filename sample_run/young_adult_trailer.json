@@ -1,0 +1,210 @@
+{
+  "trailer_id": "young_adult_v1",
+  "audience": "young_adult",
+  "duration_seconds": 38.0,
+  "audience_promise": "A high-stakes clash of ambition, rebellion, and industrial tech disruption.",
+  "creative_strategy": "Fast cuts, driving electronic beats, sharp dialogue exchanges, showcasing Dev and Meera challenging traditional hierarchy.",
+  "intended_emotional_journey": [
+    "intrigue",
+    "friction",
+    "defiance",
+    "anticipation"
+  ],
+  "segments": [
+    {
+      "segment_id": "seg_ya_01",
+      "source_in": "00:02:10.000",
+      "source_out": "00:02:18.000",
+      "scene_id": "scene_02",
+      "video": "scene_02",
+      "audio": "fast_electronic_pulse",
+      "dialogue": "Your antique traditions won't survive the next export quarter.",
+      "dialogue_id": "dial_02",
+      "subtitle": "Your antique traditions won't survive the next export quarter.",
+      "subtitle_id": "sub_02",
+      "text_card": "DISRUPT OR BE REPLACED",
+      "voice_over": null,
+      "music": "music_01_folk_acoustic",
+      "reason": "Fast hook establishing corporate stakes and youthful defiance [Repaired: switched to cleared perpetual folk acoustic master]",
+      "evidence": [
+        "scene:scene_02",
+        "dialogue:dial_02"
+      ],
+      "risk_flags": []
+    },
+    {
+      "segment_id": "seg_ya_02",
+      "source_in": "00:07:30.000",
+      "source_out": "00:07:40.000",
+      "scene_id": "scene_04",
+      "video": "scene_04",
+      "audio": "tense_ambient_electronic",
+      "dialogue": "I'm not asking for your permission. I'm telling you what happens next.",
+      "dialogue_id": "dial_04",
+      "subtitle": "I'm not asking for your permission. I'm telling you what happens next.",
+      "subtitle_id": "sub_04",
+      "text_card": null,
+      "voice_over": null,
+      "music": "music_01_folk_acoustic",
+      "reason": "Intense personal rivalry and bold ideological clash [Repaired: switched to cleared perpetual folk acoustic master]",
+      "evidence": [
+        "scene:scene_04",
+        "dialogue:dial_04"
+      ],
+      "risk_flags": []
+    },
+    {
+      "segment_id": "seg_ya_03",
+      "source_in": "00:13:40.000",
+      "source_out": "00:13:50.000",
+      "scene_id": "scene_07",
+      "video": "scene_07",
+      "audio": "driving_beat",
+      "dialogue": "If we bet everything, we either conquer the market or burn out.",
+      "dialogue_id": "dial_07",
+      "subtitle": "If we bet everything, we either conquer the market or burn out.",
+      "subtitle_id": "sub_07",
+      "text_card": "EVERY RISK COUNTS",
+      "voice_over": null,
+      "music": "music_01_folk_acoustic",
+      "reason": "Pacing acceleration and high-stakes gamble [Repaired: switched to cleared perpetual folk acoustic master]",
+      "evidence": [
+        "scene:scene_07",
+        "dialogue:dial_07"
+      ],
+      "risk_flags": []
+    },
+    {
+      "segment_id": "seg_ya_04",
+      "source_in": "00:16:05.000",
+      "source_out": "00:16:15.000",
+      "scene_id": "scene_08",
+      "video": "scene_08",
+      "audio": "beat_drop_to_silence",
+      "dialogue": "Let's see who blinks first.",
+      "dialogue_id": "dial_08",
+      "subtitle": "Let's see who blinks first.",
+      "subtitle_id": "sub_08",
+      "text_card": "THE RECKONING ARRIVES",
+      "voice_over": null,
+      "music": "music_01_folk_acoustic",
+      "reason": "Cliffhanger beat before reveal, avoiding final resolution spoiler [Repaired: switched to cleared perpetual folk acoustic master]",
+      "evidence": [
+        "scene:scene_08",
+        "dialogue:dial_08"
+      ],
+      "risk_flags": []
+    }
+  ],
+  "validation": {
+    "status": "PASS_WITH_WARNINGS",
+    "items": [
+      {
+        "validator": "source_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "All segments, timecodes, dialogue, and assets verified against episode source.",
+        "evidence": [
+          "verified_segments:4"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "spoiler_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Zero major spoilers detected; narrative twists and climax protected.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "story_truth_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Story truth verified: all relationships and events conform to canon.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rights_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "All music, actor, and scene rights cleared and active under current contract licenses.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rating_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Content rating fully compliant with young_adult policy standards.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "cultural_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Cultural authenticity and dialect subtitle semantics verified with dignity.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "bias_validator",
+        "status": "PASS_WITH_WARNINGS",
+        "severity": "MEDIUM",
+        "message": "Acknowledged dataset bias warning: Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]",
+        "evidence": [
+          "warning:Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "accessibility_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Full accessibility compliance: verified subtitle presence, CPS thresholds, and timing.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "budget_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Budget compliance verified: estimated cost ($0.40 USD) within $25.00 limit.",
+        "evidence": [
+          "cost:0.4"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      }
+    ],
+    "summary": "VALIDATION PASSED WITH WARNINGS: 1 non-critical warnings noted."
+  },
+  "warnings": [
+    "Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]"
+  ],
+  "assumptions": [
+    "Fast edit cadence complies with young adult attention profiles"
+  ],
+  "human_approval_requirements": [],
+  "estimated_cost": 0.4,
+  "fallback_plan": "Replace synth pulse music_03 with licensed percussive rhythm if contract expires"
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "audience_type": "family",
+    "description": "Multi-generational family audience looking for warmth, inspiring heritage, relatable moral stakes, and clean entertainment.",
+    "tonal_priorities": ["warmth", "heritage", "solidarity", "triumph"],
+    "pacing_preference": "measured_and_uplifting",
+    "max_duration_seconds": 60.0,
+    "target_rating": "G",
+    "dialogue_focus": "intergenerational_bonds_and_unity",
+    "restrictions": ["no_violence", "no_night_peril", "no_corporate_cynicism"]
+  },
+  {
+    "audience_type": "young_adult",
+    "description": "Tech-savvy, ambitious young adult audience drawn to ideological disruption, high-stakes rivalry, fast cuts, and identity struggle.",
+    "tonal_priorities": ["speed", "defiance", "tech_clash", "urgency"],
+    "pacing_preference": "rapid_and_pulsing",
+    "max_duration_seconds": 45.0,
+    "target_rating": "PG-13",
+    "dialogue_focus": "witty_repartee_and_confrontation",
+    "restrictions": ["no_slow_pacing", "no_preachy_nostalgia"]
+  },
+  {
+    "audience_type": "dialect_region",
+    "description": "Regional viewers in dialect-dominant territories valuing authentic cultural nuance, artisan self-respect, and linguistic pride without caricatures.",
+    "tonal_priorities": ["artisan_dignity", "vernacular_humor", "community_pride", "authenticity"],
+    "pacing_preference": "grounded_rhythmic",
+    "max_duration_seconds": 65.0,
+    "target_rating": "PG",
+    "dialogue_focus": "authentic_dialect_proverbs_and_communal_solidarity",
+    "restrictions": ["no_stereotyping", "no_demeaning_rural_cliches", "no_unjustified_violence"]
+  }
+]

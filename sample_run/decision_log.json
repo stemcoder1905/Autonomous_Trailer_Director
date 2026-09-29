@@ -1,0 +1,994 @@
+[
+  {
+    "log_id": "log_0001",
+    "timestamp": "2026-09-29T10:03:22.791956+00:00",
+    "agent": "StoryUnderstandingAgent",
+    "action": "ANALYZE_STORY",
+    "input_evidence": [
+      "episode:ep_101",
+      "scenes:12"
+    ],
+    "selected_decision": {
+      "events_count": 12,
+      "spoilers_count": 4
+    },
+    "rejected_decisions": [],
+    "validation_results": [],
+    "risk": "LOW",
+    "cost": 0.0,
+    "affected_segments": [],
+    "revision": 1,
+    "reason": "Synthesized story map for The Weaver's Secret - Episode 1: The Singing Loom across 12 events",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0002",
+    "timestamp": "2026-09-29T10:03:22.793347+00:00",
+    "agent": "ConstraintAnalysisAgent",
+    "action": "COMPILE_CONSTRAINTS",
+    "input_evidence": [
+      "contract_count:7",
+      "ref_date:2026-02-15"
+    ],
+    "selected_decision": {
+      "rules_count": 7,
+      "budget_usd": 25.0
+    },
+    "rejected_decisions": [],
+    "validation_results": [],
+    "risk": "LOW",
+    "cost": 0.0,
+    "affected_segments": [],
+    "revision": 1,
+    "reason": "Compiled 7 operational rules for ep_101",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0003",
+    "timestamp": "2026-09-29T10:03:22.795164+00:00",
+    "agent": "AudienceStrategyAgent",
+    "action": "DEVELOP_STRATEGY",
+    "input_evidence": [
+      "audience:family",
+      "rating:G"
+    ],
+    "selected_decision": {
+      "promise": "A heartwarming saga of heritage, resilience, and family unity across generations.",
+      "target_rating": "G",
+      "candidate_scenes": [
+        "scene_01",
+        "scene_03",
+        "scene_06",
+        "scene_09"
+      ]
+    },
+    "rejected_decisions": [],
+    "validation_results": [],
+    "risk": "MEDIUM",
+    "cost": 0.0,
+    "affected_segments": [],
+    "revision": 1,
+    "reason": "Formulated strategy for family with 4 candidate scenes",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0004",
+    "timestamp": "2026-09-29T10:03:22.797619+00:00",
+    "agent": "CreativeTrailerPlannerAgent",
+    "action": "PLAN_TRAILER",
+    "input_evidence": [
+      "audience:family",
+      "scenes:['scene_01', 'scene_03', 'scene_06', 'scene_09']"
+    ],
+    "selected_decision": {
+      "trailer_id": "family_v1",
+      "duration": 44.0
+    },
+    "rejected_decisions": [],
+    "validation_results": [],
+    "risk": "LOW",
+    "cost": 0.05,
+    "affected_segments": [],
+    "revision": 1,
+    "reason": "Generated candidate plan with 4 segments for family",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0005",
+    "timestamp": "2026-09-29T10:03:22.799369+00:00",
+    "agent": "AudienceStrategyAgent",
+    "action": "DEVELOP_STRATEGY",
+    "input_evidence": [
+      "audience:young_adult",
+      "rating:PG-13"
+    ],
+    "selected_decision": {
+      "promise": "A high-stakes clash of ambition, rebellion, and industrial tech disruption.",
+      "target_rating": "PG-13",
+      "candidate_scenes": [
+        "scene_02",
+        "scene_04",
+        "scene_07",
+        "scene_08"
+      ]
+    },
+    "rejected_decisions": [],
+    "validation_results": [],
+    "risk": "MEDIUM",
+    "cost": 0.0,
+    "affected_segments": [],
+    "revision": 1,
+    "reason": "Formulated strategy for young_adult with 4 candidate scenes",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0006",
+    "timestamp": "2026-09-29T10:03:22.801949+00:00",
+    "agent": "CreativeTrailerPlannerAgent",
+    "action": "PLAN_TRAILER",
+    "input_evidence": [
+      "audience:young_adult",
+      "scenes:['scene_02', 'scene_04', 'scene_07', 'scene_08']"
+    ],
+    "selected_decision": {
+      "trailer_id": "young_adult_v1",
+      "duration": 38.0
+    },
+    "rejected_decisions": [],
+    "validation_results": [],
+    "risk": "LOW",
+    "cost": 0.05,
+    "affected_segments": [],
+    "revision": 1,
+    "reason": "Generated candidate plan with 4 segments for young_adult",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0007",
+    "timestamp": "2026-09-29T10:03:22.804611+00:00",
+    "agent": "AudienceStrategyAgent",
+    "action": "DEVELOP_STRATEGY",
+    "input_evidence": [
+      "audience:dialect_region",
+      "rating:PG"
+    ],
+    "selected_decision": {
+      "promise": "An authentic, deeply grounded portrayal of rural craftsmanship, local wit, and regional dignity.",
+      "target_rating": "PG",
+      "candidate_scenes": [
+        "scene_01",
+        "scene_05",
+        "scene_06",
+        "scene_09"
+      ]
+    },
+    "rejected_decisions": [],
+    "validation_results": [],
+    "risk": "MEDIUM",
+    "cost": 0.0,
+    "affected_segments": [],
+    "revision": 1,
+    "reason": "Formulated strategy for dialect_region with 4 candidate scenes",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0008",
+    "timestamp": "2026-09-29T10:03:22.807791+00:00",
+    "agent": "CreativeTrailerPlannerAgent",
+    "action": "PLAN_TRAILER",
+    "input_evidence": [
+      "audience:dialect_region",
+      "scenes:['scene_01', 'scene_05', 'scene_06', 'scene_09']"
+    ],
+    "selected_decision": {
+      "trailer_id": "dialect_region_v1",
+      "duration": 54.0
+    },
+    "rejected_decisions": [],
+    "validation_results": [],
+    "risk": "LOW",
+    "cost": 0.05,
+    "affected_segments": [],
+    "revision": 1,
+    "reason": "Generated candidate plan with 4 segments for dialect_region",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0009",
+    "timestamp": "2026-09-29T10:03:22.811884+00:00",
+    "agent": "IndependentValidationAgent",
+    "action": "VALIDATE_TRAILER",
+    "input_evidence": [
+      "trailer:family_v1",
+      "segments:4"
+    ],
+    "selected_decision": {
+      "status": "PASS_WITH_WARNINGS",
+      "failures": 0,
+      "warnings": 1
+    },
+    "rejected_decisions": [],
+    "validation_results": [
+      {
+        "validator": "source_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "All segments, timecodes, dialogue, and assets verified against episode source.",
+        "evidence": [
+          "verified_segments:4"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "spoiler_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Zero major spoilers detected; narrative twists and climax protected.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "story_truth_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Story truth verified: all relationships and events conform to canon.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rights_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "All music, actor, and scene rights cleared and active under current contract licenses.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rating_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Content rating fully compliant with family policy standards.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "cultural_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Cultural authenticity and dialect subtitle semantics verified with dignity.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "bias_validator",
+        "status": "PASS_WITH_WARNINGS",
+        "severity": "MEDIUM",
+        "message": "Acknowledged dataset bias warning: Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]",
+        "evidence": [
+          "warning:Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "accessibility_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Full accessibility compliance: verified subtitle presence, CPS thresholds, and timing.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "budget_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Budget compliance verified: estimated cost ($0.45 USD) within $25.00 limit.",
+        "evidence": [
+          "cost:0.45"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      }
+    ],
+    "risk": "MEDIUM",
+    "cost": 0.045,
+    "affected_segments": [],
+    "revision": 1,
+    "reason": "VALIDATION PASSED WITH WARNINGS: 1 non-critical warnings noted.",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0010",
+    "timestamp": "2026-09-29T10:03:22.816274+00:00",
+    "agent": "IndependentValidationAgent",
+    "action": "VALIDATE_TRAILER",
+    "input_evidence": [
+      "trailer:young_adult_v1",
+      "segments:4"
+    ],
+    "selected_decision": {
+      "status": "PASS_WITH_WARNINGS",
+      "failures": 0,
+      "warnings": 1
+    },
+    "rejected_decisions": [],
+    "validation_results": [
+      {
+        "validator": "source_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "All segments, timecodes, dialogue, and assets verified against episode source.",
+        "evidence": [
+          "verified_segments:4"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "spoiler_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Zero major spoilers detected; narrative twists and climax protected.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "story_truth_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Story truth verified: all relationships and events conform to canon.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rights_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "All music, actor, and scene rights cleared and active under current contract licenses.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rating_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Content rating fully compliant with young_adult policy standards.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "cultural_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Cultural authenticity and dialect subtitle semantics verified with dignity.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "bias_validator",
+        "status": "PASS_WITH_WARNINGS",
+        "severity": "MEDIUM",
+        "message": "Acknowledged dataset bias warning: Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]",
+        "evidence": [
+          "warning:Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "accessibility_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Full accessibility compliance: verified subtitle presence, CPS thresholds, and timing.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "budget_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Budget compliance verified: estimated cost ($0.40 USD) within $25.00 limit.",
+        "evidence": [
+          "cost:0.4"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      }
+    ],
+    "risk": "MEDIUM",
+    "cost": 0.045,
+    "affected_segments": [],
+    "revision": 1,
+    "reason": "VALIDATION PASSED WITH WARNINGS: 1 non-critical warnings noted.",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0011",
+    "timestamp": "2026-09-29T10:03:22.821351+00:00",
+    "agent": "IndependentValidationAgent",
+    "action": "VALIDATE_TRAILER",
+    "input_evidence": [
+      "trailer:dialect_region_v1",
+      "segments:4"
+    ],
+    "selected_decision": {
+      "status": "PASS_WITH_WARNINGS",
+      "failures": 0,
+      "warnings": 1
+    },
+    "rejected_decisions": [],
+    "validation_results": [
+      {
+        "validator": "source_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "All segments, timecodes, dialogue, and assets verified against episode source.",
+        "evidence": [
+          "verified_segments:4"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "spoiler_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Zero major spoilers detected; narrative twists and climax protected.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "story_truth_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Story truth verified: all relationships and events conform to canon.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rights_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "All music, actor, and scene rights cleared and active under current contract licenses.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rating_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Content rating fully compliant with dialect_region policy standards.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "cultural_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Cultural authenticity and dialect subtitle semantics verified with dignity.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "bias_validator",
+        "status": "PASS_WITH_WARNINGS",
+        "severity": "MEDIUM",
+        "message": "Acknowledged dataset bias warning: Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]",
+        "evidence": [
+          "warning:Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "accessibility_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Full accessibility compliance: verified subtitle presence, CPS thresholds, and timing.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "budget_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Budget compliance verified: estimated cost ($0.42 USD) within $25.00 limit.",
+        "evidence": [
+          "cost:0.42"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      }
+    ],
+    "risk": "MEDIUM",
+    "cost": 0.045,
+    "affected_segments": [],
+    "revision": 1,
+    "reason": "VALIDATION PASSED WITH WARNINGS: 1 non-critical warnings noted.",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0012",
+    "timestamp": "2026-09-29T10:03:22.827080+00:00",
+    "agent": "IndependentValidationAgent",
+    "action": "VALIDATE_TRAILER",
+    "input_evidence": [
+      "trailer:young_adult_v1",
+      "segments:4"
+    ],
+    "selected_decision": {
+      "status": "FAIL",
+      "failures": 4,
+      "warnings": 1
+    },
+    "rejected_decisions": [],
+    "validation_results": [
+      {
+        "validator": "source_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "All segments, timecodes, dialogue, and assets verified against episode source.",
+        "evidence": [
+          "verified_segments:4"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "spoiler_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Zero major spoilers detected; narrative twists and climax protected.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "story_truth_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Story truth verified: all relationships and events conform to canon.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rights_validator",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "message": "Segment 'seg_ya_01' uses music track 'music_03_synth_pulse' whose sync license EXPIRED on 2026-03-31.",
+        "evidence": [
+          "rule_id:rule_contract_music_03",
+          "music:music_03_synth_pulse",
+          "expiry:2026-03-31",
+          "ref_date:2026-02-15"
+        ],
+        "affected_segments": [
+          "seg_ya_01"
+        ],
+        "suggested_action": "CHANGE_MUSIC",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rights_validator",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "message": "Segment 'seg_ya_02' uses music track 'music_03_synth_pulse' whose sync license EXPIRED on 2026-03-31.",
+        "evidence": [
+          "rule_id:rule_contract_music_03",
+          "music:music_03_synth_pulse",
+          "expiry:2026-03-31",
+          "ref_date:2026-02-15"
+        ],
+        "affected_segments": [
+          "seg_ya_02"
+        ],
+        "suggested_action": "CHANGE_MUSIC",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rights_validator",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "message": "Segment 'seg_ya_03' uses music track 'music_03_synth_pulse' whose sync license EXPIRED on 2026-03-31.",
+        "evidence": [
+          "rule_id:rule_contract_music_03",
+          "music:music_03_synth_pulse",
+          "expiry:2026-03-31",
+          "ref_date:2026-02-15"
+        ],
+        "affected_segments": [
+          "seg_ya_03"
+        ],
+        "suggested_action": "CHANGE_MUSIC",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rights_validator",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "message": "Segment 'seg_ya_04' uses music track 'music_03_synth_pulse' whose sync license EXPIRED on 2026-03-31.",
+        "evidence": [
+          "rule_id:rule_contract_music_03",
+          "music:music_03_synth_pulse",
+          "expiry:2026-03-31",
+          "ref_date:2026-02-15"
+        ],
+        "affected_segments": [
+          "seg_ya_04"
+        ],
+        "suggested_action": "CHANGE_MUSIC",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rating_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Content rating fully compliant with young_adult policy standards.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "cultural_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Cultural authenticity and dialect subtitle semantics verified with dignity.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "bias_validator",
+        "status": "PASS_WITH_WARNINGS",
+        "severity": "MEDIUM",
+        "message": "Acknowledged dataset bias warning: Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]",
+        "evidence": [
+          "warning:Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "accessibility_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Full accessibility compliance: verified subtitle presence, CPS thresholds, and timing.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "budget_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Budget compliance verified: estimated cost ($0.40 USD) within $25.00 limit.",
+        "evidence": [
+          "cost:0.4"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      }
+    ],
+    "risk": "HIGH",
+    "cost": 0.045,
+    "affected_segments": [],
+    "revision": 1,
+    "reason": "VALIDATION FAILED: 4 critical violations detected across 4 segments.",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0013",
+    "timestamp": "2026-09-29T10:03:22.836444+00:00",
+    "agent": "RepairAgent",
+    "action": "REPAIR_CHANGE_MUSIC",
+    "input_evidence": [
+      "Segment 'seg_ya_01' uses music track 'music_03_synth_pulse' whose sync license EXPIRED on 2026-03-31."
+    ],
+    "selected_decision": {
+      "segment_id": "seg_ya_01",
+      "new_music": "music_01_folk_acoustic"
+    },
+    "rejected_decisions": [
+      {
+        "rejected_music": "music_03_synth_pulse"
+      }
+    ],
+    "validation_results": [],
+    "risk": "LOW",
+    "cost": 0.0,
+    "affected_segments": [
+      "seg_ya_01"
+    ],
+    "revision": 1,
+    "reason": "Replaced expired/restricted music 'music_03_synth_pulse' with cleared 'music_01_folk_acoustic'",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0014",
+    "timestamp": "2026-09-29T10:03:22.842343+00:00",
+    "agent": "RepairAgent",
+    "action": "REPAIR_CHANGE_MUSIC",
+    "input_evidence": [
+      "Segment 'seg_ya_02' uses music track 'music_03_synth_pulse' whose sync license EXPIRED on 2026-03-31."
+    ],
+    "selected_decision": {
+      "segment_id": "seg_ya_02",
+      "new_music": "music_01_folk_acoustic"
+    },
+    "rejected_decisions": [
+      {
+        "rejected_music": "music_03_synth_pulse"
+      }
+    ],
+    "validation_results": [],
+    "risk": "LOW",
+    "cost": 0.0,
+    "affected_segments": [
+      "seg_ya_02"
+    ],
+    "revision": 1,
+    "reason": "Replaced expired/restricted music 'music_03_synth_pulse' with cleared 'music_01_folk_acoustic'",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0015",
+    "timestamp": "2026-09-29T10:03:22.847579+00:00",
+    "agent": "RepairAgent",
+    "action": "REPAIR_CHANGE_MUSIC",
+    "input_evidence": [
+      "Segment 'seg_ya_03' uses music track 'music_03_synth_pulse' whose sync license EXPIRED on 2026-03-31."
+    ],
+    "selected_decision": {
+      "segment_id": "seg_ya_03",
+      "new_music": "music_01_folk_acoustic"
+    },
+    "rejected_decisions": [
+      {
+        "rejected_music": "music_03_synth_pulse"
+      }
+    ],
+    "validation_results": [],
+    "risk": "LOW",
+    "cost": 0.0,
+    "affected_segments": [
+      "seg_ya_03"
+    ],
+    "revision": 1,
+    "reason": "Replaced expired/restricted music 'music_03_synth_pulse' with cleared 'music_01_folk_acoustic'",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0016",
+    "timestamp": "2026-09-29T10:03:22.852863+00:00",
+    "agent": "RepairAgent",
+    "action": "REPAIR_CHANGE_MUSIC",
+    "input_evidence": [
+      "Segment 'seg_ya_04' uses music track 'music_03_synth_pulse' whose sync license EXPIRED on 2026-03-31."
+    ],
+    "selected_decision": {
+      "segment_id": "seg_ya_04",
+      "new_music": "music_01_folk_acoustic"
+    },
+    "rejected_decisions": [
+      {
+        "rejected_music": "music_03_synth_pulse"
+      }
+    ],
+    "validation_results": [],
+    "risk": "LOW",
+    "cost": 0.0,
+    "affected_segments": [
+      "seg_ya_04"
+    ],
+    "revision": 1,
+    "reason": "Replaced expired/restricted music 'music_03_synth_pulse' with cleared 'music_01_folk_acoustic'",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0017",
+    "timestamp": "2026-09-29T10:03:22.859612+00:00",
+    "agent": "IndependentValidationAgent",
+    "action": "VALIDATE_TRAILER",
+    "input_evidence": [
+      "trailer:young_adult_v1",
+      "segments:4"
+    ],
+    "selected_decision": {
+      "status": "PASS_WITH_WARNINGS",
+      "failures": 0,
+      "warnings": 1
+    },
+    "rejected_decisions": [],
+    "validation_results": [
+      {
+        "validator": "source_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "All segments, timecodes, dialogue, and assets verified against episode source.",
+        "evidence": [
+          "verified_segments:4"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "spoiler_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Zero major spoilers detected; narrative twists and climax protected.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "story_truth_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Story truth verified: all relationships and events conform to canon.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rights_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "All music, actor, and scene rights cleared and active under current contract licenses.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rating_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Content rating fully compliant with young_adult policy standards.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "cultural_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Cultural authenticity and dialect subtitle semantics verified with dignity.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "bias_validator",
+        "status": "PASS_WITH_WARNINGS",
+        "severity": "MEDIUM",
+        "message": "Acknowledged dataset bias warning: Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]",
+        "evidence": [
+          "warning:Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "accessibility_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Full accessibility compliance: verified subtitle presence, CPS thresholds, and timing.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "budget_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Budget compliance verified: estimated cost ($0.40 USD) within $25.00 limit.",
+        "evidence": [
+          "cost:0.4"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      }
+    ],
+    "risk": "MEDIUM",
+    "cost": 0.045,
+    "affected_segments": [],
+    "revision": 1,
+    "reason": "VALIDATION PASSED WITH WARNINGS: 1 non-critical warnings noted.",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0018",
+    "timestamp": "2026-09-29T10:03:22.865684+00:00",
+    "agent": "ChangeImpactAgent",
+    "action": "SELECTIVE_REPLAN",
+    "input_evidence": [
+      "changed_rule:rule_contract_music_03",
+      "status:EXPIRED"
+    ],
+    "selected_decision": {
+      "affected": [
+        "young_adult_v1"
+      ],
+      "unaffected": [
+        "family_v1",
+        "dialect_region_v1"
+      ]
+    },
+    "rejected_decisions": [],
+    "validation_results": [],
+    "risk": "LOW",
+    "cost": 0.0,
+    "affected_segments": [
+      "seg_ya_01",
+      "seg_ya_02",
+      "seg_ya_03",
+      "seg_ya_04"
+    ],
+    "revision": 1,
+    "reason": "Selective replanning executed for 1 affected trailers; 2 preserved untouched.",
+    "model_provider": "mock"
+  }
+]

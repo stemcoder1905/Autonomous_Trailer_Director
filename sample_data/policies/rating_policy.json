@@ -1,0 +1,44 @@
+{
+  "rating_guidelines": {
+    "family": {
+      "target_rating": "G",
+      "max_allowed_rating": "PG",
+      "prohibited_elements": [
+        "graphic_violence",
+        "weapons_threat",
+        "intense_fear",
+        "sabotage_actions",
+        "profanity",
+        "substance_abuse",
+        "sensual_content"
+      ],
+      "prohibited_scenes": ["scene_08", "scene_10"],
+      "allowed_emotions": ["warm_reverence", "family_solidarity", "cultural_pride", "awe_discovery", "collective_triumph", "peaceful_legacy"]
+    },
+    "young_adult": {
+      "target_rating": "PG-13",
+      "max_allowed_rating": "PG-13",
+      "prohibited_elements": [
+        "graphic_gore",
+        "explicit_profanity",
+        "explicit_sexuality"
+      ],
+      "allowed_emotions": ["tense_confrontation", "youthful_ambition", "suspense_thrill", "peril_action", "cliffhanger_challenge"]
+    },
+    "dialect_region": {
+      "target_rating": "PG",
+      "max_allowed_rating": "PG",
+      "prohibited_elements": [
+        "cultural_stereotyping",
+        "dialect_caricature",
+        "demeaning_rural_tropes",
+        "profanity"
+      ],
+      "cultural_requirements": [
+        "authentic_vernacular_idiom",
+        "respectful_artisan_dignity",
+        "accurate_subtitles_reflecting_cultural_intent"
+      ]
+    }
+  }
+}

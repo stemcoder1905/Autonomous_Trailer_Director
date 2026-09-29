@@ -1,0 +1,29 @@
+[
+  {
+    "change_id": "change_rule_contract_music_03",
+    "trigger": "Rule 'rule_contract_music_03' changed to EXPIRED",
+    "affected_trailers": [
+      "young_adult_v1"
+    ],
+    "affected_segments": {
+      "young_adult_v1": [
+        "seg_ya_01",
+        "seg_ya_02",
+        "seg_ya_03",
+        "seg_ya_04"
+      ]
+    },
+    "unaffected_trailers": [
+      "family_v1",
+      "dialect_region_v1"
+    ],
+    "replan_reasons": [
+      "Trailer 'young_adult_v1' references music_restriction 'music_03_synth_pulse' in segments ['seg_ya_01', 'seg_ya_02', 'seg_ya_03', 'seg_ya_04']. Triggered selective replanning."
+    ],
+    "new_validation_statuses": {
+      "family_v1": "PASS_WITH_WARNINGS",
+      "young_adult_v1": "PASS_WITH_WARNINGS",
+      "dialect_region_v1": "PASS_WITH_WARNINGS"
+    }
+  }
+]
