@@ -25,6 +25,20 @@ class RepairAgent:
         self.validator_agent = validator_agent or IndependentValidationAgent()
         self.decision_logger = decision_logger
 
+    @staticmethod
+    def classify_escalation(validator: str, message: str = "") -> str:
+        """Categorizes unresolved violations into standard 4-class human escalation taxonomy."""
+        v = (validator or "").lower()
+        m = (message or "").lower()
+        if "rights" in v or "legal" in v or "contract" in m or "license" in m or "territor" in m:
+            return "LEGAL"
+        elif "cultural" in v or "bias" in v or "dialect" in m or "stereotype" in m:
+            return "CULTURAL"
+        elif "spoiler" in v or "story_truth" in v or "rating" in v or "canon" in m:
+            return "EDITORIAL"
+        else:
+            return "CREATIVE"
+
     def attempt_repair(
         self,
         plan: TrailerPlan,
@@ -97,16 +111,7 @@ class RepairAgent:
                 logger.warning("[RepairAgent] No automated alternative found; escalating to human review.")
                 current_plan.human_approval_required = True
                 top_failure = failures[0]
-                if "rights" in top_failure.validator or "contract" in top_failure.message.lower():
-                    current_plan.approval_type = "RIGHTS"
-                elif "spoiler" in top_failure.validator:
-                    current_plan.approval_type = "SPOILER"
-                elif "rating" in top_failure.validator:
-                    current_plan.approval_type = "RATING"
-                elif "legal" in top_failure.validator:
-                    current_plan.approval_type = "LEGAL"
-                else:
-                    current_plan.approval_type = "CREATIVE"
+                current_plan.approval_type = self.classify_escalation(top_failure.validator, top_failure.message)
                 current_plan.approval_reason = f"Automated repair exhausted ({top_failure.validator}): {top_failure.message}"
                 current_plan.human_approval_requirements.append(
                     f"Automated repair exhausted: {top_failure.message}"
@@ -125,14 +130,7 @@ class RepairAgent:
                 fails = [i for i in final_report.items if i.status == ValidationStatus.FAIL]
                 if fails:
                     top = fails[0]
-                    if "rights" in top.validator:
-                        current_plan.approval_type = "LEGAL"
-                    elif "cultural" in top.validator or "bias" in top.validator:
-                        current_plan.approval_type = "CULTURAL"
-                    elif "spoiler" in top.validator or "story_truth" in top.validator:
-                        current_plan.approval_type = "EDITORIAL"
-                    else:
-                        current_plan.approval_type = "CREATIVE"
+                    current_plan.approval_type = self.classify_escalation(top.validator, top.message)
                     current_plan.approval_reason = top.message
         return current_plan, passed
 

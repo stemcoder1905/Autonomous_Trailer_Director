@@ -26,18 +26,35 @@ class TrailerDirectorWorkflow:
         decision_logger: Optional[DecisionLogger] = None,
         reference_date: Optional[str] = "2026-04-15",
         media_path: Optional[Path] = None,
-        media_mode: str = "REPLAY"
+        media_mode: str = "REPLAY",
+        execution_mode: Optional[str] = None,
+        media_source: Optional[str] = None
     ):
         self.base_dir = Path(base_dir)
         self.decision_logger = decision_logger or DecisionLogger()
-        self.provider_manager = provider_manager or ProviderManager()
         self.reference_date = reference_date
         self.media_path = media_path
-        self.media_mode = media_mode
+        
+        # Explicit separation: execution_mode vs media_source
+        self.execution_mode = (execution_mode or ("live" if (provider_manager and provider_manager.preferred_provider == "live") else "replay")).lower()
+        self.provider_manager = provider_manager or ProviderManager(
+            preferred_provider="live" if self.execution_mode == "live" else "mock"
+        )
+        
+        if media_source:
+            self.media_source = media_source.lower()
+        else:
+            is_real = (media_mode.upper() == "REAL_MEDIA") or (media_path and "sample_data" not in str(media_path).lower())
+            self.media_source = "real_media" if is_real else "replay_fixture"
+        self.media_mode = "REAL_MEDIA" if self.media_source == "real_media" else "REPLAY"
 
         # Instantiate specialized agents
         from src.media.media_validator import MediaValidator
-        self.media_validator = MediaValidator(media_path=self.media_path, mode=self.media_mode)
+        self.media_validator = MediaValidator(
+            media_path=self.media_path,
+            execution_mode=self.execution_mode,
+            media_source=self.media_source
+        )
         self.loader = EpisodePackageLoader(self.base_dir)
         self.story_agent = StoryUnderstandingAgent(self.decision_logger)
         self.constraint_agent = ConstraintAnalysisAgent(self.decision_logger)

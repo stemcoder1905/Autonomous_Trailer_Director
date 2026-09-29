@@ -30,12 +30,10 @@
         "scene:scene_01",
         "dialogue:dial_01",
         "subtitle:sub_01",
-        "vision_observation:Frame visually confirms: Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.. Segment reason: Honor authentic regional idiom and respectful portrayal of traditional craftsmanship",
+        "vision_aggregate:PASS",
         "vision_confidence:0.95",
-        "vision_source:REPLAY_FIXTURE",
-        "vision_observation:Frame visually confirms: Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.. Segment reason: Honor authentic regional idiom and respectful portrayal of traditional craftsmanship",
-        "vision_confidence:0.95",
-        "vision_source:REPLAY_FIXTURE"
+        "vision_aggregate:PASS",
+        "vision_confidence:0.95"
       ],
       "risk_flags": [],
       "source": {
@@ -58,6 +56,46 @@
         "sample_run\\frames\\scene_01_middle.jpg",
         "sample_run\\frames\\scene_01_end.jpg"
       ],
+      "visual_evidence": [
+        {
+          "claim": "Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.",
+          "observations": [
+            "scene_01_start.jpg: Frame visually confirms: Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.. Segment reason: Honor authentic regional idiom and respectful portrayal of traditional craftsmanship",
+            "scene_01_middle.jpg: Frame visually confirms: Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.. Segment reason: Honor authentic regional idiom and respectful portrayal of traditional craftsmanship",
+            "scene_01_end.jpg: Frame visually confirms: Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.. Segment reason: Honor authentic regional idiom and respectful portrayal of traditional craftsmanship"
+          ],
+          "confidence": 0.95,
+          "supported": true,
+          "source_type": "REPLAY_FIXTURE",
+          "verification_method": "MOCK_VISION",
+          "verified": false,
+          "status": "PASS",
+          "sampled_frames": [
+            "sample_run\\frames\\scene_01_start.jpg",
+            "sample_run\\frames\\scene_01_middle.jpg",
+            "sample_run\\frames\\scene_01_end.jpg"
+          ]
+        },
+        {
+          "claim": "Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.",
+          "observations": [
+            "scene_01_start.jpg: Frame visually confirms: Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.. Segment reason: Honor authentic regional idiom and respectful portrayal of traditional craftsmanship",
+            "scene_01_middle.jpg: Frame visually confirms: Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.. Segment reason: Honor authentic regional idiom and respectful portrayal of traditional craftsmanship",
+            "scene_01_end.jpg: Frame visually confirms: Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.. Segment reason: Honor authentic regional idiom and respectful portrayal of traditional craftsmanship"
+          ],
+          "confidence": 0.95,
+          "supported": true,
+          "source_type": "REPLAY_FIXTURE",
+          "verification_method": "MOCK_VISION",
+          "verified": false,
+          "status": "PASS",
+          "sampled_frames": [
+            "sample_run\\frames\\scene_01_start.jpg",
+            "sample_run\\frames\\scene_01_middle.jpg",
+            "sample_run\\frames\\scene_01_end.jpg"
+          ]
+        }
+      ],
       "dialogue_evidence": {
         "source": "sample_data\\media\\episode_01.mp4",
         "source_type": "METADATA",
@@ -75,7 +113,7 @@
         "spoken_text": "The warp knows your fingers before your mind even wakes up, young man.",
         "start_time": "00:00:10.000",
         "end_time": "00:00:22.000",
-        "match_confidence": 0.98
+        "match_confidence": 0.0
       },
       "subtitle_evidence": {
         "source": "subtitle_metadata",
@@ -109,6 +147,24 @@
         "valid_until": "2027-12-31",
         "rights_cleared": true
       },
+      "spoiler_evidence": {
+        "spoiler_free": true,
+        "status": "PASS",
+        "verified": true
+      },
+      "story_truth_evidence": {
+        "canon_truthful": true,
+        "status": "PASS",
+        "verified": true
+      },
+      "validation_results": [],
+      "provenance": {
+        "execution_mode": "replay",
+        "media_source": "replay_fixture",
+        "validator_engine": "IndependentValidationAgent",
+        "reference_date": "2026-02-15",
+        "overall_verdict": "PASS"
+      },
       "validation_status_map": {
         "source": "PASS",
         "spoiler": "PASS",
@@ -141,12 +197,10 @@
         "scene:scene_05",
         "dialogue:dial_05",
         "subtitle:sub_05",
-        "vision_observation:Frame visually confirms: Village square artisan council. Elder weavers discuss local price gouging. Raghu speaks with quiet dignity in local dialect, earning unanimous respect.. Segment reason: Showcase regional self-respect, community agency, and cultural pride",
+        "vision_aggregate:PASS",
         "vision_confidence:0.95",
-        "vision_source:REPLAY_FIXTURE",
-        "vision_observation:Frame visually confirms: Village square artisan council. Elder weavers discuss local price gouging. Raghu speaks with quiet dignity in local dialect, earning unanimous respect.. Segment reason: Showcase regional self-respect, community agency, and cultural pride",
-        "vision_confidence:0.95",
-        "vision_source:REPLAY_FIXTURE"
+        "vision_aggregate:PASS",
+        "vision_confidence:0.95"
       ],
       "risk_flags": [],
       "source": {
@@ -169,6 +223,46 @@
         "sample_run\\frames\\scene_05_middle.jpg",
         "sample_run\\frames\\scene_05_end.jpg"
       ],
+      "visual_evidence": [
+        {
+          "claim": "Village square artisan council. Elder weavers discuss local price gouging. Raghu speaks with quiet dignity in local dialect, earning unanimous respect.",
+          "observations": [
+            "scene_05_start.jpg: Frame visually confirms: Village square artisan council. Elder weavers discuss local price gouging. Raghu speaks with quiet dignity in local dialect, earning unanimous respect.. Segment reason: Showcase regional self-respect, community agency, and cultural pride",
+            "scene_05_middle.jpg: Frame visually confirms: Village square artisan council. Elder weavers discuss local price gouging. Raghu speaks with quiet dignity in local dialect, earning unanimous respect.. Segment reason: Showcase regional self-respect, community agency, and cultural pride",
+            "scene_05_end.jpg: Frame visually confirms: Village square artisan council. Elder weavers discuss local price gouging. Raghu speaks with quiet dignity in local dialect, earning unanimous respect.. Segment reason: Showcase regional self-respect, community agency, and cultural pride"
+          ],
+          "confidence": 0.95,
+          "supported": true,
+          "source_type": "REPLAY_FIXTURE",
+          "verification_method": "MOCK_VISION",
+          "verified": false,
+          "status": "PASS",
+          "sampled_frames": [
+            "sample_run\\frames\\scene_05_start.jpg",
+            "sample_run\\frames\\scene_05_middle.jpg",
+            "sample_run\\frames\\scene_05_end.jpg"
+          ]
+        },
+        {
+          "claim": "Village square artisan council. Elder weavers discuss local price gouging. Raghu speaks with quiet dignity in local dialect, earning unanimous respect.",
+          "observations": [
+            "scene_05_start.jpg: Frame visually confirms: Village square artisan council. Elder weavers discuss local price gouging. Raghu speaks with quiet dignity in local dialect, earning unanimous respect.. Segment reason: Showcase regional self-respect, community agency, and cultural pride",
+            "scene_05_middle.jpg: Frame visually confirms: Village square artisan council. Elder weavers discuss local price gouging. Raghu speaks with quiet dignity in local dialect, earning unanimous respect.. Segment reason: Showcase regional self-respect, community agency, and cultural pride",
+            "scene_05_end.jpg: Frame visually confirms: Village square artisan council. Elder weavers discuss local price gouging. Raghu speaks with quiet dignity in local dialect, earning unanimous respect.. Segment reason: Showcase regional self-respect, community agency, and cultural pride"
+          ],
+          "confidence": 0.95,
+          "supported": true,
+          "source_type": "REPLAY_FIXTURE",
+          "verification_method": "MOCK_VISION",
+          "verified": false,
+          "status": "PASS",
+          "sampled_frames": [
+            "sample_run\\frames\\scene_05_start.jpg",
+            "sample_run\\frames\\scene_05_middle.jpg",
+            "sample_run\\frames\\scene_05_end.jpg"
+          ]
+        }
+      ],
       "dialogue_evidence": {
         "source": "sample_data\\media\\episode_01.mp4",
         "source_type": "METADATA",
@@ -186,7 +280,7 @@
         "spoken_text": "A weaver doesn't beg for fair price; his cloth commands it with honor.",
         "start_time": "00:09:10.000",
         "end_time": "00:09:24.000",
-        "match_confidence": 0.98
+        "match_confidence": 0.0
       },
       "subtitle_evidence": {
         "source": "subtitle_metadata",
@@ -220,6 +314,24 @@
         "valid_until": "2027-12-31",
         "rights_cleared": true
       },
+      "spoiler_evidence": {
+        "spoiler_free": true,
+        "status": "PASS",
+        "verified": true
+      },
+      "story_truth_evidence": {
+        "canon_truthful": true,
+        "status": "PASS",
+        "verified": true
+      },
+      "validation_results": [],
+      "provenance": {
+        "execution_mode": "replay",
+        "media_source": "replay_fixture",
+        "validator_engine": "IndependentValidationAgent",
+        "reference_date": "2026-02-15",
+        "overall_verdict": "PASS"
+      },
       "validation_status_map": {
         "source": "PASS",
         "spoiler": "PASS",
@@ -252,12 +364,10 @@
         "scene:scene_06",
         "dialogue:dial_06",
         "subtitle:sub_06",
-        "vision_observation:Frame visually confirms: Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.. Segment reason: Highlight linguistic pride and emotional resonance with dialect audience",
+        "vision_aggregate:PASS",
         "vision_confidence:0.95",
-        "vision_source:REPLAY_FIXTURE",
-        "vision_observation:Frame visually confirms: Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.. Segment reason: Highlight linguistic pride and emotional resonance with dialect audience",
-        "vision_confidence:0.95",
-        "vision_source:REPLAY_FIXTURE"
+        "vision_aggregate:PASS",
+        "vision_confidence:0.95"
       ],
       "risk_flags": [],
       "source": {
@@ -280,6 +390,46 @@
         "sample_run\\frames\\scene_06_middle.jpg",
         "sample_run\\frames\\scene_06_end.jpg"
       ],
+      "visual_evidence": [
+        {
+          "claim": "Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.",
+          "observations": [
+            "scene_06_start.jpg: Frame visually confirms: Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.. Segment reason: Highlight linguistic pride and emotional resonance with dialect audience",
+            "scene_06_middle.jpg: Frame visually confirms: Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.. Segment reason: Highlight linguistic pride and emotional resonance with dialect audience",
+            "scene_06_end.jpg: Frame visually confirms: Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.. Segment reason: Highlight linguistic pride and emotional resonance with dialect audience"
+          ],
+          "confidence": 0.95,
+          "supported": true,
+          "source_type": "REPLAY_FIXTURE",
+          "verification_method": "MOCK_VISION",
+          "verified": false,
+          "status": "PASS",
+          "sampled_frames": [
+            "sample_run\\frames\\scene_06_start.jpg",
+            "sample_run\\frames\\scene_06_middle.jpg",
+            "sample_run\\frames\\scene_06_end.jpg"
+          ]
+        },
+        {
+          "claim": "Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.",
+          "observations": [
+            "scene_06_start.jpg: Frame visually confirms: Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.. Segment reason: Highlight linguistic pride and emotional resonance with dialect audience",
+            "scene_06_middle.jpg: Frame visually confirms: Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.. Segment reason: Highlight linguistic pride and emotional resonance with dialect audience",
+            "scene_06_end.jpg: Frame visually confirms: Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.. Segment reason: Highlight linguistic pride and emotional resonance with dialect audience"
+          ],
+          "confidence": 0.95,
+          "supported": true,
+          "source_type": "REPLAY_FIXTURE",
+          "verification_method": "MOCK_VISION",
+          "verified": false,
+          "status": "PASS",
+          "sampled_frames": [
+            "sample_run\\frames\\scene_06_start.jpg",
+            "sample_run\\frames\\scene_06_middle.jpg",
+            "sample_run\\frames\\scene_06_end.jpg"
+          ]
+        }
+      ],
       "dialogue_evidence": {
         "source": "sample_data\\media\\episode_01.mp4",
         "source_type": "METADATA",
@@ -297,7 +447,7 @@
         "spoken_text": "When we speak in our mother tongue, even the wood of the loom nods.",
         "start_time": "00:11:00.000",
         "end_time": "00:11:14.000",
-        "match_confidence": 0.98
+        "match_confidence": 0.0
       },
       "subtitle_evidence": {
         "source": "subtitle_metadata",
@@ -331,6 +481,24 @@
         "valid_until": "2027-12-31",
         "rights_cleared": true
       },
+      "spoiler_evidence": {
+        "spoiler_free": true,
+        "status": "PASS",
+        "verified": true
+      },
+      "story_truth_evidence": {
+        "canon_truthful": true,
+        "status": "PASS",
+        "verified": true
+      },
+      "validation_results": [],
+      "provenance": {
+        "execution_mode": "replay",
+        "media_source": "replay_fixture",
+        "validator_engine": "IndependentValidationAgent",
+        "reference_date": "2026-02-15",
+        "overall_verdict": "PASS"
+      },
       "validation_status_map": {
         "source": "PASS",
         "spoiler": "PASS",
@@ -363,12 +531,10 @@
         "scene:scene_09",
         "dialogue:dial_09",
         "subtitle:sub_09",
-        "vision_observation:Frame visually confirms: Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.. Segment reason: Authentic regional celebration without exaggeration or stereotyping",
+        "vision_aggregate:PASS",
         "vision_confidence:0.95",
-        "vision_source:REPLAY_FIXTURE",
-        "vision_observation:Frame visually confirms: Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.. Segment reason: Authentic regional celebration without exaggeration or stereotyping",
-        "vision_confidence:0.95",
-        "vision_source:REPLAY_FIXTURE"
+        "vision_aggregate:PASS",
+        "vision_confidence:0.95"
       ],
       "risk_flags": [],
       "source": {
@@ -391,6 +557,46 @@
         "sample_run\\frames\\scene_09_middle.jpg",
         "sample_run\\frames\\scene_09_end.jpg"
       ],
+      "visual_evidence": [
+        {
+          "claim": "Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.",
+          "observations": [
+            "scene_09_start.jpg: Frame visually confirms: Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.. Segment reason: Authentic regional celebration without exaggeration or stereotyping",
+            "scene_09_middle.jpg: Frame visually confirms: Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.. Segment reason: Authentic regional celebration without exaggeration or stereotyping",
+            "scene_09_end.jpg: Frame visually confirms: Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.. Segment reason: Authentic regional celebration without exaggeration or stereotyping"
+          ],
+          "confidence": 0.95,
+          "supported": true,
+          "source_type": "REPLAY_FIXTURE",
+          "verification_method": "MOCK_VISION",
+          "verified": false,
+          "status": "PASS",
+          "sampled_frames": [
+            "sample_run\\frames\\scene_09_start.jpg",
+            "sample_run\\frames\\scene_09_middle.jpg",
+            "sample_run\\frames\\scene_09_end.jpg"
+          ]
+        },
+        {
+          "claim": "Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.",
+          "observations": [
+            "scene_09_start.jpg: Frame visually confirms: Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.. Segment reason: Authentic regional celebration without exaggeration or stereotyping",
+            "scene_09_middle.jpg: Frame visually confirms: Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.. Segment reason: Authentic regional celebration without exaggeration or stereotyping",
+            "scene_09_end.jpg: Frame visually confirms: Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.. Segment reason: Authentic regional celebration without exaggeration or stereotyping"
+          ],
+          "confidence": 0.95,
+          "supported": true,
+          "source_type": "REPLAY_FIXTURE",
+          "verification_method": "MOCK_VISION",
+          "verified": false,
+          "status": "PASS",
+          "sampled_frames": [
+            "sample_run\\frames\\scene_09_start.jpg",
+            "sample_run\\frames\\scene_09_middle.jpg",
+            "sample_run\\frames\\scene_09_end.jpg"
+          ]
+        }
+      ],
       "dialogue_evidence": {
         "source": "sample_data\\media\\episode_01.mp4",
         "source_type": "METADATA",
@@ -408,7 +614,7 @@
         "spoken_text": "The village loom works once more!",
         "start_time": "00:18:20.000",
         "end_time": "00:18:34.000",
-        "match_confidence": 0.98
+        "match_confidence": 0.0
       },
       "subtitle_evidence": {
         "source": "subtitle_metadata",
@@ -441,6 +647,24 @@
         ],
         "valid_until": "2027-12-31",
         "rights_cleared": true
+      },
+      "spoiler_evidence": {
+        "spoiler_free": true,
+        "status": "PASS",
+        "verified": true
+      },
+      "story_truth_evidence": {
+        "canon_truthful": true,
+        "status": "PASS",
+        "verified": true
+      },
+      "validation_results": [],
+      "provenance": {
+        "execution_mode": "replay",
+        "media_source": "replay_fixture",
+        "validator_engine": "IndependentValidationAgent",
+        "reference_date": "2026-02-15",
+        "overall_verdict": "PASS"
       },
       "validation_status_map": {
         "source": "PASS",
@@ -569,5 +793,57 @@
   "approval_type": null,
   "approval_reason": null,
   "estimated_cost": 0.42,
+  "actual_cost": null,
+  "cost_breakdown": {},
+  "candidate_selection_report": {
+    "selected_candidate_id": "dialect_region_v1",
+    "selection_rationale": "Selected candidate 'dialect_region_v1' with top composite score 0.906 and compliant validation status (PASS_WITH_WARNINGS).",
+    "candidate_evaluations": {
+      "dialect_region_v1": {
+        "validation_status": "PASS_WITH_WARNINGS",
+        "composite_score": 0.906,
+        "risk_score": 0.8,
+        "evidence_score": 1.0,
+        "audience_score": 1.0,
+        "coherence_score": 0.9,
+        "cost_score": 0.958,
+        "violations_count": 0,
+        "warnings_count": 1
+      },
+      "dialect_region_cand_B_stakes": {
+        "validation_status": "FAIL",
+        "composite_score": 0.556,
+        "risk_score": 0.0,
+        "evidence_score": 1.0,
+        "audience_score": 0.85,
+        "coherence_score": 0.9,
+        "cost_score": 0.956,
+        "violations_count": 1,
+        "warnings_count": 1
+      },
+      "dialect_region_cand_C_dynamic": {
+        "validation_status": "PASS_WITH_WARNINGS",
+        "composite_score": 0.876,
+        "risk_score": 0.8,
+        "evidence_score": 1.0,
+        "audience_score": 0.85,
+        "coherence_score": 0.9,
+        "cost_score": 0.962,
+        "violations_count": 0,
+        "warnings_count": 1
+      }
+    },
+    "rejection_reasons": {
+      "dialect_region_cand_B_stakes": "Validation failed with 1 critical violation(s).",
+      "dialect_region_cand_C_dynamic": "Lower composite score (0.876 vs 0.906)."
+    }
+  },
+  "generation_provenance": {
+    "agent": "CreativeTrailerPlannerAgent",
+    "model": "mock_or_live",
+    "context_items_count": 23,
+    "audience": "dialect_region",
+    "timestamp": "2026-04-15T12:00:00Z"
+  },
   "fallback_plan": "Retain primary folk acoustic track music_01"
 }

@@ -124,17 +124,17 @@ python -m src.main --input sample_data --output sample_run --mode live
 ```
 
 ### C. Multimodal Media Input Modes (Replay Fixture vs Real External Media)
-The system cleanly separates synthetic replay fixtures from external media files:
+The system cleanly separates model execution modes (`--mode replay` / `live`) from physical media sources (`--media-source replay_fixture` / `real_media`):
 
 ```bash
 # Replay Mode (default): uses sample_data/media/episode_01.mp4 fixture with explicit REPLAY_FIXTURE provenance
-python -m src.main --mode replay
+python -m src.main --mode replay --media-source replay_fixture
 
-# Real Media Mode: inspects external video, extracts real frames, detects actual audio streams
-python -m src.main --media path/to/external_episode.mp4 --mode real
+# Real Media Mode: inspects external video via OpenCV/FFmpeg, performs timecode-sliced ASR, and multi-frame vision verification
+python -m src.main --media path/to/external_episode.mp4 --mode replay --media-source real_media
 ```
 > [!NOTE]
-> When external media has no audio track, speech recognition outputs `AUDIO_STREAM_NOT_AVAILABLE`. The system strictly avoids claiming that supplied dialogue metadata is ASR output.
+> When external media has no audio track, speech recognition outputs `AUDIO_STREAM_NOT_AVAILABLE`. The system strictly avoids claiming that supplied dialogue metadata is ASR output. Furthermore, unverified candidate evidence is initialized with `verified=False` and is only upgraded to `verified=True` once the independent validator confirms physical ground truth.
 
 ### D. Single Audience Execution
 Generate a trailer plan tailored to a specific audience cohort:
@@ -194,12 +194,12 @@ Interactive Swagger documentation is available at `http://127.0.0.1:8000/docs`.
 
 ## 5. Automated Test Suite
 
-Run all 58 comprehensive unit, integration, multimodal, and scenario resilience tests:
+Run all 64 comprehensive unit, integration, multimodal, scenario resilience, and audit enhancement tests:
 
 ```bash
 python -m pytest -v
 ```
-All 58 tests pass deterministically (zero external network requirement for replay suite).
+All 64 tests pass deterministically (zero external network requirement for replay suite).
 
 
 ---

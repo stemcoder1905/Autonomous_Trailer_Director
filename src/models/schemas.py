@@ -209,7 +209,7 @@ class SegmentSourceEvidence(BaseModel):
     source: str = "sample_data/media/episode_01.mp4"
     source_type: SourceType = SourceType.REPLAY_FIXTURE
     verification_method: str = "opencv_container_inspection"
-    verified: bool = True
+    verified: bool = False
     timestamp: Optional[Union[float, str]] = None
     video: str = "episode_01.mp4"
     start: float = 0.0
@@ -225,7 +225,7 @@ class DialogueEvidence(BaseModel):
     source: str = "dialogue_metadata"
     source_type: SourceType = SourceType.METADATA
     verification_method: str = "metadata_grounding"
-    verified: bool = True
+    verified: bool = False
     timestamp: Optional[Union[float, str]] = None
     metadata_text: str = ""
     asr_text: str = ""
@@ -238,26 +238,26 @@ class DialogueEvidence(BaseModel):
     spoken_text: Optional[str] = None
     start_time: Optional[str] = None
     end_time: Optional[str] = None
-    match_confidence: float = 1.0
+    match_confidence: float = 0.0
 
 
 class SubtitleEvidence(BaseModel):
     source: str = "subtitle_metadata"
     source_type: SourceType = SourceType.METADATA
     verification_method: str = "canonical_subtitle_verification"
-    verified: bool = True
+    verified: bool = False
     timestamp: Optional[Union[float, str]] = None
     text: str = ""
     subtitle_id: Optional[str] = None
     language: Optional[str] = None
-    verified_accurate: bool = True
+    verified_accurate: bool = False
 
 
 class RightsEvidence(BaseModel):
     source: str = "contracts_ledger"
     source_type: SourceType = SourceType.METADATA
     verification_method: str = "contract_rule_evaluation"
-    verified: bool = True
+    verified: bool = False
     timestamp: Optional[Union[float, str]] = None
     promotional_use: bool = True
     territory: str = "GLOBAL"
@@ -266,7 +266,7 @@ class RightsEvidence(BaseModel):
     allowed_territories: List[str] = Field(default_factory=lambda: ["IN", "GLOBAL"])
     allowed_platforms: List[str] = Field(default_factory=lambda: ["OTT", "SOCIAL_PROMO"])
     valid_until: Optional[str] = None
-    rights_cleared: bool = True
+    rights_cleared: bool = False
 
 
 class SpoilerMapEntry(BaseModel):
@@ -310,9 +310,14 @@ class TrailerSegment(BaseModel):
     risk_flags: List[str] = Field(default_factory=list)
     source: Optional[SegmentSourceEvidence] = None
     frame_evidence: List[str] = Field(default_factory=list)
+    visual_evidence: List[Dict[str, Any]] = Field(default_factory=list)
     dialogue_evidence: Optional[DialogueEvidence] = None
     subtitle_evidence: Optional[SubtitleEvidence] = None
     rights_evidence: Optional[RightsEvidence] = None
+    spoiler_evidence: Dict[str, Any] = Field(default_factory=dict)
+    story_truth_evidence: Dict[str, Any] = Field(default_factory=dict)
+    validation_results: List[Dict[str, Any]] = Field(default_factory=list)
+    provenance: Dict[str, Any] = Field(default_factory=dict)
     validation_status_map: Dict[str, str] = Field(default_factory=dict)
 
 
@@ -349,6 +354,10 @@ class TrailerPlan(BaseModel):
     approval_type: Optional[str] = None
     approval_reason: Optional[str] = None
     estimated_cost: float = 0.0
+    actual_cost: Optional[float] = None
+    cost_breakdown: Dict[str, Any] = Field(default_factory=dict)
+    candidate_selection_report: Optional[Dict[str, Any]] = None
+    generation_provenance: Optional[Dict[str, Any]] = None
     fallback_plan: str
 
 

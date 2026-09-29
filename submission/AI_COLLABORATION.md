@@ -90,9 +90,34 @@ During the development lifecycle, generative coding assistants frequently propos
 
 ---
 
+### Case 7: Prematurely Marking Unverified Evidence as Proven Ground Truth
+- **The Plausible Suggestion:**  
+  The assistant proposed initializing evidence elements (`VisualEvidence`, `EvidenceGrounding`) with `verified: True`, `match_confidence: 1.0`, and `rights_cleared: True` directly at creation time in the creative planner.
+- **Why It Looked Plausible:**  
+  It populated all schema fields cleanly and simplified downstream rendering passes.
+- **Why It Was Fundamentally Flawed:**  
+  Ground truth verification cannot be asserted by the generator proposing the plan. Proclaiming evidence "verified" before the validator tests timecodes, extracts frames, and checks rights violates independent validation integrity.
+- **The Engineering Correction:**  
+  The planner creates unverified evidence by default (`verified=False`, `rights_cleared=False`, `verified_accurate=False`, `match_confidence=0.0`). Only `IndependentValidationAgent` and `MediaValidator` resolve `verified=True` upon successful verification passes.
+
+---
+
+### Case 8: Mock Prompt Substring Leakage Across Audience Cohorts
+- **The Plausible Suggestion:**  
+  The assistant implemented mock LLM audience detection using naive substring checks: `if "family" in prompt_lower:`.
+- **Why It Looked Plausible:**  
+  It appeared simple and worked when prompts were short and isolated.
+- **Why It Was Fundamentally Flawed:**  
+  When compiling the comprehensive 22-item planning context (including character relationships like "family heritage" or "patriarchal pressure"), prompts for Young Adult and Dialect trailers also contained the word "family", causing the mock provider to incorrectly emit family trailer templates.
+- **The Engineering Correction:**  
+  Refactored prompt inspection to match explicit target cohort headers (`"for audience: young_adult"`, `"for audience: dialect"`, `"for audience: family"`), ensuring deterministic separation regardless of rich context content.
+
+---
+
 ## 3. Code Verification Methodology
 
 Every line of code in this repository was verified through a three-stage quality gate:
-1. **Automated Unit Testing (`python -m pytest -v`):** 58 comprehensive unit and integration tests covering boundary conditions, prompt injections, multimodal vision/ASR grounding, combination spoilers, and rights management.
+1. **Automated Unit Testing (`python -m pytest -v`):** 64 comprehensive unit, multimodal, audit enhancement, and integration tests covering boundary conditions, prompt injections, multimodal vision/ASR grounding, combination spoilers, rights management, and escalation taxonomies.
 2. **Deterministic Replay Verification (`--mode replay`):** Verifying that identical inputs produce bitwise reproducible outputs without network dependencies.
 3. **Adversarial Scenario Injection (`--scenario <name>`):** Manually triggering every adversarial event to confirm that the validator intercepts the failure and the repair agent autonomously remediates it.
+

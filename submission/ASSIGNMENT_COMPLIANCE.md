@@ -68,36 +68,28 @@ platform win32 -- Python 3.10.0, pytest-9.1.1, pluggy-1.6.0
 rootdir: D:\Autonomous_Trailer_Director
 configfile: pyproject.toml
 testpaths: tests
-collected 27 items
+collected 64 items
 
-tests/test_api.py::test_api_health PASSED
-tests/test_api.py::test_api_analyze PASSED
-tests/test_api.py::test_api_run PASSED
-tests/test_bias.py::test_bias_validator_rejects_spurious_violence_in_dialect_trailer PASSED
-tests/test_budget_exceeded.py::test_budget_exceeded_fails_validation PASSED
-tests/test_contract_change.py::test_selective_replanning_on_contract_change PASSED
-tests/test_end_to_end_scenarios.py::test_e2e_normal_replay PASSED
-tests/test_end_to_end_scenarios.py::test_e2e_spoiler_repair PASSED
-tests/test_end_to_end_scenarios.py::test_e2e_missing_scene_repair PASSED
-tests/test_end_to_end_scenarios.py::test_e2e_clickbait_repair PASSED
-tests/test_end_to_end_scenarios.py::test_e2e_subtitle_mismatch_repair PASSED
-tests/test_end_to_end_scenarios.py::test_e2e_contract_change PASSED
-tests/test_end_to_end_scenarios.py::test_e2e_bias_protection PASSED
-tests/test_end_to_end_scenarios.py::test_e2e_budget_fallback PASSED
-tests/test_end_to_end_scenarios.py::test_e2e_model_fallback PASSED
-tests/test_end_to_end_scenarios.py::test_e2e_prompt_injection PASSED
-tests/test_missing_scene.py::test_missing_scene_rejected PASSED
-tests/test_model_fallback.py::test_provider_fallback_to_mock_on_primary_failure PASSED
-tests/test_model_fallback.py::test_unconfigured_primary_provider_reports_unhealthy PASSED
-tests/test_prompt_injection.py::test_prompt_injection_in_scene_description_ignored PASSED
-tests/test_rating.py::test_family_rating_policy_enforced PASSED
-tests/test_rights.py::test_actor_promotional_embargo_rejected PASSED
-tests/test_rights.py::test_expired_music_license_rejected PASSED
-tests/test_spoiler.py::test_major_spoiler_rejected PASSED
-tests/test_spoiler.py::test_combination_spoiler_detected PASSED
-tests/test_story_truth.py::test_clickbait_false_romance_rejected_and_repaired PASSED
-tests/test_subtitle_mismatch.py::test_dialect_subtitle_semantic_mismatch_detected_and_repaired PASSED
+tests/test_agentic_planning.py (4 tests) PASSED
+tests/test_api.py (3 tests) PASSED
+tests/test_audit_enhancements.py (6 tests) PASSED
+tests/test_bias.py (1 test) PASSED
+tests/test_budget_exceeded.py (1 test) PASSED
+tests/test_contract_change.py (1 test) PASSED
+tests/test_end_to_end_scenarios.py (10 tests) PASSED
+tests/test_media_input_architecture.py (6 tests) PASSED
+tests/test_media_processing.py (5 tests) PASSED
+tests/test_missing_scene.py (1 test) PASSED
+tests/test_model_fallback.py (2 tests) PASSED
+tests/test_multimodal_grounding.py (4 tests) PASSED
+tests/test_prompt_injection.py (1 test) PASSED
+tests/test_rating.py (1 test) PASSED
+tests/test_rights.py (2 tests) PASSED
+tests/test_spoiler.py (2 tests) PASSED
+tests/test_story_truth.py (1 test) PASSED
+tests/test_subtitle_mismatch.py (1 test) PASSED
+tests/test_vision_asr_and_agentic_flow.py (8 tests) PASSED
 
-============================= 27 passed in 1.77s ==============================
+============================= 64 passed in 59.13s ==============================
 ```
 

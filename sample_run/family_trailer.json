@@ -29,12 +29,10 @@
       "evidence": [
         "scene:scene_01",
         "dialogue:dial_01",
-        "vision_observation:Frame visually confirms: Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.. Segment reason: Establish serene village heritage and intergenerational bond between father and son",
+        "vision_aggregate:PASS",
         "vision_confidence:0.95",
-        "vision_source:REPLAY_FIXTURE",
-        "vision_observation:Frame visually confirms: Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.. Segment reason: Establish serene village heritage and intergenerational bond between father and son",
-        "vision_confidence:0.95",
-        "vision_source:REPLAY_FIXTURE"
+        "vision_aggregate:PASS",
+        "vision_confidence:0.95"
       ],
       "risk_flags": [],
       "source": {
@@ -57,6 +55,46 @@
         "sample_run\\frames\\scene_01_middle.jpg",
         "sample_run\\frames\\scene_01_end.jpg"
       ],
+      "visual_evidence": [
+        {
+          "claim": "Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.",
+          "observations": [
+            "scene_01_start.jpg: Frame visually confirms: Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.. Segment reason: Establish serene village heritage and intergenerational bond between father and son",
+            "scene_01_middle.jpg: Frame visually confirms: Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.. Segment reason: Establish serene village heritage and intergenerational bond between father and son",
+            "scene_01_end.jpg: Frame visually confirms: Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.. Segment reason: Establish serene village heritage and intergenerational bond between father and son"
+          ],
+          "confidence": 0.95,
+          "supported": true,
+          "source_type": "REPLAY_FIXTURE",
+          "verification_method": "MOCK_VISION",
+          "verified": false,
+          "status": "PASS",
+          "sampled_frames": [
+            "sample_run\\frames\\scene_01_start.jpg",
+            "sample_run\\frames\\scene_01_middle.jpg",
+            "sample_run\\frames\\scene_01_end.jpg"
+          ]
+        },
+        {
+          "claim": "Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.",
+          "observations": [
+            "scene_01_start.jpg: Frame visually confirms: Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.. Segment reason: Establish serene village heritage and intergenerational bond between father and son",
+            "scene_01_middle.jpg: Frame visually confirms: Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.. Segment reason: Establish serene village heritage and intergenerational bond between father and son",
+            "scene_01_end.jpg: Frame visually confirms: Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.. Segment reason: Establish serene village heritage and intergenerational bond between father and son"
+          ],
+          "confidence": 0.95,
+          "supported": true,
+          "source_type": "REPLAY_FIXTURE",
+          "verification_method": "MOCK_VISION",
+          "verified": false,
+          "status": "PASS",
+          "sampled_frames": [
+            "sample_run\\frames\\scene_01_start.jpg",
+            "sample_run\\frames\\scene_01_middle.jpg",
+            "sample_run\\frames\\scene_01_end.jpg"
+          ]
+        }
+      ],
       "dialogue_evidence": {
         "source": "sample_data\\media\\episode_01.mp4",
         "source_type": "METADATA",
@@ -74,7 +112,7 @@
         "spoken_text": "Our looms have sung this rhythm for three centuries, Dev.",
         "start_time": "00:00:10.000",
         "end_time": "00:00:18.000",
-        "match_confidence": 0.98
+        "match_confidence": 0.0
       },
       "subtitle_evidence": {
         "source": "subtitle_metadata",
@@ -108,6 +146,24 @@
         "valid_until": "2027-12-31",
         "rights_cleared": true
       },
+      "spoiler_evidence": {
+        "spoiler_free": true,
+        "status": "PASS",
+        "verified": true
+      },
+      "story_truth_evidence": {
+        "canon_truthful": true,
+        "status": "PASS",
+        "verified": true
+      },
+      "validation_results": [],
+      "provenance": {
+        "execution_mode": "replay",
+        "media_source": "replay_fixture",
+        "validator_engine": "IndependentValidationAgent",
+        "reference_date": "2026-02-15",
+        "overall_verdict": "PASS"
+      },
       "validation_status_map": {
         "source": "PASS",
         "spoiler": "PASS",
@@ -139,12 +195,10 @@
       "evidence": [
         "scene:scene_03",
         "dialogue:dial_03",
-        "vision_observation:Frame visually confirms: Courtyard meeting. Meera brings steaming chai to her father Raghu and brother Dev. They vow to defend the cooperative and finish the regional heritage weave.. Segment reason: Highlight family solidarity and emotional anchor",
+        "vision_aggregate:PASS",
         "vision_confidence:0.95",
-        "vision_source:REPLAY_FIXTURE",
-        "vision_observation:Frame visually confirms: Courtyard meeting. Meera brings steaming chai to her father Raghu and brother Dev. They vow to defend the cooperative and finish the regional heritage weave.. Segment reason: Highlight family solidarity and emotional anchor",
-        "vision_confidence:0.95",
-        "vision_source:REPLAY_FIXTURE"
+        "vision_aggregate:PASS",
+        "vision_confidence:0.95"
       ],
       "risk_flags": [],
       "source": {
@@ -167,6 +221,46 @@
         "sample_run\\frames\\scene_03_middle.jpg",
         "sample_run\\frames\\scene_03_end.jpg"
       ],
+      "visual_evidence": [
+        {
+          "claim": "Courtyard meeting. Meera brings steaming chai to her father Raghu and brother Dev. They vow to defend the cooperative and finish the regional heritage weave.",
+          "observations": [
+            "scene_03_start.jpg: Frame visually confirms: Courtyard meeting. Meera brings steaming chai to her father Raghu and brother Dev. They vow to defend the cooperative and finish the regional heritage weave.. Segment reason: Highlight family solidarity and emotional anchor",
+            "scene_03_middle.jpg: Frame visually confirms: Courtyard meeting. Meera brings steaming chai to her father Raghu and brother Dev. They vow to defend the cooperative and finish the regional heritage weave.. Segment reason: Highlight family solidarity and emotional anchor",
+            "scene_03_end.jpg: Frame visually confirms: Courtyard meeting. Meera brings steaming chai to her father Raghu and brother Dev. They vow to defend the cooperative and finish the regional heritage weave.. Segment reason: Highlight family solidarity and emotional anchor"
+          ],
+          "confidence": 0.95,
+          "supported": true,
+          "source_type": "REPLAY_FIXTURE",
+          "verification_method": "MOCK_VISION",
+          "verified": false,
+          "status": "PASS",
+          "sampled_frames": [
+            "sample_run\\frames\\scene_03_start.jpg",
+            "sample_run\\frames\\scene_03_middle.jpg",
+            "sample_run\\frames\\scene_03_end.jpg"
+          ]
+        },
+        {
+          "claim": "Courtyard meeting. Meera brings steaming chai to her father Raghu and brother Dev. They vow to defend the cooperative and finish the regional heritage weave.",
+          "observations": [
+            "scene_03_start.jpg: Frame visually confirms: Courtyard meeting. Meera brings steaming chai to her father Raghu and brother Dev. They vow to defend the cooperative and finish the regional heritage weave.. Segment reason: Highlight family solidarity and emotional anchor",
+            "scene_03_middle.jpg: Frame visually confirms: Courtyard meeting. Meera brings steaming chai to her father Raghu and brother Dev. They vow to defend the cooperative and finish the regional heritage weave.. Segment reason: Highlight family solidarity and emotional anchor",
+            "scene_03_end.jpg: Frame visually confirms: Courtyard meeting. Meera brings steaming chai to her father Raghu and brother Dev. They vow to defend the cooperative and finish the regional heritage weave.. Segment reason: Highlight family solidarity and emotional anchor"
+          ],
+          "confidence": 0.95,
+          "supported": true,
+          "source_type": "REPLAY_FIXTURE",
+          "verification_method": "MOCK_VISION",
+          "verified": false,
+          "status": "PASS",
+          "sampled_frames": [
+            "sample_run\\frames\\scene_03_start.jpg",
+            "sample_run\\frames\\scene_03_middle.jpg",
+            "sample_run\\frames\\scene_03_end.jpg"
+          ]
+        }
+      ],
       "dialogue_evidence": {
         "source": "sample_data\\media\\episode_01.mp4",
         "source_type": "METADATA",
@@ -184,7 +278,7 @@
         "spoken_text": "Whatever happens to the mill, the family stands together.",
         "start_time": "00:04:15.000",
         "end_time": "00:04:25.000",
-        "match_confidence": 0.98
+        "match_confidence": 0.0
       },
       "subtitle_evidence": {
         "source": "subtitle_metadata",
@@ -218,6 +312,24 @@
         "valid_until": "2027-12-31",
         "rights_cleared": true
       },
+      "spoiler_evidence": {
+        "spoiler_free": true,
+        "status": "PASS",
+        "verified": true
+      },
+      "story_truth_evidence": {
+        "canon_truthful": true,
+        "status": "PASS",
+        "verified": true
+      },
+      "validation_results": [],
+      "provenance": {
+        "execution_mode": "replay",
+        "media_source": "replay_fixture",
+        "validator_engine": "IndependentValidationAgent",
+        "reference_date": "2026-02-15",
+        "overall_verdict": "PASS"
+      },
       "validation_status_map": {
         "source": "PASS",
         "spoiler": "PASS",
@@ -249,12 +361,10 @@
       "evidence": [
         "scene:scene_06",
         "dialogue:dial_06",
-        "vision_observation:Frame visually confirms: Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.. Segment reason: Inspiring call to unity and cooperative progress",
+        "vision_aggregate:PASS",
         "vision_confidence:0.95",
-        "vision_source:REPLAY_FIXTURE",
-        "vision_observation:Frame visually confirms: Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.. Segment reason: Inspiring call to unity and cooperative progress",
-        "vision_confidence:0.95",
-        "vision_source:REPLAY_FIXTURE"
+        "vision_aggregate:PASS",
+        "vision_confidence:0.95"
       ],
       "risk_flags": [],
       "source": {
@@ -277,6 +387,46 @@
         "sample_run\\frames\\scene_06_middle.jpg",
         "sample_run\\frames\\scene_06_end.jpg"
       ],
+      "visual_evidence": [
+        {
+          "claim": "Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.",
+          "observations": [
+            "scene_06_start.jpg: Frame visually confirms: Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.. Segment reason: Inspiring call to unity and cooperative progress",
+            "scene_06_middle.jpg: Frame visually confirms: Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.. Segment reason: Inspiring call to unity and cooperative progress",
+            "scene_06_end.jpg: Frame visually confirms: Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.. Segment reason: Inspiring call to unity and cooperative progress"
+          ],
+          "confidence": 0.95,
+          "supported": true,
+          "source_type": "REPLAY_FIXTURE",
+          "verification_method": "MOCK_VISION",
+          "verified": false,
+          "status": "PASS",
+          "sampled_frames": [
+            "sample_run\\frames\\scene_06_start.jpg",
+            "sample_run\\frames\\scene_06_middle.jpg",
+            "sample_run\\frames\\scene_06_end.jpg"
+          ]
+        },
+        {
+          "claim": "Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.",
+          "observations": [
+            "scene_06_start.jpg: Frame visually confirms: Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.. Segment reason: Inspiring call to unity and cooperative progress",
+            "scene_06_middle.jpg: Frame visually confirms: Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.. Segment reason: Inspiring call to unity and cooperative progress",
+            "scene_06_end.jpg: Frame visually confirms: Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.. Segment reason: Inspiring call to unity and cooperative progress"
+          ],
+          "confidence": 0.95,
+          "supported": true,
+          "source_type": "REPLAY_FIXTURE",
+          "verification_method": "MOCK_VISION",
+          "verified": false,
+          "status": "PASS",
+          "sampled_frames": [
+            "sample_run\\frames\\scene_06_start.jpg",
+            "sample_run\\frames\\scene_06_middle.jpg",
+            "sample_run\\frames\\scene_06_end.jpg"
+          ]
+        }
+      ],
       "dialogue_evidence": {
         "source": "sample_data\\media\\episode_01.mp4",
         "source_type": "METADATA",
@@ -294,7 +444,7 @@
         "spoken_text": "We can modernize the patterns without losing our soul.",
         "start_time": "00:11:00.000",
         "end_time": "00:11:12.000",
-        "match_confidence": 0.98
+        "match_confidence": 0.0
       },
       "subtitle_evidence": {
         "source": "subtitle_metadata",
@@ -328,6 +478,24 @@
         "valid_until": "2027-12-31",
         "rights_cleared": true
       },
+      "spoiler_evidence": {
+        "spoiler_free": true,
+        "status": "PASS",
+        "verified": true
+      },
+      "story_truth_evidence": {
+        "canon_truthful": true,
+        "status": "PASS",
+        "verified": true
+      },
+      "validation_results": [],
+      "provenance": {
+        "execution_mode": "replay",
+        "media_source": "replay_fixture",
+        "validator_engine": "IndependentValidationAgent",
+        "reference_date": "2026-02-15",
+        "overall_verdict": "PASS"
+      },
       "validation_status_map": {
         "source": "PASS",
         "spoiler": "PASS",
@@ -359,12 +527,10 @@
       "evidence": [
         "scene:scene_09",
         "dialogue:dial_09",
-        "vision_observation:Frame visually confirms: Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.. Segment reason: Climactic emotional uplift and joyous family resolution",
+        "vision_aggregate:PASS",
         "vision_confidence:0.95",
-        "vision_source:REPLAY_FIXTURE",
-        "vision_observation:Frame visually confirms: Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.. Segment reason: Climactic emotional uplift and joyous family resolution",
-        "vision_confidence:0.95",
-        "vision_source:REPLAY_FIXTURE"
+        "vision_aggregate:PASS",
+        "vision_confidence:0.95"
       ],
       "risk_flags": [],
       "source": {
@@ -387,6 +553,46 @@
         "sample_run\\frames\\scene_09_middle.jpg",
         "sample_run\\frames\\scene_09_end.jpg"
       ],
+      "visual_evidence": [
+        {
+          "claim": "Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.",
+          "observations": [
+            "scene_09_start.jpg: Frame visually confirms: Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.. Segment reason: Climactic emotional uplift and joyous family resolution",
+            "scene_09_middle.jpg: Frame visually confirms: Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.. Segment reason: Climactic emotional uplift and joyous family resolution",
+            "scene_09_end.jpg: Frame visually confirms: Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.. Segment reason: Climactic emotional uplift and joyous family resolution"
+          ],
+          "confidence": 0.95,
+          "supported": true,
+          "source_type": "REPLAY_FIXTURE",
+          "verification_method": "MOCK_VISION",
+          "verified": false,
+          "status": "PASS",
+          "sampled_frames": [
+            "sample_run\\frames\\scene_09_start.jpg",
+            "sample_run\\frames\\scene_09_middle.jpg",
+            "sample_run\\frames\\scene_09_end.jpg"
+          ]
+        },
+        {
+          "claim": "Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.",
+          "observations": [
+            "scene_09_start.jpg: Frame visually confirms: Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.. Segment reason: Climactic emotional uplift and joyous family resolution",
+            "scene_09_middle.jpg: Frame visually confirms: Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.. Segment reason: Climactic emotional uplift and joyous family resolution",
+            "scene_09_end.jpg: Frame visually confirms: Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.. Segment reason: Climactic emotional uplift and joyous family resolution"
+          ],
+          "confidence": 0.95,
+          "supported": true,
+          "source_type": "REPLAY_FIXTURE",
+          "verification_method": "MOCK_VISION",
+          "verified": false,
+          "status": "PASS",
+          "sampled_frames": [
+            "sample_run\\frames\\scene_09_start.jpg",
+            "sample_run\\frames\\scene_09_middle.jpg",
+            "sample_run\\frames\\scene_09_end.jpg"
+          ]
+        }
+      ],
       "dialogue_evidence": {
         "source": "sample_data\\media\\episode_01.mp4",
         "source_type": "METADATA",
@@ -404,7 +610,7 @@
         "spoken_text": "The village loom works once more!",
         "start_time": "00:18:20.000",
         "end_time": "00:18:34.000",
-        "match_confidence": 0.98
+        "match_confidence": 0.0
       },
       "subtitle_evidence": {
         "source": "subtitle_metadata",
@@ -437,6 +643,24 @@
         ],
         "valid_until": "2027-12-31",
         "rights_cleared": true
+      },
+      "spoiler_evidence": {
+        "spoiler_free": true,
+        "status": "PASS",
+        "verified": true
+      },
+      "story_truth_evidence": {
+        "canon_truthful": true,
+        "status": "PASS",
+        "verified": true
+      },
+      "validation_results": [],
+      "provenance": {
+        "execution_mode": "replay",
+        "media_source": "replay_fixture",
+        "validator_engine": "IndependentValidationAgent",
+        "reference_date": "2026-02-15",
+        "overall_verdict": "PASS"
       },
       "validation_status_map": {
         "source": "PASS",
@@ -565,5 +789,57 @@
   "approval_type": null,
   "approval_reason": null,
   "estimated_cost": 0.45,
+  "actual_cost": null,
+  "cost_breakdown": {},
+  "candidate_selection_report": {
+    "selected_candidate_id": "family_v1",
+    "selection_rationale": "Selected candidate 'family_v1' with top composite score 0.905 and compliant validation status (PASS_WITH_WARNINGS).",
+    "candidate_evaluations": {
+      "family_v1": {
+        "validation_status": "PASS_WITH_WARNINGS",
+        "composite_score": 0.905,
+        "risk_score": 0.8,
+        "evidence_score": 1.0,
+        "audience_score": 1.0,
+        "coherence_score": 0.9,
+        "cost_score": 0.955,
+        "violations_count": 0,
+        "warnings_count": 1
+      },
+      "family_cand_B_stakes": {
+        "validation_status": "FAIL",
+        "composite_score": 0.555,
+        "risk_score": 0.0,
+        "evidence_score": 1.0,
+        "audience_score": 0.85,
+        "coherence_score": 0.9,
+        "cost_score": 0.953,
+        "violations_count": 1,
+        "warnings_count": 1
+      },
+      "family_cand_C_dynamic": {
+        "validation_status": "PASS_WITH_WARNINGS",
+        "composite_score": 0.876,
+        "risk_score": 0.8,
+        "evidence_score": 1.0,
+        "audience_score": 0.85,
+        "coherence_score": 0.9,
+        "cost_score": 0.959,
+        "violations_count": 0,
+        "warnings_count": 1
+      }
+    },
+    "rejection_reasons": {
+      "family_cand_B_stakes": "Validation failed with 1 critical violation(s).",
+      "family_cand_C_dynamic": "Lower composite score (0.876 vs 0.905)."
+    }
+  },
+  "generation_provenance": {
+    "agent": "CreativeTrailerPlannerAgent",
+    "model": "mock_or_live",
+    "context_items_count": 23,
+    "audience": "family",
+    "timestamp": "2026-04-15T12:00:00Z"
+  },
   "fallback_plan": "Replace orchestral music_02 with public domain acoustic tracks if rights expire"
 }

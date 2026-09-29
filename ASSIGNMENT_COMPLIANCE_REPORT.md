@@ -4,7 +4,7 @@
 **Author:** Senior AI Engineer / Multimodal AI Systems Architect  
 **Repository:** [https://github.com/stemcoder1905/Autonomous_Trailer_Director.git](https://github.com/stemcoder1905/Autonomous_Trailer_Director.git)  
 **Evaluation Standard:** Senior AI Engineer / Multimodal AI Engineer Hiring Assessment  
-**Test Suite Status:** 40 Passed / 0 Failed (100% Green, 7.00s execution)  
+**Test Suite Status:** 64 Passed / 0 Failed (100% Green, ~59s execution)  
 **Execution Modes:** Deterministic Offline Zero-Cost Replay & Live LLM / Multimodal API
 
 ---
@@ -373,11 +373,14 @@ Implemented in `src/providers/`:
 
 ### 23. Verification Suite, Adversarial Testing, and Test Coverage Matrix
 
-The test suite contains **40 automated tests** passing in 7.00 seconds.
+The test suite contains **64 automated tests** passing in ~59 seconds across 19 test suites.
 
 | Test File | Test Cases | Target Coverage | Status |
 |---|---|---|---|
 | `test_media_processing.py` | 5 | Video metadata extraction, OpenCV FPS/duration, boundary bounds check, frame extraction to disk, audio capability reporting, media duration violation rejection | PASS |
+| `test_media_input_architecture.py` | 6 | Replay vs real media modes, synthetic fixture provenance, audio stream detection, `AUDIO_STREAM_NOT_AVAILABLE` assertion | PASS |
+| `test_vision_asr_and_agentic_flow.py` | 8 | ASR segment alignment, multi-frame vision sampling, vision confidence thresholding, provider fallback | PASS |
+| `test_audit_enhancements.py` | 6 | Audit Fixes: timecode ASR slicing, honest evidence provenance, multi-dimensional candidate tournament, narrative arc diversity, escalation taxonomy | PASS |
 | `test_multimodal_grounding.py` | 4 | Visual claim contradiction rejection (`SOURCE_ACCURACY = FAIL`), visual mismatch repair and re-validation, evidence traceability, dialogue token overlap ASR verification | PASS |
 | `test_agentic_planning.py` | 4 | Multi-candidate trailer generation, spoiler map structure, human approval escalation workflow, live LLM provider schema validation | PASS |
 | `test_end_to_end_scenarios.py` | 10 | E2E normal replay, spoiler repair, missing scene repair, clickbait repair, subtitle mismatch repair, contract change replanning, bias protection, budget fallback, model fallback, prompt injection neutralization | PASS |
@@ -393,7 +396,7 @@ The test suite contains **40 automated tests** passing in 7.00 seconds.
 | `test_model_fallback.py` | 2 | Provider fallback on primary failure, health check validation | PASS |
 | `test_prompt_injection.py` | 1 | Prompt injection in scene description rejected by independent validator | PASS |
 | `test_api.py` | 3 | FastAPI health check, analyze endpoint, run workflow endpoint | PASS |
-| **Total** | **40** | **Comprehensive Full-Pipeline Coverage** | **100% PASS** |
+| **Total** | **64** | **Comprehensive Full-Pipeline Coverage Across 19 Test Suites** | **100% PASS** |
 
 ---
 

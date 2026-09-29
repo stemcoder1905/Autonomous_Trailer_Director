@@ -177,20 +177,21 @@ def main():
     else:
         audiences = [AudienceType.FAMILY, AudienceType.YOUNG_ADULT, AudienceType.DIALECT_REGION]
 
-    # Determine media mode and inspect video/audio streams
+    # Determine execution_mode (replay vs live) and media_source (replay_fixture vs real_media)
+    execution_mode = args.mode.lower()
     if args.media:
         media_path = Path(args.media).resolve()
-        media_mode = "REAL_MEDIA"
+        media_source = "real_media"
     else:
         media_path = input_dir / "media" / "episode_01.mp4"
-        media_mode = "REPLAY"
+        media_source = "replay_fixture"
 
     from src.media.video_processor import VideoProcessor
     from src.media.audio_processor import AudioProcessor
     v_meta = VideoProcessor.extract_metadata(media_path)
     has_audio, audio_msg = AudioProcessor.detect_audio_stream(media_path)
 
-    console.print(f"[bold cyan]>> Media Input Mode:[/bold cyan] [yellow]{media_mode}[/yellow] ([white]{media_path}[/white])")
+    console.print(f"[bold cyan]>> Execution Mode:[/bold cyan] [yellow]{execution_mode.upper()}[/yellow] | [bold cyan]Media Source:[/bold cyan] [yellow]{media_source.upper()}[/yellow] ([white]{media_path}[/white])")
     console.print(f"   [yellow]Video Stream:[/yellow] {'DETECTED (' + str(v_meta.width) + 'x' + str(v_meta.height) + ' @ ' + str(v_meta.fps) + 'fps, ' + str(v_meta.duration_seconds) + 's)' if v_meta.has_video_stream else '[bold red]NO VIDEO STREAM DETECTED[/bold red]'}")
     console.print(f"   [yellow]Audio Stream:[/yellow] {'DETECTED (' + audio_msg + ')' if has_audio else '[bold red]AUDIO_STREAM_NOT_AVAILABLE[/bold red]'}")
 
@@ -201,7 +202,8 @@ def main():
         decision_logger=decision_logger,
         reference_date="2026-02-15",
         media_path=media_path,
-        media_mode=media_mode
+        execution_mode=execution_mode,
+        media_source=media_source
     )
 
     active_scenario = None if args.scenario == "none" else args.scenario

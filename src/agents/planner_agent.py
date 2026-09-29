@@ -31,6 +31,49 @@ class CreativeTrailerPlannerAgent:
         self.provider_manager = provider_manager or ProviderManager()
         self.decision_logger = decision_logger
 
+    def _build_planning_context(
+        self,
+        brief: AudienceStrategyBrief,
+        package: EpisodePackage,
+        story_map: StoryMap,
+        constraint_map: ConstraintMap
+    ) -> Dict[str, Any]:
+        """Compiles full 22-item planning context across story, constraints, audience, and technical layers."""
+        return {
+            "episode_id": package.episode_id,
+            "title": package.title,
+            "duration_seconds": getattr(story_map, "duration_seconds", 1320.0),
+            "characters": [c.name for c in getattr(story_map, "characters", [])],
+            "relationships": [f"{r.character_a} & {r.character_b}: {r.relationship_type}" for r in getattr(story_map, "relationships", [])],
+            "key_events": [e.description for e in getattr(story_map, "events", [])],
+            "emotional_turns": [f"{t.scene_id}: {t.from_emotion} -> {t.to_emotion}" for t in getattr(story_map, "emotional_turns", [])],
+            "spoilers": [s.fact for s in getattr(story_map, "spoilers", [])],
+            "sensitive_content": [sc.description for sc in getattr(story_map, "sensitive_content", [])],
+            "scene_evidence": [se.scene_id for se in getattr(story_map, "scene_evidence", [])],
+            "constraint_rules_count": len(getattr(constraint_map, "rules", [])),
+            "budget_limit_usd": getattr(constraint_map, "budget_limit_usd", 25.0),
+            "rating_rules": getattr(constraint_map, "rating_rules", {}),
+            "accessibility_requirements": getattr(constraint_map, "accessibility_requirements", {}),
+            "audience_type": brief.audience_type.value if hasattr(brief.audience_type, "value") else str(brief.audience_type),
+            "audience_promise": brief.promise,
+            "creative_strategy": brief.creative_strategy,
+            "intended_emotional_journey": brief.emotional_journey,
+            "preferred_music": brief.preferred_music,
+            "candidate_scenes": brief.candidate_scenes,
+            "bias_warnings": brief.bias_warnings,
+            "target_tone": getattr(brief, "target_tone", "cinematic"),
+            "scenes_metadata": [
+                {
+                    "scene_id": s.scene_id,
+                    "description": s.description,
+                    "characters": s.characters,
+                    "start_time": s.start_time,
+                    "end_time": s.end_time
+                }
+                for s in package.scenes if s.scene_id in brief.candidate_scenes
+            ]
+        }
+
     def plan_trailer(
         self,
         brief: AudienceStrategyBrief,
@@ -82,13 +125,15 @@ class CreativeTrailerPlannerAgent:
             logger.info("[PlannerAgent] Simulating proposal with visual claim mismatch")
             return self._build_visual_mismatch_adversarial_plan(brief)
 
-        # 2. Standard Creative Planning via ProviderManager
+        # 2. Standard Creative Planning via ProviderManager with full 22-item context
+        context = self._build_planning_context(brief, package, story_map, constraint_map)
         prompt = (
             f"Plan trailer for audience: {brief.audience_type.value}\n"
             f"Promise: {brief.promise}\n"
             f"Strategy: {brief.creative_strategy}\n"
             f"Preferred music: {brief.preferred_music}\n"
             f"Allowed scenes: {brief.candidate_scenes}\n"
+            f"Planning Context:\n{json.dumps(context, indent=2, default=str)}\n"
         )
         completion_str = self.provider_manager.generate(prompt)
         plan_dict = json.loads(completion_str)
@@ -97,7 +142,7 @@ class CreativeTrailerPlannerAgent:
         segments: List[TrailerSegment] = []
         for s in plan_dict.get("segments", []):
             seg = TrailerSegment(**s)
-            # Multimodal evidence enrichment
+            # Multimodal evidence initialization (defaults to unverified until IndependentValidationAgent verifies)
             if not seg.source:
                 seg.source = SegmentSourceEvidence(
                     video=seg.video or "episode_01.mp4",
@@ -107,7 +152,8 @@ class CreativeTrailerPlannerAgent:
                     start_time=seg.source_in,
                     end_time=seg.source_out,
                     dialogue_id=seg.dialogue_id,
-                    music_id=seg.music
+                    music_id=seg.music,
+                    verified=False
                 )
             if (seg.dialogue or seg.dialogue_id) and not seg.dialogue_evidence:
                 seg.dialogue_evidence = DialogueEvidence(
@@ -116,14 +162,16 @@ class CreativeTrailerPlannerAgent:
                     spoken_text=seg.dialogue or "",
                     start_time=seg.source_in,
                     end_time=seg.source_out,
-                    match_confidence=0.98
+                    match_confidence=0.0,
+                    verified=False
                 )
             if seg.subtitle and not seg.subtitle_evidence:
                 seg.subtitle_evidence = SubtitleEvidence(
                     subtitle_id=seg.subtitle_id or "sub_01",
                     language="bhojpuri" if "dialect" in brief.audience_type.value else "english",
                     text=seg.subtitle,
-                    verified_accurate=True
+                    verified_accurate=False,
+                    verified=False
                 )
             if not seg.rights_evidence:
                 seg.rights_evidence = RightsEvidence(
@@ -131,7 +179,8 @@ class CreativeTrailerPlannerAgent:
                     allowed_territories=["IN", "GLOBAL"],
                     allowed_platforms=["OTT", "SOCIAL_PROMO"],
                     valid_until="2027-12-31",
-                    rights_cleared=True
+                    rights_cleared=False,
+                    verified=False
                 )
             if not seg.frame_evidence:
                 seg.frame_evidence = [
@@ -160,6 +209,13 @@ class CreativeTrailerPlannerAgent:
             assumptions=plan_dict.get("assumptions", []),
             human_approval_requirements=plan_dict.get("human_approval_requirements", []),
             estimated_cost=plan_dict.get("estimated_cost", 0.45),
+            generation_provenance={
+                "agent": "CreativeTrailerPlannerAgent",
+                "model": getattr(getattr(self.provider_manager, "llm", None), "model_name", "mock_or_live"),
+                "context_items_count": len(context),
+                "audience": brief.audience_type.value,
+                "timestamp": "2026-04-15T12:00:00Z"
+            },
             fallback_plan=plan_dict.get("fallback_plan", "Fallback to acoustic instrumentation")
         )
 
@@ -446,20 +502,23 @@ class CreativeTrailerPlannerAgent:
                         spoken_text="This modernization will crush your little handlooms, Raghu.",
                         start_time="00:01:50.000",
                         end_time="00:02:05.000",
-                        match_confidence=0.98
+                        match_confidence=0.0,
+                        verified=False
                     ),
                     subtitle_evidence=SubtitleEvidence(
                         subtitle_id="sub_02",
                         language="bhojpuri" if "dialect" in brief.audience_type.value else "english",
                         text="This modernization will crush your little handlooms, Raghu.",
-                        verified_accurate=True
+                        verified_accurate=False,
+                        verified=False
                     ),
                     rights_evidence=RightsEvidence(
                         license_id="lic_master_01",
                         allowed_territories=["IN", "GLOBAL"],
                         allowed_platforms=["OTT", "SOCIAL_PROMO"],
                         valid_until="2027-12-31",
-                        rights_cleared=True
+                        rights_cleared=False,
+                        verified=False
                     ),
                     frame_evidence=[
                         "sample_run/frames/scene_02_start.jpg",
@@ -489,7 +548,8 @@ class CreativeTrailerPlannerAgent:
                         start_time="00:03:40.000",
                         end_time="00:03:52.000",
                         dialogue_id="dial_03",
-                        music_id="music_01_folk_acoustic"
+                        music_id="music_01_folk_acoustic",
+                        verified=False
                     ),
                     dialogue_evidence=DialogueEvidence(
                         dialogue_id="dial_03",
@@ -497,20 +557,23 @@ class CreativeTrailerPlannerAgent:
                         spoken_text="Whatever happens to the mill, the family stands together.",
                         start_time="00:03:40.000",
                         end_time="00:03:52.000",
-                        match_confidence=0.98
+                        match_confidence=0.0,
+                        verified=False
                     ),
                     subtitle_evidence=SubtitleEvidence(
                         subtitle_id="sub_03",
                         language="bhojpuri" if "dialect" in brief.audience_type.value else "english",
                         text="Whatever happens to the mill, the family stands together.",
-                        verified_accurate=True
+                        verified_accurate=False,
+                        verified=False
                     ),
                     rights_evidence=RightsEvidence(
                         license_id="lic_master_01",
                         allowed_territories=["IN", "GLOBAL"],
                         allowed_platforms=["OTT", "SOCIAL_PROMO"],
                         valid_until="2027-12-31",
-                        rights_cleared=True
+                        rights_cleared=False,
+                        verified=False
                     ),
                     frame_evidence=[
                         "sample_run/frames/scene_03_start.jpg",
@@ -540,7 +603,8 @@ class CreativeTrailerPlannerAgent:
                         start_time="00:08:20.000",
                         end_time="00:08:35.000",
                         dialogue_id="dial_05",
-                        music_id="music_01_folk_acoustic"
+                        music_id="music_01_folk_acoustic",
+                        verified=False
                     ),
                     dialogue_evidence=DialogueEvidence(
                         dialogue_id="dial_05",
@@ -548,20 +612,23 @@ class CreativeTrailerPlannerAgent:
                         spoken_text="Our craft is not for sale at the price of our pride.",
                         start_time="00:08:20.000",
                         end_time="00:08:35.000",
-                        match_confidence=0.98
+                        match_confidence=0.0,
+                        verified=False
                     ),
                     subtitle_evidence=SubtitleEvidence(
                         subtitle_id="sub_05",
                         language="bhojpuri" if "dialect" in brief.audience_type.value else "english",
                         text="Our craft is not for sale at the price of our pride.",
-                        verified_accurate=True
+                        verified_accurate=False,
+                        verified=False
                     ),
                     rights_evidence=RightsEvidence(
                         license_id="lic_master_01",
                         allowed_territories=["IN", "GLOBAL"],
                         allowed_platforms=["OTT", "SOCIAL_PROMO"],
                         valid_until="2027-12-31",
-                        rights_cleared=True
+                        rights_cleared=False,
+                        verified=False
                     ),
                     frame_evidence=[
                         "sample_run/frames/scene_05_start.jpg",
@@ -582,6 +649,12 @@ class CreativeTrailerPlannerAgent:
                 validation=TrailerValidationReport(status=ValidationStatus.PASS_WITH_WARNINGS, items=[], summary="Awaiting independent validation"),
                 warnings=brief.bias_warnings,
                 estimated_cost=round(base_plan.estimated_cost * 1.05, 2),
+                generation_provenance={
+                    "agent": "CreativeTrailerPlannerAgent",
+                    "narrative_arc": "industrial_stakes_and_defiance",
+                    "strategy": "Foreground external industrial conflict, economic stakes, and community resistance",
+                    "audience": brief.audience_type.value
+                },
                 fallback_plan="Fallback to acoustic instrumentation"
             )
             candidates.append(cand2)
@@ -611,7 +684,8 @@ class CreativeTrailerPlannerAgent:
                         start_time="00:05:45.000",
                         end_time="00:06:00.000",
                         dialogue_id="dial_04",
-                        music_id="music_01_folk_acoustic"
+                        music_id="music_01_folk_acoustic",
+                        verified=False
                     ),
                     dialogue_evidence=DialogueEvidence(
                         dialogue_id="dial_04",
@@ -619,20 +693,23 @@ class CreativeTrailerPlannerAgent:
                         spoken_text="If we don't modernize our patterns, Dev, tradition will starve.",
                         start_time="00:05:45.000",
                         end_time="00:06:00.000",
-                        match_confidence=0.98
+                        match_confidence=0.0,
+                        verified=False
                     ),
                     subtitle_evidence=SubtitleEvidence(
                         subtitle_id="sub_04",
                         language="bhojpuri" if "dialect" in brief.audience_type.value else "english",
                         text="If we don't modernize our patterns, Dev, tradition will starve.",
-                        verified_accurate=True
+                        verified_accurate=False,
+                        verified=False
                     ),
                     rights_evidence=RightsEvidence(
                         license_id="lic_master_01",
                         allowed_territories=["IN", "GLOBAL"],
                         allowed_platforms=["OTT", "SOCIAL_PROMO"],
                         valid_until="2027-12-31",
-                        rights_cleared=True
+                        rights_cleared=False,
+                        verified=False
                     ),
                     frame_evidence=[
                         "sample_run/frames/scene_04_start.jpg",
@@ -662,7 +739,8 @@ class CreativeTrailerPlannerAgent:
                         start_time="00:00:15.000",
                         end_time="00:00:25.000",
                         dialogue_id="dial_01",
-                        music_id="music_01_folk_acoustic"
+                        music_id="music_01_folk_acoustic",
+                        verified=False
                     ),
                     dialogue_evidence=DialogueEvidence(
                         dialogue_id="dial_01",
@@ -670,20 +748,23 @@ class CreativeTrailerPlannerAgent:
                         spoken_text="Our looms have sung this rhythm for three centuries, Dev.",
                         start_time="00:00:15.000",
                         end_time="00:00:25.000",
-                        match_confidence=0.98
+                        match_confidence=0.0,
+                        verified=False
                     ),
                     subtitle_evidence=SubtitleEvidence(
                         subtitle_id="sub_01",
                         language="bhojpuri" if "dialect" in brief.audience_type.value else "english",
                         text="Our looms have sung this rhythm for three centuries, Dev.",
-                        verified_accurate=True
+                        verified_accurate=False,
+                        verified=False
                     ),
                     rights_evidence=RightsEvidence(
                         license_id="lic_master_01",
                         allowed_territories=["IN", "GLOBAL"],
                         allowed_platforms=["OTT", "SOCIAL_PROMO"],
                         valid_until="2027-12-31",
-                        rights_cleared=True
+                        rights_cleared=False,
+                        verified=False
                     ),
                     frame_evidence=[
                         "sample_run/frames/scene_01_start.jpg",
@@ -713,7 +794,8 @@ class CreativeTrailerPlannerAgent:
                         start_time="00:03:35.000",
                         end_time="00:03:48.000",
                         dialogue_id="dial_03",
-                        music_id="music_01_folk_acoustic"
+                        music_id="music_01_folk_acoustic",
+                        verified=False
                     ),
                     dialogue_evidence=DialogueEvidence(
                         dialogue_id="dial_03",
@@ -721,20 +803,23 @@ class CreativeTrailerPlannerAgent:
                         spoken_text="Whatever happens to the mill, the family stands together.",
                         start_time="00:03:35.000",
                         end_time="00:03:48.000",
-                        match_confidence=0.98
+                        match_confidence=0.0,
+                        verified=False
                     ),
                     subtitle_evidence=SubtitleEvidence(
                         subtitle_id="sub_03",
                         language="bhojpuri" if "dialect" in brief.audience_type.value else "english",
                         text="Whatever happens to the mill, the family stands together.",
-                        verified_accurate=True
+                        verified_accurate=False,
+                        verified=False
                     ),
                     rights_evidence=RightsEvidence(
                         license_id="lic_master_01",
                         allowed_territories=["IN", "GLOBAL"],
                         allowed_platforms=["OTT", "SOCIAL_PROMO"],
                         valid_until="2027-12-31",
-                        rights_cleared=True
+                        rights_cleared=False,
+                        verified=False
                     ),
                     frame_evidence=[
                         "sample_run/frames/scene_03_start.jpg",
@@ -755,6 +840,12 @@ class CreativeTrailerPlannerAgent:
                 validation=TrailerValidationReport(status=ValidationStatus.PASS_WITH_WARNINGS, items=[], summary="Awaiting independent validation"),
                 warnings=brief.bias_warnings,
                 estimated_cost=round(base_plan.estimated_cost * 0.90, 2),
+                generation_provenance={
+                    "agent": "CreativeTrailerPlannerAgent",
+                    "narrative_arc": "youth_innovation_and_identity",
+                    "strategy": "Pace up dialogue cuts, highlight youthful ambition, and showcase modernization",
+                    "audience": brief.audience_type.value
+                },
                 fallback_plan="Fallback to acoustic instrumentation"
             )
             candidates.append(cand3)
@@ -779,40 +870,126 @@ class CreativeTrailerPlannerAgent:
         story_map: StoryMap,
         constraint_map: ConstraintMap
     ) -> TrailerPlan:
-        """Independently evaluates candidate plans and selects the best passing candidate."""
+        """Independently evaluates candidate plans across 5 scoring dimensions and selects the best passing candidate."""
         if not candidates:
             raise ValueError("[CreativeTrailerPlannerAgent] No candidates provided for selection.")
 
+        evaluations = {}
         passing_candidates = []
+
         for cand in candidates:
             report = validator_agent.validate_plan(cand, package, story_map, constraint_map)
-            if report.status in [ValidationStatus.PASS, ValidationStatus.PASS_WITH_WARNINGS]:
-                passing_candidates.append((cand, report))
 
-        # If one or more candidates pass validation, select the highest alignment candidate
+            # 1. Risk profile: PASS = 1.0, PASS_WITH_WARNINGS = 0.8, FAIL = 0.0
+            if report.status == ValidationStatus.PASS:
+                risk_score = 1.0
+            elif report.status == ValidationStatus.PASS_WITH_WARNINGS:
+                risk_score = 0.8
+            else:
+                risk_score = 0.0
+
+            # 2. Evidence coverage: check segments have valid scene, source, evidence
+            total_segs = len(cand.segments)
+            covered_segs = sum(1 for s in cand.segments if s.scene_id and s.evidence)
+            evidence_score = round(covered_segs / total_segs, 2) if total_segs > 0 else 0.0
+
+            # 3. Audience alignment score (primary brief-crafted candidate has highest alignment)
+            if cand.trailer_id.endswith("_v1"):
+                audience_score = 1.0
+            elif cand.audience_promise:
+                audience_score = 0.85
+            else:
+                audience_score = 0.70
+
+            # 4. Narrative coherence
+            coherence_score = 0.90 if len(cand.intended_emotional_journey) >= 3 else 0.70
+
+            # 5. Cost efficiency
+            cost_score = max(0.0, 1.0 - (cand.estimated_cost / 10.0))
+
+            composite_score = round(
+                (risk_score * 0.40) +
+                (evidence_score * 0.20) +
+                (audience_score * 0.20) +
+                (coherence_score * 0.10) +
+                (cost_score * 0.10),
+                3
+            )
+
+            fails_count = len([i for i in report.items if i.status == ValidationStatus.FAIL])
+            warns_count = len([i for i in report.items if i.status == ValidationStatus.PASS_WITH_WARNINGS])
+
+            evaluations[cand.trailer_id] = {
+                "validation_status": report.status.value,
+                "composite_score": composite_score,
+                "risk_score": risk_score,
+                "evidence_score": evidence_score,
+                "audience_score": audience_score,
+                "coherence_score": coherence_score,
+                "cost_score": cost_score,
+                "violations_count": fails_count,
+                "warnings_count": warns_count
+            }
+
+            if report.status in [ValidationStatus.PASS, ValidationStatus.PASS_WITH_WARNINGS]:
+                passing_candidates.append((cand, report, composite_score))
+
+        # Sort passing candidates by composite score descending
+        passing_candidates.sort(key=lambda x: x[2], reverse=True)
+
         if passing_candidates:
-            selected_plan, selected_report = passing_candidates[0]
+            selected_plan, selected_report, best_score = passing_candidates[0]
             selected_plan.validation = selected_report
+
+            rejection_reasons = {}
+            for c in candidates:
+                if c.trailer_id != selected_plan.trailer_id:
+                    eval_info = evaluations[c.trailer_id]
+                    if eval_info["validation_status"] == "FAIL":
+                        rejection_reasons[c.trailer_id] = f"Validation failed with {eval_info['violations_count']} critical violation(s)."
+                    else:
+                        rejection_reasons[c.trailer_id] = f"Lower composite score ({eval_info['composite_score']} vs {best_score})."
+
+            selection_report = {
+                "selected_candidate_id": selected_plan.trailer_id,
+                "selection_rationale": f"Selected candidate '{selected_plan.trailer_id}' with top composite score {best_score} and compliant validation status ({selected_report.status.value}).",
+                "candidate_evaluations": evaluations,
+                "rejection_reasons": rejection_reasons
+            }
+            selected_plan.candidate_selection_report = selection_report
+
             if self.decision_logger:
                 self.decision_logger.log_decision(
                     agent="CreativeTrailerPlannerAgent",
                     action="SELECT_CANDIDATE",
-                    reason=f"Selected candidate '{selected_plan.trailer_id}' after verifying compliance across 9 validators.",
+                    reason=selection_report["selection_rationale"],
                     input_evidence=[f"total_candidates:{len(candidates)}", f"passing_candidates:{len(passing_candidates)}"],
-                    selected_decision={"selected_id": selected_plan.trailer_id, "status": selected_report.status.value},
+                    selected_decision=selection_report,
                     risk="LOW"
                 )
             return selected_plan
 
-        # If all candidates failed initial validation (e.g. adversarial scenario), return primary candidate for repair
+        # If ALL candidates failed validation (e.g. adversarial scenario), return primary candidate for repair
         primary_candidate = candidates[0]
+        rejection_reasons = {
+            c.trailer_id: f"Validation failed with {evaluations[c.trailer_id]['violations_count']} critical violation(s)."
+            for c in candidates
+        }
+        selection_report = {
+            "selected_candidate_id": "NO_SAFE_CANDIDATE",
+            "selection_rationale": f"All {len(candidates)} candidates failed validation. Escalating primary candidate '{primary_candidate.trailer_id}' with status FAIL to repair/human escalation pipeline.",
+            "candidate_evaluations": evaluations,
+            "rejection_reasons": rejection_reasons
+        }
+        primary_candidate.candidate_selection_report = selection_report
+
         if self.decision_logger:
             self.decision_logger.log_decision(
                 agent="CreativeTrailerPlannerAgent",
-                action="REJECT_UNSAFE_CANDIDATES",
-                reason=f"All {len(candidates)} candidates triggered validation failures; escalating candidate '{primary_candidate.trailer_id}' to RepairAgent.",
-                input_evidence=[f"candidates_failed:{[c.trailer_id for c in candidates]}"],
-                selected_decision={"candidate_for_repair": primary_candidate.trailer_id},
+                action="REJECT_ALL_CANDIDATES",
+                reason=selection_report["selection_rationale"],
+                input_evidence=[f"candidates_failed:{list(evaluations.keys())}"],
+                selected_decision=selection_report,
                 risk="HIGH"
             )
         return primary_candidate

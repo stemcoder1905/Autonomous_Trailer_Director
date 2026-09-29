@@ -25,4 +25,7 @@ class DirectorState(BaseModel):
     active_scenario: Optional[str] = None
     current_node: str = "INITIALIZED"
     execution_history: List[str] = Field(default_factory=list)
-    total_cost_usd: float = 0.0
+    estimated_cost_usd: float = 0.0
+    actual_cost_usd: float = 0.0
+    total_cost_usd: float = 0.0  # Backwards compatibility alias
+    cost_breakdown: Dict[str, Any] = Field(default_factory=dict)

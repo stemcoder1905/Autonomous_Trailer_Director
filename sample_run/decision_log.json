@@ -1,7 +1,7 @@
 [
   {
     "log_id": "log_0001",
-    "timestamp": "2026-09-29T18:42:37.295634+00:00",
+    "timestamp": "2026-09-29T19:55:53.410242+00:00",
     "agent": "StoryUnderstandingAgent",
     "action": "ANALYZE_STORY",
     "input_evidence": [
@@ -23,7 +23,7 @@
   },
   {
     "log_id": "log_0002",
-    "timestamp": "2026-09-29T18:42:37.322952+00:00",
+    "timestamp": "2026-09-29T19:55:53.411275+00:00",
     "agent": "StoryUnderstandingAgent",
     "action": "GENERATE_SPOILER_MAP",
     "input_evidence": [
@@ -45,7 +45,7 @@
   },
   {
     "log_id": "log_0003",
-    "timestamp": "2026-09-29T18:42:37.325183+00:00",
+    "timestamp": "2026-09-29T19:55:53.413991+00:00",
     "agent": "ConstraintAnalysisAgent",
     "action": "COMPILE_CONSTRAINTS",
     "input_evidence": [
@@ -67,7 +67,7 @@
   },
   {
     "log_id": "log_0004",
-    "timestamp": "2026-09-29T18:42:37.327149+00:00",
+    "timestamp": "2026-09-29T19:55:53.413991+00:00",
     "agent": "AudienceStrategyAgent",
     "action": "DEVELOP_STRATEGY",
     "input_evidence": [
@@ -95,7 +95,7 @@
   },
   {
     "log_id": "log_0005",
-    "timestamp": "2026-09-29T18:42:37.331901+00:00",
+    "timestamp": "2026-09-29T19:55:53.418631+00:00",
     "agent": "CreativeTrailerPlannerAgent",
     "action": "PLAN_TRAILER",
     "input_evidence": [
@@ -117,7 +117,7 @@
   },
   {
     "log_id": "log_0006",
-    "timestamp": "2026-09-29T18:42:37.335947+00:00",
+    "timestamp": "2026-09-29T19:55:53.424526+00:00",
     "agent": "CreativeTrailerPlannerAgent",
     "action": "GENERATE_CANDIDATES",
     "input_evidence": [
@@ -142,7 +142,7 @@
   },
   {
     "log_id": "log_0007",
-    "timestamp": "2026-09-29T18:42:38.132459+00:00",
+    "timestamp": "2026-09-29T19:55:53.858327+00:00",
     "agent": "IndependentValidationAgent",
     "action": "VALIDATE_TRAILER",
     "input_evidence": [
@@ -262,7 +262,7 @@
   },
   {
     "log_id": "log_0008",
-    "timestamp": "2026-09-29T18:42:38.562224+00:00",
+    "timestamp": "2026-09-29T19:55:54.186758+00:00",
     "agent": "IndependentValidationAgent",
     "action": "VALIDATE_TRAILER",
     "input_evidence": [
@@ -386,7 +386,7 @@
   },
   {
     "log_id": "log_0009",
-    "timestamp": "2026-09-29T18:42:39.059617+00:00",
+    "timestamp": "2026-09-29T19:55:54.802351+00:00",
     "agent": "IndependentValidationAgent",
     "action": "VALIDATE_TRAILER",
     "input_evidence": [
@@ -506,7 +506,7 @@
   },
   {
     "log_id": "log_0010",
-    "timestamp": "2026-09-29T18:42:39.065028+00:00",
+    "timestamp": "2026-09-29T19:55:54.806918+00:00",
     "agent": "CreativeTrailerPlannerAgent",
     "action": "SELECT_CANDIDATE",
     "input_evidence": [
@@ -514,8 +514,47 @@
       "passing_candidates:2"
     ],
     "selected_decision": {
-      "selected_id": "family_v1",
-      "status": "PASS_WITH_WARNINGS"
+      "selected_candidate_id": "family_v1",
+      "selection_rationale": "Selected candidate 'family_v1' with top composite score 0.905 and compliant validation status (PASS_WITH_WARNINGS).",
+      "candidate_evaluations": {
+        "family_v1": {
+          "validation_status": "PASS_WITH_WARNINGS",
+          "composite_score": 0.905,
+          "risk_score": 0.8,
+          "evidence_score": 1.0,
+          "audience_score": 1.0,
+          "coherence_score": 0.9,
+          "cost_score": 0.955,
+          "violations_count": 0,
+          "warnings_count": 1
+        },
+        "family_cand_B_stakes": {
+          "validation_status": "FAIL",
+          "composite_score": 0.555,
+          "risk_score": 0.0,
+          "evidence_score": 1.0,
+          "audience_score": 0.85,
+          "coherence_score": 0.9,
+          "cost_score": 0.953,
+          "violations_count": 1,
+          "warnings_count": 1
+        },
+        "family_cand_C_dynamic": {
+          "validation_status": "PASS_WITH_WARNINGS",
+          "composite_score": 0.876,
+          "risk_score": 0.8,
+          "evidence_score": 1.0,
+          "audience_score": 0.85,
+          "coherence_score": 0.9,
+          "cost_score": 0.959,
+          "violations_count": 0,
+          "warnings_count": 1
+        }
+      },
+      "rejection_reasons": {
+        "family_cand_B_stakes": "Validation failed with 1 critical violation(s).",
+        "family_cand_C_dynamic": "Lower composite score (0.876 vs 0.905)."
+      }
     },
     "rejected_decisions": [],
     "validation_results": [],
@@ -523,12 +562,12 @@
     "cost": 0.0,
     "affected_segments": [],
     "revision": 1,
-    "reason": "Selected candidate 'family_v1' after verifying compliance across 9 validators.",
+    "reason": "Selected candidate 'family_v1' with top composite score 0.905 and compliant validation status (PASS_WITH_WARNINGS).",
     "model_provider": "mock"
   },
   {
     "log_id": "log_0011",
-    "timestamp": "2026-09-29T18:42:39.072605+00:00",
+    "timestamp": "2026-09-29T19:55:54.811905+00:00",
     "agent": "AudienceStrategyAgent",
     "action": "DEVELOP_STRATEGY",
     "input_evidence": [
@@ -556,7 +595,7 @@
   },
   {
     "log_id": "log_0012",
-    "timestamp": "2026-09-29T18:42:39.081678+00:00",
+    "timestamp": "2026-09-29T19:55:54.817889+00:00",
     "agent": "CreativeTrailerPlannerAgent",
     "action": "PLAN_TRAILER",
     "input_evidence": [
@@ -578,7 +617,7 @@
   },
   {
     "log_id": "log_0013",
-    "timestamp": "2026-09-29T18:42:39.090847+00:00",
+    "timestamp": "2026-09-29T19:55:54.823170+00:00",
     "agent": "CreativeTrailerPlannerAgent",
     "action": "GENERATE_CANDIDATES",
     "input_evidence": [
@@ -603,7 +642,7 @@
   },
   {
     "log_id": "log_0014",
-    "timestamp": "2026-09-29T18:42:39.669837+00:00",
+    "timestamp": "2026-09-29T19:55:55.436260+00:00",
     "agent": "IndependentValidationAgent",
     "action": "VALIDATE_TRAILER",
     "input_evidence": [
@@ -723,7 +762,7 @@
   },
   {
     "log_id": "log_0015",
-    "timestamp": "2026-09-29T18:42:40.080342+00:00",
+    "timestamp": "2026-09-29T19:55:55.802843+00:00",
     "agent": "IndependentValidationAgent",
     "action": "VALIDATE_TRAILER",
     "input_evidence": [
@@ -847,7 +886,7 @@
   },
   {
     "log_id": "log_0016",
-    "timestamp": "2026-09-29T18:42:40.527105+00:00",
+    "timestamp": "2026-09-29T19:55:56.209132+00:00",
     "agent": "IndependentValidationAgent",
     "action": "VALIDATE_TRAILER",
     "input_evidence": [
@@ -967,7 +1006,7 @@
   },
   {
     "log_id": "log_0017",
-    "timestamp": "2026-09-29T18:42:40.539020+00:00",
+    "timestamp": "2026-09-29T19:55:56.215999+00:00",
     "agent": "CreativeTrailerPlannerAgent",
     "action": "SELECT_CANDIDATE",
     "input_evidence": [
@@ -975,8 +1014,47 @@
       "passing_candidates:2"
     ],
     "selected_decision": {
-      "selected_id": "young_adult_v1",
-      "status": "PASS_WITH_WARNINGS"
+      "selected_candidate_id": "young_adult_v1",
+      "selection_rationale": "Selected candidate 'young_adult_v1' with top composite score 0.906 and compliant validation status (PASS_WITH_WARNINGS).",
+      "candidate_evaluations": {
+        "young_adult_v1": {
+          "validation_status": "PASS_WITH_WARNINGS",
+          "composite_score": 0.906,
+          "risk_score": 0.8,
+          "evidence_score": 1.0,
+          "audience_score": 1.0,
+          "coherence_score": 0.9,
+          "cost_score": 0.96,
+          "violations_count": 0,
+          "warnings_count": 1
+        },
+        "young_adult_cand_B_stakes": {
+          "validation_status": "FAIL",
+          "composite_score": 0.556,
+          "risk_score": 0.0,
+          "evidence_score": 1.0,
+          "audience_score": 0.85,
+          "coherence_score": 0.9,
+          "cost_score": 0.958,
+          "violations_count": 1,
+          "warnings_count": 1
+        },
+        "young_adult_cand_C_dynamic": {
+          "validation_status": "PASS_WITH_WARNINGS",
+          "composite_score": 0.876,
+          "risk_score": 0.8,
+          "evidence_score": 1.0,
+          "audience_score": 0.85,
+          "coherence_score": 0.9,
+          "cost_score": 0.964,
+          "violations_count": 0,
+          "warnings_count": 1
+        }
+      },
+      "rejection_reasons": {
+        "young_adult_cand_B_stakes": "Validation failed with 1 critical violation(s).",
+        "young_adult_cand_C_dynamic": "Lower composite score (0.876 vs 0.906)."
+      }
     },
     "rejected_decisions": [],
     "validation_results": [],
@@ -984,12 +1062,12 @@
     "cost": 0.0,
     "affected_segments": [],
     "revision": 1,
-    "reason": "Selected candidate 'young_adult_v1' after verifying compliance across 9 validators.",
+    "reason": "Selected candidate 'young_adult_v1' with top composite score 0.906 and compliant validation status (PASS_WITH_WARNINGS).",
     "model_provider": "mock"
   },
   {
     "log_id": "log_0018",
-    "timestamp": "2026-09-29T18:42:40.552132+00:00",
+    "timestamp": "2026-09-29T19:55:56.222895+00:00",
     "agent": "AudienceStrategyAgent",
     "action": "DEVELOP_STRATEGY",
     "input_evidence": [
@@ -1017,7 +1095,7 @@
   },
   {
     "log_id": "log_0019",
-    "timestamp": "2026-09-29T18:42:40.562362+00:00",
+    "timestamp": "2026-09-29T19:55:56.234858+00:00",
     "agent": "CreativeTrailerPlannerAgent",
     "action": "PLAN_TRAILER",
     "input_evidence": [
@@ -1039,7 +1117,7 @@
   },
   {
     "log_id": "log_0020",
-    "timestamp": "2026-09-29T18:42:40.577675+00:00",
+    "timestamp": "2026-09-29T19:55:56.245478+00:00",
     "agent": "CreativeTrailerPlannerAgent",
     "action": "GENERATE_CANDIDATES",
     "input_evidence": [
@@ -1064,7 +1142,7 @@
   },
   {
     "log_id": "log_0021",
-    "timestamp": "2026-09-29T18:42:41.157265+00:00",
+    "timestamp": "2026-09-29T19:55:56.909573+00:00",
     "agent": "IndependentValidationAgent",
     "action": "VALIDATE_TRAILER",
     "input_evidence": [
@@ -1184,7 +1262,7 @@
   },
   {
     "log_id": "log_0022",
-    "timestamp": "2026-09-29T18:42:41.624622+00:00",
+    "timestamp": "2026-09-29T19:55:57.391472+00:00",
     "agent": "IndependentValidationAgent",
     "action": "VALIDATE_TRAILER",
     "input_evidence": [
@@ -1308,7 +1386,7 @@
   },
   {
     "log_id": "log_0023",
-    "timestamp": "2026-09-29T18:42:42.320102+00:00",
+    "timestamp": "2026-09-29T19:55:57.987760+00:00",
     "agent": "IndependentValidationAgent",
     "action": "VALIDATE_TRAILER",
     "input_evidence": [
@@ -1428,7 +1506,7 @@
   },
   {
     "log_id": "log_0024",
-    "timestamp": "2026-09-29T18:42:42.331892+00:00",
+    "timestamp": "2026-09-29T19:55:57.999679+00:00",
     "agent": "CreativeTrailerPlannerAgent",
     "action": "SELECT_CANDIDATE",
     "input_evidence": [
@@ -1436,8 +1514,47 @@
       "passing_candidates:2"
     ],
     "selected_decision": {
-      "selected_id": "dialect_region_v1",
-      "status": "PASS_WITH_WARNINGS"
+      "selected_candidate_id": "dialect_region_v1",
+      "selection_rationale": "Selected candidate 'dialect_region_v1' with top composite score 0.906 and compliant validation status (PASS_WITH_WARNINGS).",
+      "candidate_evaluations": {
+        "dialect_region_v1": {
+          "validation_status": "PASS_WITH_WARNINGS",
+          "composite_score": 0.906,
+          "risk_score": 0.8,
+          "evidence_score": 1.0,
+          "audience_score": 1.0,
+          "coherence_score": 0.9,
+          "cost_score": 0.958,
+          "violations_count": 0,
+          "warnings_count": 1
+        },
+        "dialect_region_cand_B_stakes": {
+          "validation_status": "FAIL",
+          "composite_score": 0.556,
+          "risk_score": 0.0,
+          "evidence_score": 1.0,
+          "audience_score": 0.85,
+          "coherence_score": 0.9,
+          "cost_score": 0.956,
+          "violations_count": 1,
+          "warnings_count": 1
+        },
+        "dialect_region_cand_C_dynamic": {
+          "validation_status": "PASS_WITH_WARNINGS",
+          "composite_score": 0.876,
+          "risk_score": 0.8,
+          "evidence_score": 1.0,
+          "audience_score": 0.85,
+          "coherence_score": 0.9,
+          "cost_score": 0.962,
+          "violations_count": 0,
+          "warnings_count": 1
+        }
+      },
+      "rejection_reasons": {
+        "dialect_region_cand_B_stakes": "Validation failed with 1 critical violation(s).",
+        "dialect_region_cand_C_dynamic": "Lower composite score (0.876 vs 0.906)."
+      }
     },
     "rejected_decisions": [],
     "validation_results": [],
@@ -1445,12 +1562,12 @@
     "cost": 0.0,
     "affected_segments": [],
     "revision": 1,
-    "reason": "Selected candidate 'dialect_region_v1' after verifying compliance across 9 validators.",
+    "reason": "Selected candidate 'dialect_region_v1' with top composite score 0.906 and compliant validation status (PASS_WITH_WARNINGS).",
     "model_provider": "mock"
   },
   {
     "log_id": "log_0025",
-    "timestamp": "2026-09-29T18:42:43.074532+00:00",
+    "timestamp": "2026-09-29T19:55:58.541187+00:00",
     "agent": "IndependentValidationAgent",
     "action": "VALIDATE_TRAILER",
     "input_evidence": [
@@ -1570,7 +1687,7 @@
   },
   {
     "log_id": "log_0026",
-    "timestamp": "2026-09-29T18:42:43.644946+00:00",
+    "timestamp": "2026-09-29T19:55:59.075580+00:00",
     "agent": "IndependentValidationAgent",
     "action": "VALIDATE_TRAILER",
     "input_evidence": [
@@ -1690,7 +1807,7 @@
   },
   {
     "log_id": "log_0027",
-    "timestamp": "2026-09-29T18:42:44.634275+00:00",
+    "timestamp": "2026-09-29T19:55:59.759238+00:00",
     "agent": "IndependentValidationAgent",
     "action": "VALIDATE_TRAILER",
     "input_evidence": [

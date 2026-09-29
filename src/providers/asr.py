@@ -120,39 +120,71 @@ class LiveASRProvider(BaseASRProvider):
                 "[LiveASRProvider] Cannot transcribe: API key is unconfigured. Set OPENAI_API_KEY."
             )
 
-        # For live transcription, use multipart form POST to /audio/transcriptions
-        endpoint = f"{self.api_base.rstrip('/')}/audio/transcriptions"
-        boundary = "----WebKitFormBoundary7MA4YWxkTrZu0gW"
-        
-        # Read file bytes
-        file_bytes = m_path.read_bytes()
-        filename = m_path.name
+        import tempfile
+        import subprocess
+        from src.media.audio_processor import AudioProcessor
 
-        body = []
-        body.append(f"--{boundary}".encode("utf-8"))
-        body.append(f'Content-Disposition: form-data; name="file"; filename="{filename}"'.encode("utf-8"))
-        body.append(b"Content-Type: application/octet-stream\r\n")
-        body.append(file_bytes)
-        body.append(f"--{boundary}".encode("utf-8"))
-        body.append(b'Content-Disposition: form-data; name="model"\r\n')
-        body.append(self.model.encode("utf-8"))
-        body.append(f"--{boundary}".encode("utf-8"))
-        body.append(b'Content-Disposition: form-data; name="response_format"\r\n')
-        body.append(b"verbose_json")
-        body.append(f"--{boundary}--\r\n".encode("utf-8"))
+        temp_audio_path = None
+        target_upload_path = m_path
 
-        data = b"\r\n".join(body)
-        headers = {
-            "Content-Type": f"multipart/form-data; boundary={boundary}",
-            "Authorization": f"Bearer {self.api_key}"
-        }
+        # If segment timestamps are specified, extract exact audio slice via FFmpeg
+        if AudioProcessor.is_ffmpeg_available() and end_seconds is not None and end_seconds > start_seconds:
+            try:
+                tf = tempfile.NamedTemporaryFile(suffix=".wav", delete=False)
+                tf.close()
+                temp_audio_path = Path(tf.name)
+                duration = end_seconds - start_seconds
+                cmd = [
+                    "ffmpeg", "-y", "-ss", str(start_seconds), "-i", str(m_path),
+                    "-t", str(duration), "-vn", "-acodec", "pcm_s16le", "-ar", "16000", "-ac", "1",
+                    str(temp_audio_path)
+                ]
+                subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+                target_upload_path = temp_audio_path
+            except Exception as e:
+                logger.warning(f"[LiveASRProvider] Segment slice extraction failed ({e}); falling back to source file.")
+                target_upload_path = m_path
 
-        req = urllib.request.Request(endpoint, data=data, headers=headers, method="POST")
-        self.call_count += 1
-        with urllib.request.urlopen(req, timeout=self.timeout_seconds) as resp:
-            resp_data = json.loads(resp.read().decode("utf-8"))
-            raw_text = resp_data.get("text", "").strip()
-            raw_segments = resp_data.get("segments", [])
+        try:
+            # For live transcription, use multipart form POST to /audio/transcriptions
+            endpoint = f"{self.api_base.rstrip('/')}/audio/transcriptions"
+            boundary = "----WebKitFormBoundary7MA4YWxkTrZu0gW"
+            
+            # Read file bytes from target upload path
+            file_bytes = target_upload_path.read_bytes()
+            filename = target_upload_path.name
+
+            body = []
+            body.append(f"--{boundary}".encode("utf-8"))
+            body.append(f'Content-Disposition: form-data; name="file"; filename="{filename}"'.encode("utf-8"))
+            body.append(b"Content-Type: application/octet-stream\r\n")
+            body.append(file_bytes)
+            body.append(f"--{boundary}".encode("utf-8"))
+            body.append(b'Content-Disposition: form-data; name="model"\r\n')
+            body.append(self.model.encode("utf-8"))
+            body.append(f"--{boundary}".encode("utf-8"))
+            body.append(b'Content-Disposition: form-data; name="response_format"\r\n')
+            body.append(b"verbose_json")
+            body.append(f"--{boundary}--\r\n".encode("utf-8"))
+
+            data = b"\r\n".join(body)
+            headers = {
+                "Content-Type": f"multipart/form-data; boundary={boundary}",
+                "Authorization": f"Bearer {self.api_key}"
+            }
+
+            req = urllib.request.Request(endpoint, data=data, headers=headers, method="POST")
+            self.call_count += 1
+            with urllib.request.urlopen(req, timeout=self.timeout_seconds) as resp:
+                resp_data = json.loads(resp.read().decode("utf-8"))
+                raw_text = resp_data.get("text", "").strip()
+                raw_segments = resp_data.get("segments", [])
+        finally:
+            if temp_audio_path and temp_audio_path.exists():
+                try:
+                    temp_audio_path.unlink()
+                except Exception:
+                    pass
 
             parsed_segments = []
             for s in raw_segments:

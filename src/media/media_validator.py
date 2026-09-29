@@ -28,18 +28,35 @@ class MediaValidator:
         media_path: Optional[Union[str, Path]] = None,
         frames_output_dir: Optional[Union[str, Path]] = None,
         mode: str = "REPLAY",
+        execution_mode: Optional[str] = None,
+        media_source: Optional[str] = None,
         vision_provider_manager: Optional[VisionProviderManager] = None,
         asr_provider_manager: Optional[ASRProviderManager] = None
     ):
         self.media_dir = Path(media_dir or "sample_data/media")
         self.media_path = Path(media_path) if media_path else None
         self.frames_dir = Path(frames_output_dir or "sample_run/frames")
-        self.mode = mode
+        
+        # Explicit separation: execution_mode vs media_source
+        self.execution_mode = (execution_mode or mode).lower()
+        if self.execution_mode not in ["replay", "live"]:
+            self.execution_mode = "live" if "live" in self.execution_mode else "replay"
+
+        if media_source:
+            self.media_source = media_source.lower()
+        else:
+            is_real = (mode.upper() == "REAL_MEDIA") or (media_path and "sample_data" not in str(media_path).lower())
+            self.media_source = "real_media" if is_real else "replay_fixture"
+
+        self.mode = "REAL_MEDIA" if self.media_source == "real_media" else "REPLAY"
+
+        # Vision and ASR providers are chosen by EXECUTION_MODE (live vs replay), NEVER accidentally forced into mock by media_source
+        is_live_exec = (self.execution_mode == "live")
         self.vision_mgr = vision_provider_manager or VisionProviderManager(
-            preferred_provider="live" if mode.upper() == "LIVE" else "mock"
+            preferred_provider="live" if is_live_exec else "mock"
         )
         self.asr_mgr = asr_provider_manager or ASRProviderManager(
-            preferred_provider="live" if mode.upper() == "LIVE" else "mock"
+            preferred_provider="live" if is_live_exec else "mock"
         )
 
     def validate_segment_media(
@@ -52,19 +69,23 @@ class MediaValidator:
         results: List[ValidationResultItem] = []
         target_video = self.media_path if self.media_path else (self.media_dir / (video_filename or "episode_01.mp4"))
 
-        # Determine explicit evidence provenance
-        is_synthetic = "sample_data" in str(target_video).lower() or "episode_01.mp4" in str(target_video).lower()
-        source_type = SourceType.REPLAY_FIXTURE if (self.mode == "REPLAY" and is_synthetic) else SourceType.REAL_MEDIA
+        # Determine explicit evidence provenance based on media_source
+        source_type = SourceType.REAL_MEDIA if self.media_source == "real_media" else SourceType.REPLAY_FIXTURE
 
         # Check audio stream existence on physical container
         has_audio, audio_status = AudioProcessor.detect_audio_stream(target_video)
+
+        # Convert segment timecodes to exact physical seconds
+        from src.utils.timecode import timecode_to_seconds
+        t_in = timecode_to_seconds(segment.source_in)
+        t_out = timecode_to_seconds(segment.source_out)
 
         # Update segment dialogue provenance: ground against real ASR if audio stream exists
         if segment.dialogue or segment.dialogue_id:
             asr_res = self.asr_mgr.transcribe(
                 audio_or_video_path=target_video,
-                start_seconds=0.0,
-                end_seconds=5.0,
+                start_seconds=t_in,
+                end_seconds=t_out,
                 reference_dialogue=segment.dialogue,
                 source_type=source_type
             )
@@ -80,7 +101,11 @@ class MediaValidator:
                     asr_engine=asr_res.asr_engine,
                     is_asr_output=asr_res.is_asr_output,
                     audio_status=asr_res.audio_status,
-                    dialogue_id=segment.dialogue_id
+                    dialogue_id=segment.dialogue_id,
+                    start_time=segment.source_in,
+                    end_time=segment.source_out,
+                    match=asr_res.metadata_match,
+                    match_confidence=asr_res.average_confidence if asr_res.is_asr_output else 0.0
                 )
             else:
                 segment.dialogue_evidence.source = str(target_video)
@@ -90,14 +115,15 @@ class MediaValidator:
                 segment.dialogue_evidence.asr_engine = asr_res.asr_engine
                 segment.dialogue_evidence.is_asr_output = asr_res.is_asr_output
                 segment.dialogue_evidence.asr_text = asr_res.transcript_text
+                segment.dialogue_evidence.start_time = segment.source_in
+                segment.dialogue_evidence.end_time = segment.source_out
+                segment.dialogue_evidence.match = asr_res.metadata_match
                 segment.dialogue_evidence.verified = asr_res.verified if asr_res.is_asr_output else True
+                segment.dialogue_evidence.match_confidence = asr_res.average_confidence if asr_res.is_asr_output else 0.0
 
         # 1. If physical media file exists, enforce physical media boundary mathematics
         if target_video.exists() and VideoProcessor.is_available():
             meta = VideoProcessor.extract_metadata(target_video)
-            from src.utils.timecode import timecode_to_seconds
-            t_in = timecode_to_seconds(segment.source_in)
-            t_out = timecode_to_seconds(segment.source_out)
 
             # Update segment source provenance
             if segment.source is None:
@@ -195,42 +221,93 @@ class MediaValidator:
         segment: TrailerSegment,
         scene: SceneMetadata
     ) -> Dict[str, Any]:
-        """Compares metadata visual descriptions against frame evidence using VisionProvider."""
+        """Compares metadata visual descriptions against frame evidence across sampled frames (start, middle, end)."""
         visual_claim = scene.description
-        frames = [
-            f"sample_run/frames/{segment.scene_id}_start.jpg",
-            f"sample_run/frames/{segment.scene_id}_middle.jpg",
-            f"sample_run/frames/{segment.scene_id}_end.jpg"
-        ]
-        primary_frame = frames[1] if len(frames) > 1 else (frames[0] if frames else "frame.jpg")
+        target_video = self.media_path if self.media_path else (self.media_dir / "episode_01.mp4")
 
-        source_type = SourceType.REAL_MEDIA if self.mode == "REAL_MEDIA" else SourceType.REPLAY_FIXTURE
-        full_claim = f"{visual_claim}. Segment reason: {segment.reason or ''}"
-        
-        vision_res = self.vision_mgr.verify_frame(
-            frame_path=primary_frame,
-            claim=full_claim,
+        from src.utils.timecode import timecode_to_seconds
+        t_in = timecode_to_seconds(segment.source_in)
+        t_out = timecode_to_seconds(segment.source_out)
+
+        # 1. Sample at least start, middle, and end frames for the segment cut
+        frame_res = FrameExtractor.extract_scene_frames(
+            video_path=target_video,
             scene_id=segment.scene_id,
-            timestamp=segment.source_in,
-            expected_characters=scene.characters,
-            source_type=source_type
+            start_seconds=t_in,
+            end_seconds=t_out,
+            output_dir=self.frames_dir
         )
+        sampled_frames = frame_res.get("frames_checked", [])
+        if not sampled_frames:
+            sampled_frames = [
+                str(self.frames_dir / f"{segment.scene_id}_start.jpg"),
+                str(self.frames_dir / f"{segment.scene_id}_middle.jpg"),
+                str(self.frames_dir / f"{segment.scene_id}_end.jpg")
+            ]
 
-        # Store visual evidence on segment
-        segment.evidence.append(f"vision_observation:{vision_res.vision_observation}")
-        segment.evidence.append(f"vision_confidence:{vision_res.confidence}")
-        segment.evidence.append(f"vision_source:{vision_res.source_type}")
+        source_type = SourceType.REAL_MEDIA if self.media_source == "real_media" else SourceType.REPLAY_FIXTURE
+        full_claim = f"{visual_claim}. Segment reason: {segment.reason or ''}"
+
+        observations: List[str] = []
+        confidences: List[float] = []
+        statuses: List[str] = []
+        contradicted_any = False
+
+        for f_path in sampled_frames:
+            v_res = self.vision_mgr.verify_frame(
+                frame_path=f_path,
+                claim=full_claim,
+                scene_id=segment.scene_id,
+                timestamp=segment.source_in,
+                expected_characters=scene.characters,
+                source_type=source_type
+            )
+            observations.append(f"{Path(f_path).name}: {v_res.vision_observation}")
+            confidences.append(v_res.confidence)
+            statuses.append(v_res.status)
+            if v_res.contradicted or v_res.status == "FAIL":
+                contradicted_any = True
+
+        avg_confidence = round(sum(confidences) / len(confidences), 3) if confidences else 1.0
+
+        if contradicted_any:
+            aggregate_status = "FAIL"
+            supported = False
+        elif avg_confidence < 0.75 or any(s == "REVIEW" for s in statuses):
+            aggregate_status = "REVIEW"
+            supported = True
+        else:
+            aggregate_status = "PASS"
+            supported = True
+
+        # Store visual evidence structured on segment
+        v_evidence_item = {
+            "claim": visual_claim,
+            "observations": observations,
+            "confidence": avg_confidence,
+            "supported": supported,
+            "source_type": source_type.value,
+            "verification_method": self.vision_mgr.last_provenance.get("verification_method", "VISION_MODEL"),
+            "verified": (aggregate_status == "PASS" and source_type == SourceType.REAL_MEDIA and self.execution_mode == "live"),
+            "status": aggregate_status,
+            "sampled_frames": sampled_frames
+        }
+        segment.visual_evidence.append(v_evidence_item)
+        segment.frame_evidence = sampled_frames
+        segment.evidence.append(f"vision_aggregate:{aggregate_status}")
+        segment.evidence.append(f"vision_confidence:{avg_confidence}")
 
         return {
             "scene_id": segment.scene_id,
             "visual_claim": visual_claim,
-            "frames_checked": frames,
-            "visual_match": (vision_res.status != "FAIL" and not vision_res.contradicted),
-            "status": vision_res.status,
-            "confidence": vision_res.confidence,
-            "mismatch_detail": vision_res.vision_observation if (vision_res.contradicted or not vision_res.supported) else None,
-            "source_type": vision_res.source_type,
-            "verification_method": vision_res.verification_method,
-            "verified": vision_res.verified,
-            "vision_observation": vision_res.vision_observation
+            "frames_checked": sampled_frames,
+            "visual_match": (aggregate_status != "FAIL"),
+            "status": aggregate_status,
+            "confidence": avg_confidence,
+            "observations": observations,
+            "mismatch_detail": "; ".join(observations) if aggregate_status == "FAIL" else None,
+            "source_type": source_type.value,
+            "verification_method": self.vision_mgr.last_provenance.get("verification_method", "VISION_MODEL"),
+            "verified": v_evidence_item["verified"],
+            "vision_observation": "; ".join(observations)
         }

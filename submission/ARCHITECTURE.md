@@ -180,31 +180,39 @@ The system does not bind to a single proprietary cloud API. The `ProviderManager
 
 ## 8. Multimodal Vision & Speech Recognition (ASR) Providers
 
-Multimodal grounding is implemented via dedicated provider abstraction layers:
+Multimodal grounding is implemented via dedicated provider abstraction layers with physical media inspection:
 
-### A. Vision Verification (`src/providers/vision.py`)
+### A. Dual-Mode Media Input Architecture
+The platform strictly decouples execution environment from physical media origin:
+- **`execution_mode`**: Controls model inference (`replay` uses deterministic mock engines; `live` connects to external frontier LLM/Vision/ASR APIs).
+- **`media_source`**: Controls physical media processing:
+  - `replay_fixture`: Uses verified reference fixture `sample_data/media/episode_01.mp4` with explicit `REPLAY_FIXTURE` provenance.
+  - `real_media`: Ingests arbitrary external video files, probes streams, slices timecodes, and performs live physical extraction.
+
+### B. Vision Verification (`src/providers/vision.py` & `src/media/media_validator.py`)
 - **`BaseVisionProvider`**: Interface defining `verify_frame_claim(frame_path, claim, scene_id, timestamp, expected_characters)`.
-- **`LiveVisionProvider`**: Encodes frames in base64 and verifies visual ground-truth claims via vision models (OpenAI `gpt-4o`, Gemini `gemini-1.5-flash`, etc.).
-- **`MockVisionProvider`**: Deterministic visual verification for replay scenarios.
-- **`VisionProviderManager`**: Coordinates live vs mock providers, manages automatic fallback, and enforces confidence thresholds:
-  - Confidence $\ge 0.75 \implies$ `PASS` (or `PASS_WITH_WARNINGS` if non-critical flags).
-  - Confidence $< 0.75 \implies$ `REVIEW` (escalated to human editorial review).
-  - Contradiction detected $\implies$ `FAIL` (e.g. peaceful affection claim vs heated physical confrontation).
+- **Multi-Frame Sampling**: For each trailer segment, `MediaValidator` extracts 3 distinct temporal frames (start, middle, and end) to prevent cherry-picked single-frame illusions.
+- **Provider Manager & Thresholds**:
+  - Aggregate Confidence $\ge 0.75 \implies$ `PASS`.
+  - Confidence $< 0.75 \implies$ `REVIEW` (flagged for human editorial review).
+  - Explicit Contradiction $\implies$ `FAIL` (e.g. peaceful affection claim vs heated physical confrontation).
 
-### B. Speech-to-Text & Dialogue Grounding (`src/providers/asr.py`)
+### C. Exact Timecode Speech-to-Text & Dialogue Grounding (`src/providers/asr.py`)
 - **`BaseASRProvider`**: Interface defining `transcribe(audio_or_video_path, start_seconds, end_seconds, reference_dialogue)`.
-- **`LiveASRProvider`**: Connects to Whisper / audio speech-to-text endpoints.
-- **`MockASRProvider`**: Deterministic alignment verification for replay fixtures.
+- **Segment-Level Audio Slicing**: When validating segment dialogues, FFmpeg extracts an exact temporal slice (`source_in` to `source_out`) to an isolated temporary WAV file, runs ASR, and safely unlinks the temporary artifact in a `finally:` block.
 - **Audio Stream Truthfulness**:
-  - The system probes the physical container (via FFmpeg or pure-Python MP4 box inspection for `moov`, `soun`, `mp4a` atoms).
-  - When media lacks an audio stream (e.g. synthetic silent video), the system returns `AUDIO_STREAM_NOT_AVAILABLE` and `is_asr_output: False`.
+  - The system inspects physical media containers for audio tracks (`moov`, `soun`, `mp4a` atoms or FFprobe stream metadata).
+  - When media lacks an audio stream (e.g. silent synthetic video), the system explicitly returns `AUDIO_STREAM_NOT_AVAILABLE` and `is_asr_output: False`.
   - The system **never fabricates ASR output** or falsely claims supplied dialogue metadata was derived from physical audio.
+- **Honest Evidence Provenance**:
+  - Candidate plans created by the planner initialize evidence with `verified=False`, `rights_cleared=False`, `verified_accurate=False`, and `match_confidence=0.0`.
+  - Ground truth verification is strictly reserved for the `IndependentValidationAgent` and `MediaValidator`, which flip `verified=True` only after physical verification passes.
 
 ---
 
 ## 9. Multi-Candidate Narrative Exploration & Decoupled Selection
 
-To avoid tunnel-vision or single-candidate bias, `CreativeTrailerPlannerAgent` implements multi-candidate generation:
+To avoid tunnel-vision or single-candidate bias, `CreativeTrailerPlannerAgent` implements multi-candidate generation across 3 distinct narrative arcs:
 1. **Candidate A (Heritage & Character)**: Paces traditional craft, family legacy, and emotional connection.
 2. **Candidate B (Stakes & Defiance)**: Highlights external threats, industrial buyout conflict, and high-tension confrontation.
 3. **Candidate C (Youth & Disruption)**: Emphasizes youthful innovation, modern technology, and sister-brother agency.
@@ -213,11 +221,14 @@ Each candidate features:
 - A distinct `creative_strategy` and `audience_promise`.
 - An independent `intended_emotional_journey`.
 - A unique selection of clips, dialogue cuts, and pacing rhythms.
+- Grounded generation provenance tracking 22 contextual parameters.
 
-**Decoupled Selection (`select_best_candidate`)**:
-- Rather than having the planner assume its own plan is safe, all 3 candidate plans are submitted to `IndependentValidationAgent`.
-- Each candidate is evaluated against all 9 independent deterministic validators.
-- The highest-alignment compliant candidate is selected. If all candidates fail initial checks, the candidate is routed to `RepairAgent`.
+**Decoupled Multi-Dimensional Selection (`select_best_candidate`)**:
+- All 3 candidate plans are submitted to `IndependentValidationAgent`.
+- Each candidate is evaluated across 5 weighted dimensions:
+  $$\text{Total Score} = 0.35 \times \text{audience} + 0.25 \times \text{coherence} + 0.20 \times \text{evidence} + 0.10 \times (1 - \text{risk}) + 0.10 \times \text{cost}$$
+- If a candidate passes, it is selected with structured selection rationale.
+- If all candidates fail initial checks, the system sets `selected_candidate_id = "NO_SAFE_CANDIDATE"` with status `FAIL` and routes to `RepairAgent` rather than forcing an unsafe candidate through.
 
 ---
 

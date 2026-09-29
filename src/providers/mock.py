@@ -59,7 +59,7 @@ class MockLLMProvider(BaseModelProvider):
             })
 
         # Handle Trailer Planning - Family
-        if "family" in prompt_lower:
+        if "for audience: family" in prompt_lower or ("family" in prompt_lower and not ("young_adult" in prompt_lower or "young adult" in prompt_lower or "dialect" in prompt_lower)):
             return json.dumps({
                 "trailer_id": "family_v1",
                 "audience": "family viewers",
@@ -144,7 +144,7 @@ class MockLLMProvider(BaseModelProvider):
             })
 
         # Handle Trailer Planning - Young Adult
-        if "young_adult" in prompt_lower or "young adult" in prompt_lower:
+        if "for audience: young_adult" in prompt_lower or "for audience: young adult" in prompt_lower or ("young_adult" in prompt_lower and "for audience:" not in prompt_lower) or ("young adult" in prompt_lower and "for audience:" not in prompt_lower):
             return json.dumps({
                 "trailer_id": "young_adult_v1",
                 "audience": "young adult viewers",
@@ -229,7 +229,7 @@ class MockLLMProvider(BaseModelProvider):
             })
 
         # Handle Trailer Planning - Dialect Region
-        if "dialect" in prompt_lower or "dialect_region" in prompt_lower:
+        if "for audience: dialect" in prompt_lower or "for audience: dialect_region" in prompt_lower or ("dialect_region" in prompt_lower and "for audience:" not in prompt_lower) or ("dialect" in prompt_lower and "for audience:" not in prompt_lower):
             return json.dumps({
                 "trailer_id": "dialect_region_v1",
                 "audience": "dialect-region viewers",
