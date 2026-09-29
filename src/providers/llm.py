@@ -61,7 +61,7 @@ class FallbackLLMProvider(BaseModelProvider):
 
 
 class ProviderManager:
-    """Manages live, primary, secondary, and mock providers with automated fallback and cost tracking."""
+    """Manages live, primary, secondary, and mock providers with automated fallback, cost tracking, and evidence provenance."""
 
     def __init__(
         self,
@@ -76,16 +76,30 @@ class ProviderManager:
         self.preferred_provider = preferred_provider or os.getenv("LLM_PROVIDER", "mock")
         self.active_provider_name = "mock"
         self.total_calls = 0
+        self.last_execution_provenance: Dict[str, Any] = {
+            "source_type": "MOCK_MODEL",
+            "model": "mock-llm-v1",
+            "verification_method": "deterministic_mock",
+            "verified": True,
+            "fallback_used": False,
+            "call_count": 0
+        }
 
     def get_active_provider(self) -> BaseModelProvider:
         if self.preferred_provider == "mock" or self.simulate_primary_failure:
             self.active_provider_name = "mock"
             return self.mock_provider
 
-        # Check live provider if configured
-        if self.preferred_provider == "live" and self.live_provider.is_healthy():
-            self.active_provider_name = self.live_provider.get_provider_name()
-            return self.live_provider
+        # Check live provider first when live mode is requested
+        if self.preferred_provider == "live" or os.getenv("LLM_PROVIDER") == "live":
+            if self.live_provider.is_healthy():
+                self.active_provider_name = self.live_provider.get_provider_name()
+                return self.live_provider
+            else:
+                logger.warning(
+                    "[ProviderManager] Live provider requested but API credentials not configured (LLM_API_KEY/OPENAI_API_KEY/GEMINI_API_KEY missing). "
+                    "Transparently activating MockLLMProvider with explicit provenance."
+                )
 
         if self.primary_provider.is_healthy():
             self.active_provider_name = self.primary_provider.get_provider_name()
@@ -95,7 +109,6 @@ class ProviderManager:
             self.active_provider_name = self.fallback_provider.get_provider_name()
             return self.fallback_provider
 
-        logger.info("[ProviderManager] Falling back to deterministic MockLLMProvider.")
         self.active_provider_name = "mock"
         return self.mock_provider
 
@@ -107,12 +120,52 @@ class ProviderManager:
     ) -> str:
         self.total_calls += 1
         provider = self.get_active_provider()
+        
+        # Check if live was requested but mock was selected due to unconfigured key
+        was_live_requested = (self.preferred_provider == "live")
+        is_live_provider = (provider is self.live_provider)
+
         try:
-            return provider.generate_completion(prompt, system_prompt, json_schema)
+            result = provider.generate_completion(prompt, system_prompt, json_schema)
+            if is_live_provider:
+                self.last_execution_provenance = {
+                    "source_type": "LIVE_MODEL",
+                    "model": self.live_provider.model,
+                    "verification_method": "llm_generation",
+                    "verified": False,
+                    "fallback_used": False,
+                    "call_count": self.total_calls
+                }
+            else:
+                fallback_active = was_live_requested or self.simulate_primary_failure
+                fallback_reason = "Simulated primary failure" if self.simulate_primary_failure else ("Live credentials missing or unconfigured" if was_live_requested else None)
+                self.last_execution_provenance = {
+                    "source_type": "MOCK_MODEL",
+                    "model": getattr(provider, "model", "mock-llm-v1"),
+                    "verification_method": "deterministic_mock",
+                    "verified": True,
+                    "fallback_used": fallback_active,
+                    "fallback_reason": fallback_reason,
+                    "call_count": self.total_calls
+                }
+            return result
         except Exception as e:
             logger.warning(
                 f"[ProviderManager] Provider '{provider.get_provider_name()}' failed ({e}). "
-                f"Falling back to MockLLMProvider."
+                f"Falling back to MockLLMProvider with explicit fallback provenance."
             )
             self.active_provider_name = "mock"
+            self.last_execution_provenance = {
+                "source_type": "MOCK_MODEL",
+                "model": "mock-llm-v1",
+                "verification_method": "fallback_mock",
+                "verified": True,
+                "fallback_used": True,
+                "fallback_reason": str(e),
+                "call_count": self.total_calls
+            }
             return self.mock_provider.generate_completion(prompt, system_prompt, json_schema)
+
+    def get_provenance(self) -> Dict[str, Any]:
+        """Returns structured provenance of the most recent model execution."""
+        return dict(self.last_execution_provenance)

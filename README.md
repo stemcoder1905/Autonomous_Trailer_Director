@@ -112,7 +112,31 @@ Run the full multi-agent pipeline generating all three audience trailers with co
 python -m src.main --input sample_data --output sample_run --mode replay
 ```
 
-### B. Single Audience Execution
+### B. Live Model Execution Mode (OpenAI / Gemini / Custom LLM API)
+Execute using live frontier models with automatic fallback to deterministic replay if credentials are missing or endpoints fail:
+
+```bash
+# Set your API key (supports GEMINI_API_KEY, OPENAI_API_KEY, or LLM_API_KEY)
+export GEMINI_API_KEY="your-gemini-key"
+# Or in PowerShell: $env:GEMINI_API_KEY="your-gemini-key"
+
+python -m src.main --input sample_data --output sample_run --mode live
+```
+
+### C. Multimodal Media Input Modes (Replay Fixture vs Real External Media)
+The system cleanly separates synthetic replay fixtures from external media files:
+
+```bash
+# Replay Mode (default): uses sample_data/media/episode_01.mp4 fixture with explicit REPLAY_FIXTURE provenance
+python -m src.main --mode replay
+
+# Real Media Mode: inspects external video, extracts real frames, detects actual audio streams
+python -m src.main --media path/to/external_episode.mp4 --mode real
+```
+> [!NOTE]
+> When external media has no audio track, speech recognition outputs `AUDIO_STREAM_NOT_AVAILABLE`. The system strictly avoids claiming that supplied dialogue metadata is ASR output.
+
+### D. Single Audience Execution
 Generate a trailer plan tailored to a specific audience cohort:
 
 ```bash
@@ -126,7 +150,7 @@ python -m src.main --audience young_adult --mode replay
 python -m src.main --audience dialect_region --mode replay
 ```
 
-### C. Replay Scenarios & Adversarial Attack Demos
+### E. Replay Scenarios & Adversarial Attack Demos
 Demonstrate how the system autonomously intercepts and repairs edge cases:
 
 ```bash
@@ -158,7 +182,7 @@ python -m src.main --scenario model_failure --mode replay
 python -m src.main --scenario prompt_injection --mode replay
 ```
 
-### D. Running the FastAPI Web Service
+### F. Running the FastAPI Web Service
 Launch the REST API server:
 
 ```bash
@@ -170,11 +194,12 @@ Interactive Swagger documentation is available at `http://127.0.0.1:8000/docs`.
 
 ## 5. Automated Test Suite
 
-Run all 27 unit, integration, and scenario resilience tests covering security, rights, spoilers, and replanning:
+Run all 58 comprehensive unit, integration, multimodal, and scenario resilience tests:
 
 ```bash
-pytest -v
+python -m pytest -v
 ```
+All 58 tests pass deterministically (zero external network requirement for replay suite).
 
 
 ---

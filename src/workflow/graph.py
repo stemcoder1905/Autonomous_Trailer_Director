@@ -91,12 +91,22 @@ class TrailerDirectorWorkflow:
             brief = self.audience_agent.create_strategy(
                 aud, state.episode_package, state.story_map, state.constraint_map
             )
-            plan = self.planner_agent.plan_trailer(
+            # Generate multiple genuinely diverse candidate narrative arcs
+            candidates = self.planner_agent.generate_candidate_plans(
                 brief,
                 state.episode_package,
                 state.story_map,
                 state.constraint_map,
+                num_candidates=3,
                 adversarial_scenario=scenario
+            )
+            # Independently evaluate and select the best compliant candidate
+            plan = self.planner_agent.select_best_candidate(
+                candidates,
+                self.validator_agent,
+                state.episode_package,
+                state.story_map,
+                state.constraint_map
             )
             state.trailer_plans[aud.value] = plan
 

@@ -29,12 +29,18 @@
       "evidence": [
         "scene:scene_01",
         "dialogue:dial_01",
-        "subtitle:sub_01"
+        "subtitle:sub_01",
+        "vision_observation:Frame visually confirms: Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.. Segment reason: Honor authentic regional idiom and respectful portrayal of traditional craftsmanship",
+        "vision_confidence:0.95",
+        "vision_source:REPLAY_FIXTURE",
+        "vision_observation:Frame visually confirms: Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.. Segment reason: Honor authentic regional idiom and respectful portrayal of traditional craftsmanship",
+        "vision_confidence:0.95",
+        "vision_source:REPLAY_FIXTURE"
       ],
       "risk_flags": [],
       "source": {
-        "source": "D:\\Autonomous_Trailer_Director\\sample_data\\media\\episode_01.mp4",
-        "source_type": "REAL_MEDIA",
+        "source": "sample_data\\media\\episode_01.mp4",
+        "source_type": "REPLAY_FIXTURE",
         "verification_method": "opencv_inspection",
         "verified": true,
         "timestamp": "10.0",
@@ -53,13 +59,13 @@
         "sample_run\\frames\\scene_01_end.jpg"
       ],
       "dialogue_evidence": {
-        "source": "D:\\Autonomous_Trailer_Director\\sample_data\\media\\episode_01.mp4",
+        "source": "sample_data\\media\\episode_01.mp4",
         "source_type": "METADATA",
-        "verification_method": "metadata_grounding",
+        "verification_method": "NOT_PERFORMED",
         "verified": true,
         "timestamp": null,
         "metadata_text": "",
-        "asr_text": "",
+        "asr_text": "AUDIO_STREAM_NOT_AVAILABLE",
         "match": true,
         "asr_engine": "NONE",
         "is_asr_output": false,
@@ -134,12 +140,18 @@
       "evidence": [
         "scene:scene_05",
         "dialogue:dial_05",
-        "subtitle:sub_05"
+        "subtitle:sub_05",
+        "vision_observation:Frame visually confirms: Village square artisan council. Elder weavers discuss local price gouging. Raghu speaks with quiet dignity in local dialect, earning unanimous respect.. Segment reason: Showcase regional self-respect, community agency, and cultural pride",
+        "vision_confidence:0.95",
+        "vision_source:REPLAY_FIXTURE",
+        "vision_observation:Frame visually confirms: Village square artisan council. Elder weavers discuss local price gouging. Raghu speaks with quiet dignity in local dialect, earning unanimous respect.. Segment reason: Showcase regional self-respect, community agency, and cultural pride",
+        "vision_confidence:0.95",
+        "vision_source:REPLAY_FIXTURE"
       ],
       "risk_flags": [],
       "source": {
-        "source": "D:\\Autonomous_Trailer_Director\\sample_data\\media\\episode_01.mp4",
-        "source_type": "REAL_MEDIA",
+        "source": "sample_data\\media\\episode_01.mp4",
+        "source_type": "REPLAY_FIXTURE",
         "verification_method": "opencv_inspection",
         "verified": true,
         "timestamp": "550.0",
@@ -158,13 +170,13 @@
         "sample_run\\frames\\scene_05_end.jpg"
       ],
       "dialogue_evidence": {
-        "source": "D:\\Autonomous_Trailer_Director\\sample_data\\media\\episode_01.mp4",
+        "source": "sample_data\\media\\episode_01.mp4",
         "source_type": "METADATA",
-        "verification_method": "metadata_grounding",
+        "verification_method": "NOT_PERFORMED",
         "verified": true,
         "timestamp": null,
         "metadata_text": "",
-        "asr_text": "",
+        "asr_text": "AUDIO_STREAM_NOT_AVAILABLE",
         "match": true,
         "asr_engine": "NONE",
         "is_asr_output": false,
@@ -239,12 +251,18 @@
       "evidence": [
         "scene:scene_06",
         "dialogue:dial_06",
-        "subtitle:sub_06"
+        "subtitle:sub_06",
+        "vision_observation:Frame visually confirms: Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.. Segment reason: Highlight linguistic pride and emotional resonance with dialect audience",
+        "vision_confidence:0.95",
+        "vision_source:REPLAY_FIXTURE",
+        "vision_observation:Frame visually confirms: Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.. Segment reason: Highlight linguistic pride and emotional resonance with dialect audience",
+        "vision_confidence:0.95",
+        "vision_source:REPLAY_FIXTURE"
       ],
       "risk_flags": [],
       "source": {
-        "source": "D:\\Autonomous_Trailer_Director\\sample_data\\media\\episode_01.mp4",
-        "source_type": "REAL_MEDIA",
+        "source": "sample_data\\media\\episode_01.mp4",
+        "source_type": "REPLAY_FIXTURE",
         "verification_method": "opencv_inspection",
         "verified": true,
         "timestamp": "660.0",
@@ -263,13 +281,13 @@
         "sample_run\\frames\\scene_06_end.jpg"
       ],
       "dialogue_evidence": {
-        "source": "D:\\Autonomous_Trailer_Director\\sample_data\\media\\episode_01.mp4",
+        "source": "sample_data\\media\\episode_01.mp4",
         "source_type": "METADATA",
-        "verification_method": "metadata_grounding",
+        "verification_method": "NOT_PERFORMED",
         "verified": true,
         "timestamp": null,
         "metadata_text": "",
-        "asr_text": "",
+        "asr_text": "AUDIO_STREAM_NOT_AVAILABLE",
         "match": true,
         "asr_engine": "NONE",
         "is_asr_output": false,
@@ -344,12 +362,18 @@
       "evidence": [
         "scene:scene_09",
         "dialogue:dial_09",
-        "subtitle:sub_09"
+        "subtitle:sub_09",
+        "vision_observation:Frame visually confirms: Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.. Segment reason: Authentic regional celebration without exaggeration or stereotyping",
+        "vision_confidence:0.95",
+        "vision_source:REPLAY_FIXTURE",
+        "vision_observation:Frame visually confirms: Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.. Segment reason: Authentic regional celebration without exaggeration or stereotyping",
+        "vision_confidence:0.95",
+        "vision_source:REPLAY_FIXTURE"
       ],
       "risk_flags": [],
       "source": {
-        "source": "D:\\Autonomous_Trailer_Director\\sample_data\\media\\episode_01.mp4",
-        "source_type": "REAL_MEDIA",
+        "source": "sample_data\\media\\episode_01.mp4",
+        "source_type": "REPLAY_FIXTURE",
         "verification_method": "opencv_inspection",
         "verified": true,
         "timestamp": "1100.0",
@@ -368,13 +392,13 @@
         "sample_run\\frames\\scene_09_end.jpg"
       ],
       "dialogue_evidence": {
-        "source": "D:\\Autonomous_Trailer_Director\\sample_data\\media\\episode_01.mp4",
+        "source": "sample_data\\media\\episode_01.mp4",
         "source_type": "METADATA",
-        "verification_method": "metadata_grounding",
+        "verification_method": "NOT_PERFORMED",
         "verified": true,
         "timestamp": null,
         "metadata_text": "",
-        "asr_text": "",
+        "asr_text": "AUDIO_STREAM_NOT_AVAILABLE",
         "match": true,
         "asr_engine": "NONE",
         "is_asr_output": false,

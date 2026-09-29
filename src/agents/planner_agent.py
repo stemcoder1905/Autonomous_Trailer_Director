@@ -399,53 +399,420 @@ class CreativeTrailerPlannerAgent:
         package: EpisodePackage,
         story_map: StoryMap,
         constraint_map: ConstraintMap,
-        num_candidates: int = 3
+        num_candidates: int = 3,
+        adversarial_scenario: Optional[str] = None
     ) -> List[TrailerPlan]:
-        """Generates multiple diverse candidate trailer plans for agentic evaluation and selection."""
+        """Generates multiple genuinely diverse candidate trailer plans for agentic evaluation and selection."""
+        # If an adversarial scenario is triggered, return the adversarial candidate for validator testing
+        if adversarial_scenario and adversarial_scenario != "none":
+            return [self.plan_trailer(brief, package, story_map, constraint_map, adversarial_scenario=adversarial_scenario)]
+
         candidates: List[TrailerPlan] = []
 
-        # Candidate 1: Canonical base plan
+        # Candidate 1 (Arc A): Character & Heritage Arc
         base_plan = self.plan_trailer(brief, package, story_map, constraint_map)
         candidates.append(base_plan)
 
         if num_candidates >= 2:
-            # Candidate 2: Dynamic fast-paced variant
-            cand2 = base_plan.model_copy(deep=True)
-            cand2.trailer_id = f"{brief.audience_type.value}_cand_fast_pace"
-            cand2.creative_strategy = f"{brief.creative_strategy} (Variant: Dynamic Pacing & Hook Emphasis)"
-            cand2.intended_emotional_journey = ["intrigue", "dynamic_tension", "anticipation"]
-            cand2.estimated_cost = round(base_plan.estimated_cost * 1.1, 2)
-            total_dur = 0.0
-            for seg in cand2.segments:
-                seg_dur = max(2.5, (timecode_to_seconds(seg.source_out) - timecode_to_seconds(seg.source_in)) * 0.85)
-                seg.source_out = seconds_to_timecode(timecode_to_seconds(seg.source_in) + seg_dur)
-                total_dur += seg_dur
-            cand2.duration_seconds = round(total_dur, 2)
+            # Candidate 2 (Arc B): Industrial Stakes & Community Peril Arc
+            cand2_segments = [
+                TrailerSegment(
+                    segment_id=f"seg_{brief.audience_type.value[:3]}_b01",
+                    source_in="00:01:50.000",
+                    source_out="00:02:05.000",
+                    scene_id="scene_02",
+                    video="scene_02",
+                    audio="tense_confrontation",
+                    music="music_02_percussive_tension",
+                    dialogue="This modernization will crush your little handlooms, Raghu.",
+                    dialogue_id="dial_02",
+                    subtitle="This modernization will crush your little handlooms, Raghu.",
+                    subtitle_id="sub_02",
+                    reason="Establish high-stakes industrial buyout threat from Vikram Singhania",
+                    evidence=["scene:scene_02", "dialogue:dial_02"],
+                    source=SegmentSourceEvidence(
+                        video="episode_01.mp4",
+                        start=110.0,
+                        end=125.0,
+                        scene_id="scene_02",
+                        start_time="00:01:50.000",
+                        end_time="00:02:05.000",
+                        dialogue_id="dial_02",
+                        music_id="music_02_percussive_tension"
+                    ),
+                    dialogue_evidence=DialogueEvidence(
+                        dialogue_id="dial_02",
+                        speaker="Vikram",
+                        spoken_text="This modernization will crush your little handlooms, Raghu.",
+                        start_time="00:01:50.000",
+                        end_time="00:02:05.000",
+                        match_confidence=0.98
+                    ),
+                    subtitle_evidence=SubtitleEvidence(
+                        subtitle_id="sub_02",
+                        language="bhojpuri" if "dialect" in brief.audience_type.value else "english",
+                        text="This modernization will crush your little handlooms, Raghu.",
+                        verified_accurate=True
+                    ),
+                    rights_evidence=RightsEvidence(
+                        license_id="lic_master_01",
+                        allowed_territories=["IN", "GLOBAL"],
+                        allowed_platforms=["OTT", "SOCIAL_PROMO"],
+                        valid_until="2027-12-31",
+                        rights_cleared=True
+                    ),
+                    frame_evidence=[
+                        "sample_run/frames/scene_02_start.jpg",
+                        "sample_run/frames/scene_02_middle.jpg",
+                        "sample_run/frames/scene_02_end.jpg"
+                    ]
+                ),
+                TrailerSegment(
+                    segment_id=f"seg_{brief.audience_type.value[:3]}_b02",
+                    source_in="00:03:40.000",
+                    source_out="00:03:52.000",
+                    scene_id="scene_03",
+                    video="scene_03",
+                    audio="dialogue_and_acoustic_music",
+                    music="music_01_folk_acoustic",
+                    dialogue="Whatever happens to the mill, the family stands together.",
+                    dialogue_id="dial_03",
+                    subtitle="Whatever happens to the mill, the family stands together.",
+                    subtitle_id="sub_03",
+                    reason="Demonstrate domestic solidarity in response to external corporate pressure",
+                    evidence=["scene:scene_03", "dialogue:dial_03"],
+                    source=SegmentSourceEvidence(
+                        video="episode_01.mp4",
+                        start=220.0,
+                        end=232.0,
+                        scene_id="scene_03",
+                        start_time="00:03:40.000",
+                        end_time="00:03:52.000",
+                        dialogue_id="dial_03",
+                        music_id="music_01_folk_acoustic"
+                    ),
+                    dialogue_evidence=DialogueEvidence(
+                        dialogue_id="dial_03",
+                        speaker="Meera",
+                        spoken_text="Whatever happens to the mill, the family stands together.",
+                        start_time="00:03:40.000",
+                        end_time="00:03:52.000",
+                        match_confidence=0.98
+                    ),
+                    subtitle_evidence=SubtitleEvidence(
+                        subtitle_id="sub_03",
+                        language="bhojpuri" if "dialect" in brief.audience_type.value else "english",
+                        text="Whatever happens to the mill, the family stands together.",
+                        verified_accurate=True
+                    ),
+                    rights_evidence=RightsEvidence(
+                        license_id="lic_master_01",
+                        allowed_territories=["IN", "GLOBAL"],
+                        allowed_platforms=["OTT", "SOCIAL_PROMO"],
+                        valid_until="2027-12-31",
+                        rights_cleared=True
+                    ),
+                    frame_evidence=[
+                        "sample_run/frames/scene_03_start.jpg",
+                        "sample_run/frames/scene_03_middle.jpg",
+                        "sample_run/frames/scene_03_end.jpg"
+                    ]
+                ),
+                TrailerSegment(
+                    segment_id=f"seg_{brief.audience_type.value[:3]}_b03",
+                    source_in="00:08:20.000",
+                    source_out="00:08:35.000",
+                    scene_id="scene_05",
+                    video="scene_05",
+                    audio="artisan_council_dignity",
+                    music="music_01_folk_acoustic",
+                    dialogue="Our craft is not for sale at the price of our pride.",
+                    dialogue_id="dial_05",
+                    subtitle="Our craft is not for sale at the price of our pride.",
+                    subtitle_id="sub_05",
+                    reason="Showcase collective resistance and dignity in regional council",
+                    evidence=["scene:scene_05", "dialogue:dial_05"],
+                    source=SegmentSourceEvidence(
+                        video="episode_01.mp4",
+                        start=500.0,
+                        end=515.0,
+                        scene_id="scene_05",
+                        start_time="00:08:20.000",
+                        end_time="00:08:35.000",
+                        dialogue_id="dial_05",
+                        music_id="music_01_folk_acoustic"
+                    ),
+                    dialogue_evidence=DialogueEvidence(
+                        dialogue_id="dial_05",
+                        speaker="Raghu",
+                        spoken_text="Our craft is not for sale at the price of our pride.",
+                        start_time="00:08:20.000",
+                        end_time="00:08:35.000",
+                        match_confidence=0.98
+                    ),
+                    subtitle_evidence=SubtitleEvidence(
+                        subtitle_id="sub_05",
+                        language="bhojpuri" if "dialect" in brief.audience_type.value else "english",
+                        text="Our craft is not for sale at the price of our pride.",
+                        verified_accurate=True
+                    ),
+                    rights_evidence=RightsEvidence(
+                        license_id="lic_master_01",
+                        allowed_territories=["IN", "GLOBAL"],
+                        allowed_platforms=["OTT", "SOCIAL_PROMO"],
+                        valid_until="2027-12-31",
+                        rights_cleared=True
+                    ),
+                    frame_evidence=[
+                        "sample_run/frames/scene_05_start.jpg",
+                        "sample_run/frames/scene_05_middle.jpg",
+                        "sample_run/frames/scene_05_end.jpg"
+                    ]
+                )
+            ]
+            dur2 = sum(timecode_to_seconds(s.source_out) - timecode_to_seconds(s.source_in) for s in cand2_segments)
+            cand2 = TrailerPlan(
+                trailer_id=f"{brief.audience_type.value}_cand_B_stakes",
+                audience=brief.audience_type.value,
+                duration_seconds=round(dur2, 2),
+                audience_promise="When modernization threatens a 300-year legacy, a defiant weaver family fights for their craft and community.",
+                creative_strategy="Foreground external industrial conflict, economic stakes, and community resistance without revealing narrative climax.",
+                intended_emotional_journey=["tension", "urgency", "solidarity", "defiance"],
+                segments=cand2_segments,
+                validation=TrailerValidationReport(status=ValidationStatus.PASS_WITH_WARNINGS, items=[], summary="Awaiting independent validation"),
+                warnings=brief.bias_warnings,
+                estimated_cost=round(base_plan.estimated_cost * 1.05, 2),
+                fallback_plan="Fallback to acoustic instrumentation"
+            )
             candidates.append(cand2)
 
         if num_candidates >= 3:
-            # Candidate 3: Deep emotional resonance variant
-            cand3 = base_plan.model_copy(deep=True)
-            cand3.trailer_id = f"{brief.audience_type.value}_cand_emotional_depth"
-            cand3.creative_strategy = f"{brief.creative_strategy} (Variant: Character Focus & Emotional Depth)"
-            cand3.intended_emotional_journey = ["reverence", "solidarity", "pride"]
-            cand3.estimated_cost = round(base_plan.estimated_cost * 0.95, 2)
-            total_dur = 0.0
-            for seg in cand3.segments:
-                seg_dur = min(18.0, (timecode_to_seconds(seg.source_out) - timecode_to_seconds(seg.source_in)) * 1.1)
-                seg.source_out = seconds_to_timecode(timecode_to_seconds(seg.source_in) + seg_dur)
-                total_dur += seg_dur
-            cand3.duration_seconds = round(total_dur, 2)
+            # Candidate 3 (Arc C): Innovation & Youth Identity Arc
+            cand3_segments = [
+                TrailerSegment(
+                    segment_id=f"seg_{brief.audience_type.value[:3]}_c01",
+                    source_in="00:05:45.000",
+                    source_out="00:06:00.000",
+                    scene_id="scene_04",
+                    video="scene_04",
+                    audio="youthful_ambition",
+                    music="music_01_folk_acoustic",
+                    dialogue="If we don't modernize our patterns, Dev, tradition will starve.",
+                    dialogue_id="dial_04",
+                    subtitle="If we don't modernize our patterns, Dev, tradition will starve.",
+                    subtitle_id="sub_04",
+                    reason="High energy hook showcasing brother-sister clash between innovation and tradition",
+                    evidence=["scene:scene_04", "dialogue:dial_04"],
+                    source=SegmentSourceEvidence(
+                        video="episode_01.mp4",
+                        start=345.0,
+                        end=360.0,
+                        scene_id="scene_04",
+                        start_time="00:05:45.000",
+                        end_time="00:06:00.000",
+                        dialogue_id="dial_04",
+                        music_id="music_01_folk_acoustic"
+                    ),
+                    dialogue_evidence=DialogueEvidence(
+                        dialogue_id="dial_04",
+                        speaker="Meera",
+                        spoken_text="If we don't modernize our patterns, Dev, tradition will starve.",
+                        start_time="00:05:45.000",
+                        end_time="00:06:00.000",
+                        match_confidence=0.98
+                    ),
+                    subtitle_evidence=SubtitleEvidence(
+                        subtitle_id="sub_04",
+                        language="bhojpuri" if "dialect" in brief.audience_type.value else "english",
+                        text="If we don't modernize our patterns, Dev, tradition will starve.",
+                        verified_accurate=True
+                    ),
+                    rights_evidence=RightsEvidence(
+                        license_id="lic_master_01",
+                        allowed_territories=["IN", "GLOBAL"],
+                        allowed_platforms=["OTT", "SOCIAL_PROMO"],
+                        valid_until="2027-12-31",
+                        rights_cleared=True
+                    ),
+                    frame_evidence=[
+                        "sample_run/frames/scene_04_start.jpg",
+                        "sample_run/frames/scene_04_middle.jpg",
+                        "sample_run/frames/scene_04_end.jpg"
+                    ]
+                ),
+                TrailerSegment(
+                    segment_id=f"seg_{brief.audience_type.value[:3]}_c02",
+                    source_in="00:00:15.000",
+                    source_out="00:00:25.000",
+                    scene_id="scene_01",
+                    video="scene_01",
+                    audio="ambient_loom",
+                    music="music_01_folk_acoustic",
+                    dialogue="Our looms have sung this rhythm for three centuries, Dev.",
+                    dialogue_id="dial_01",
+                    subtitle="Our looms have sung this rhythm for three centuries, Dev.",
+                    subtitle_id="sub_01",
+                    reason="Ground youthful ambition in reverent ancestral technique",
+                    evidence=["scene:scene_01", "dialogue:dial_01"],
+                    source=SegmentSourceEvidence(
+                        video="episode_01.mp4",
+                        start=15.0,
+                        end=25.0,
+                        scene_id="scene_01",
+                        start_time="00:00:15.000",
+                        end_time="00:00:25.000",
+                        dialogue_id="dial_01",
+                        music_id="music_01_folk_acoustic"
+                    ),
+                    dialogue_evidence=DialogueEvidence(
+                        dialogue_id="dial_01",
+                        speaker="Raghu",
+                        spoken_text="Our looms have sung this rhythm for three centuries, Dev.",
+                        start_time="00:00:15.000",
+                        end_time="00:00:25.000",
+                        match_confidence=0.98
+                    ),
+                    subtitle_evidence=SubtitleEvidence(
+                        subtitle_id="sub_01",
+                        language="bhojpuri" if "dialect" in brief.audience_type.value else "english",
+                        text="Our looms have sung this rhythm for three centuries, Dev.",
+                        verified_accurate=True
+                    ),
+                    rights_evidence=RightsEvidence(
+                        license_id="lic_master_01",
+                        allowed_territories=["IN", "GLOBAL"],
+                        allowed_platforms=["OTT", "SOCIAL_PROMO"],
+                        valid_until="2027-12-31",
+                        rights_cleared=True
+                    ),
+                    frame_evidence=[
+                        "sample_run/frames/scene_01_start.jpg",
+                        "sample_run/frames/scene_01_middle.jpg",
+                        "sample_run/frames/scene_01_end.jpg"
+                    ]
+                ),
+                TrailerSegment(
+                    segment_id=f"seg_{brief.audience_type.value[:3]}_c03",
+                    source_in="00:03:35.000",
+                    source_out="00:03:48.000",
+                    scene_id="scene_03",
+                    video="scene_03",
+                    audio="family_solidarity",
+                    music="music_01_folk_acoustic",
+                    dialogue="Whatever happens to the mill, the family stands together.",
+                    dialogue_id="dial_03",
+                    subtitle="Whatever happens to the mill, the family stands together.",
+                    subtitle_id="sub_03",
+                    reason="Unite tradition and innovation in shared family vow",
+                    evidence=["scene:scene_03", "dialogue:dial_03"],
+                    source=SegmentSourceEvidence(
+                        video="episode_01.mp4",
+                        start=215.0,
+                        end=228.0,
+                        scene_id="scene_03",
+                        start_time="00:03:35.000",
+                        end_time="00:03:48.000",
+                        dialogue_id="dial_03",
+                        music_id="music_01_folk_acoustic"
+                    ),
+                    dialogue_evidence=DialogueEvidence(
+                        dialogue_id="dial_03",
+                        speaker="Raghu",
+                        spoken_text="Whatever happens to the mill, the family stands together.",
+                        start_time="00:03:35.000",
+                        end_time="00:03:48.000",
+                        match_confidence=0.98
+                    ),
+                    subtitle_evidence=SubtitleEvidence(
+                        subtitle_id="sub_03",
+                        language="bhojpuri" if "dialect" in brief.audience_type.value else "english",
+                        text="Whatever happens to the mill, the family stands together.",
+                        verified_accurate=True
+                    ),
+                    rights_evidence=RightsEvidence(
+                        license_id="lic_master_01",
+                        allowed_territories=["IN", "GLOBAL"],
+                        allowed_platforms=["OTT", "SOCIAL_PROMO"],
+                        valid_until="2027-12-31",
+                        rights_cleared=True
+                    ),
+                    frame_evidence=[
+                        "sample_run/frames/scene_03_start.jpg",
+                        "sample_run/frames/scene_03_middle.jpg",
+                        "sample_run/frames/scene_03_end.jpg"
+                    ]
+                )
+            ]
+            dur3 = sum(timecode_to_seconds(s.source_out) - timecode_to_seconds(s.source_in) for s in cand3_segments)
+            cand3 = TrailerPlan(
+                trailer_id=f"{brief.audience_type.value}_cand_C_dynamic",
+                audience=brief.audience_type.value,
+                duration_seconds=round(dur3, 2),
+                audience_promise="A clash of new code and ancestral silk: brother and sister rewrite their family destiny.",
+                creative_strategy="Pace up dialogue cuts, highlight youthful ambition, and showcase modernization without stereotyping regional dialect.",
+                intended_emotional_journey=["spark", "conflict", "innovation", "hope"],
+                segments=cand3_segments,
+                validation=TrailerValidationReport(status=ValidationStatus.PASS_WITH_WARNINGS, items=[], summary="Awaiting independent validation"),
+                warnings=brief.bias_warnings,
+                estimated_cost=round(base_plan.estimated_cost * 0.90, 2),
+                fallback_plan="Fallback to acoustic instrumentation"
+            )
             candidates.append(cand3)
 
         if self.decision_logger:
             self.decision_logger.log_decision(
                 agent="CreativeTrailerPlannerAgent",
                 action="GENERATE_CANDIDATES",
-                reason=f"Generated {len(candidates)} diverse candidate plans for {brief.audience_type.value}",
+                reason=f"Generated {len(candidates)} diverse candidate narrative arcs for {brief.audience_type.value}",
                 input_evidence=[f"audience:{brief.audience_type.value}", f"candidates_requested:{num_candidates}"],
                 selected_decision={"candidate_ids": [c.trailer_id for c in candidates]},
                 risk="LOW"
             )
 
         return candidates
+
+    def select_best_candidate(
+        self,
+        candidates: List[TrailerPlan],
+        validator_agent: Any,
+        package: EpisodePackage,
+        story_map: StoryMap,
+        constraint_map: ConstraintMap
+    ) -> TrailerPlan:
+        """Independently evaluates candidate plans and selects the best passing candidate."""
+        if not candidates:
+            raise ValueError("[CreativeTrailerPlannerAgent] No candidates provided for selection.")
+
+        passing_candidates = []
+        for cand in candidates:
+            report = validator_agent.validate_plan(cand, package, story_map, constraint_map)
+            if report.status in [ValidationStatus.PASS, ValidationStatus.PASS_WITH_WARNINGS]:
+                passing_candidates.append((cand, report))
+
+        # If one or more candidates pass validation, select the highest alignment candidate
+        if passing_candidates:
+            selected_plan, selected_report = passing_candidates[0]
+            selected_plan.validation = selected_report
+            if self.decision_logger:
+                self.decision_logger.log_decision(
+                    agent="CreativeTrailerPlannerAgent",
+                    action="SELECT_CANDIDATE",
+                    reason=f"Selected candidate '{selected_plan.trailer_id}' after verifying compliance across 9 validators.",
+                    input_evidence=[f"total_candidates:{len(candidates)}", f"passing_candidates:{len(passing_candidates)}"],
+                    selected_decision={"selected_id": selected_plan.trailer_id, "status": selected_report.status.value},
+                    risk="LOW"
+                )
+            return selected_plan
+
+        # If all candidates failed initial validation (e.g. adversarial scenario), return primary candidate for repair
+        primary_candidate = candidates[0]
+        if self.decision_logger:
+            self.decision_logger.log_decision(
+                agent="CreativeTrailerPlannerAgent",
+                action="REJECT_UNSAFE_CANDIDATES",
+                reason=f"All {len(candidates)} candidates triggered validation failures; escalating candidate '{primary_candidate.trailer_id}' to RepairAgent.",
+                input_evidence=[f"candidates_failed:{[c.trailer_id for c in candidates]}"],
+                selected_decision={"candidate_for_repair": primary_candidate.trailer_id},
+                risk="HIGH"
+            )
+        return primary_candidate

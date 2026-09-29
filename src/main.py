@@ -161,7 +161,7 @@ def main():
 
     simulate_model_failure = (args.scenario == "model_failure")
     provider_mgr = ProviderManager(
-        preferred_provider="mock" if args.mode == "replay" else "primary",
+        preferred_provider="mock" if args.mode == "replay" else "live",
         simulate_primary_failure=simulate_model_failure
     )
 

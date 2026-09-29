@@ -28,12 +28,18 @@
       "reason": "Establish serene village heritage and intergenerational bond between father and son",
       "evidence": [
         "scene:scene_01",
-        "dialogue:dial_01"
+        "dialogue:dial_01",
+        "vision_observation:Frame visually confirms: Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.. Segment reason: Establish serene village heritage and intergenerational bond between father and son",
+        "vision_confidence:0.95",
+        "vision_source:REPLAY_FIXTURE",
+        "vision_observation:Frame visually confirms: Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.. Segment reason: Establish serene village heritage and intergenerational bond between father and son",
+        "vision_confidence:0.95",
+        "vision_source:REPLAY_FIXTURE"
       ],
       "risk_flags": [],
       "source": {
-        "source": "D:\\Autonomous_Trailer_Director\\sample_data\\media\\episode_01.mp4",
-        "source_type": "REAL_MEDIA",
+        "source": "sample_data\\media\\episode_01.mp4",
+        "source_type": "REPLAY_FIXTURE",
         "verification_method": "opencv_inspection",
         "verified": true,
         "timestamp": "10.0",
@@ -52,13 +58,13 @@
         "sample_run\\frames\\scene_01_end.jpg"
       ],
       "dialogue_evidence": {
-        "source": "D:\\Autonomous_Trailer_Director\\sample_data\\media\\episode_01.mp4",
+        "source": "sample_data\\media\\episode_01.mp4",
         "source_type": "METADATA",
-        "verification_method": "metadata_grounding",
+        "verification_method": "NOT_PERFORMED",
         "verified": true,
         "timestamp": null,
         "metadata_text": "",
-        "asr_text": "",
+        "asr_text": "AUDIO_STREAM_NOT_AVAILABLE",
         "match": true,
         "asr_engine": "NONE",
         "is_asr_output": false,
@@ -132,12 +138,18 @@
       "reason": "Highlight family solidarity and emotional anchor",
       "evidence": [
         "scene:scene_03",
-        "dialogue:dial_03"
+        "dialogue:dial_03",
+        "vision_observation:Frame visually confirms: Courtyard meeting. Meera brings steaming chai to her father Raghu and brother Dev. They vow to defend the cooperative and finish the regional heritage weave.. Segment reason: Highlight family solidarity and emotional anchor",
+        "vision_confidence:0.95",
+        "vision_source:REPLAY_FIXTURE",
+        "vision_observation:Frame visually confirms: Courtyard meeting. Meera brings steaming chai to her father Raghu and brother Dev. They vow to defend the cooperative and finish the regional heritage weave.. Segment reason: Highlight family solidarity and emotional anchor",
+        "vision_confidence:0.95",
+        "vision_source:REPLAY_FIXTURE"
       ],
       "risk_flags": [],
       "source": {
-        "source": "D:\\Autonomous_Trailer_Director\\sample_data\\media\\episode_01.mp4",
-        "source_type": "REAL_MEDIA",
+        "source": "sample_data\\media\\episode_01.mp4",
+        "source_type": "REPLAY_FIXTURE",
         "verification_method": "opencv_inspection",
         "verified": true,
         "timestamp": "255.0",
@@ -156,13 +168,13 @@
         "sample_run\\frames\\scene_03_end.jpg"
       ],
       "dialogue_evidence": {
-        "source": "D:\\Autonomous_Trailer_Director\\sample_data\\media\\episode_01.mp4",
+        "source": "sample_data\\media\\episode_01.mp4",
         "source_type": "METADATA",
-        "verification_method": "metadata_grounding",
+        "verification_method": "NOT_PERFORMED",
         "verified": true,
         "timestamp": null,
         "metadata_text": "",
-        "asr_text": "",
+        "asr_text": "AUDIO_STREAM_NOT_AVAILABLE",
         "match": true,
         "asr_engine": "NONE",
         "is_asr_output": false,
@@ -236,12 +248,18 @@
       "reason": "Inspiring call to unity and cooperative progress",
       "evidence": [
         "scene:scene_06",
-        "dialogue:dial_06"
+        "dialogue:dial_06",
+        "vision_observation:Frame visually confirms: Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.. Segment reason: Inspiring call to unity and cooperative progress",
+        "vision_confidence:0.95",
+        "vision_source:REPLAY_FIXTURE",
+        "vision_observation:Frame visually confirms: Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.. Segment reason: Inspiring call to unity and cooperative progress",
+        "vision_confidence:0.95",
+        "vision_source:REPLAY_FIXTURE"
       ],
       "risk_flags": [],
       "source": {
-        "source": "D:\\Autonomous_Trailer_Director\\sample_data\\media\\episode_01.mp4",
-        "source_type": "REAL_MEDIA",
+        "source": "sample_data\\media\\episode_01.mp4",
+        "source_type": "REPLAY_FIXTURE",
         "verification_method": "opencv_inspection",
         "verified": true,
         "timestamp": "660.0",
@@ -260,13 +278,13 @@
         "sample_run\\frames\\scene_06_end.jpg"
       ],
       "dialogue_evidence": {
-        "source": "D:\\Autonomous_Trailer_Director\\sample_data\\media\\episode_01.mp4",
+        "source": "sample_data\\media\\episode_01.mp4",
         "source_type": "METADATA",
-        "verification_method": "metadata_grounding",
+        "verification_method": "NOT_PERFORMED",
         "verified": true,
         "timestamp": null,
         "metadata_text": "",
-        "asr_text": "",
+        "asr_text": "AUDIO_STREAM_NOT_AVAILABLE",
         "match": true,
         "asr_engine": "NONE",
         "is_asr_output": false,
@@ -340,12 +358,18 @@
       "reason": "Climactic emotional uplift and joyous family resolution",
       "evidence": [
         "scene:scene_09",
-        "dialogue:dial_09"
+        "dialogue:dial_09",
+        "vision_observation:Frame visually confirms: Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.. Segment reason: Climactic emotional uplift and joyous family resolution",
+        "vision_confidence:0.95",
+        "vision_source:REPLAY_FIXTURE",
+        "vision_observation:Frame visually confirms: Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.. Segment reason: Climactic emotional uplift and joyous family resolution",
+        "vision_confidence:0.95",
+        "vision_source:REPLAY_FIXTURE"
       ],
       "risk_flags": [],
       "source": {
-        "source": "D:\\Autonomous_Trailer_Director\\sample_data\\media\\episode_01.mp4",
-        "source_type": "REAL_MEDIA",
+        "source": "sample_data\\media\\episode_01.mp4",
+        "source_type": "REPLAY_FIXTURE",
         "verification_method": "opencv_inspection",
         "verified": true,
         "timestamp": "1100.0",
@@ -364,13 +388,13 @@
         "sample_run\\frames\\scene_09_end.jpg"
       ],
       "dialogue_evidence": {
-        "source": "D:\\Autonomous_Trailer_Director\\sample_data\\media\\episode_01.mp4",
+        "source": "sample_data\\media\\episode_01.mp4",
         "source_type": "METADATA",
-        "verification_method": "metadata_grounding",
+        "verification_method": "NOT_PERFORMED",
         "verified": true,
         "timestamp": null,
         "metadata_text": "",
-        "asr_text": "",
+        "asr_text": "AUDIO_STREAM_NOT_AVAILABLE",
         "match": true,
         "asr_engine": "NONE",
         "is_asr_output": false,

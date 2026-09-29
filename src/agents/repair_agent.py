@@ -126,11 +126,11 @@ class RepairAgent:
                 if fails:
                     top = fails[0]
                     if "rights" in top.validator:
-                        current_plan.approval_type = "RIGHTS"
-                    elif "spoiler" in top.validator:
-                        current_plan.approval_type = "SPOILER"
-                    elif "rating" in top.validator:
-                        current_plan.approval_type = "RATING"
+                        current_plan.approval_type = "LEGAL"
+                    elif "cultural" in top.validator or "bias" in top.validator:
+                        current_plan.approval_type = "CULTURAL"
+                    elif "spoiler" in top.validator or "story_truth" in top.validator:
+                        current_plan.approval_type = "EDITORIAL"
                     else:
                         current_plan.approval_type = "CREATIVE"
                     current_plan.approval_reason = top.message
