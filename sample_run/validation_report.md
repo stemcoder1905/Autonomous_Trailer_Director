@@ -2,22 +2,22 @@
 
 **Episode ID:** `ep_101`  
 **Title:** The Weaver's Secret - Episode 1: The Singing Loom  
-**Active Scenario:** `contract_change`  
-**Total Estimated AI Cost:** `$1.270 USD`  
+**Active Scenario:** `spoiler`  
+**Total Estimated AI Cost:** `$0.150 USD`  
 
 ## 1. Trailer Plans Summary
 
 | Trailer ID | Audience | Duration | Status | Segments | Human Review Required |
 |---|---|---|---|---|---|
-| `family_v1` | family | 44.0s | **PASS_WITH_WARNINGS** | 4 | No |
-| `young_adult_v1` | young_adult | 38.0s | **PASS_WITH_WARNINGS** | 4 | No |
-| `dialect_region_v1` | dialect_region | 54.0s | **PASS_WITH_WARNINGS** | 4 | No |
+| `spoiler_adversarial_v1` | family | 35.0s | **PASS** | 1 | No |
+| `spoiler_adversarial_v1` | young_adult | 35.0s | **PASS** | 1 | No |
+| `spoiler_adversarial_v1` | dialect_region | 35.0s | **PASS** | 1 | No |
 
 ## 2. Independent Validation Findings
 
-### Trailer: `family_v1` (family)
-**Overall Status:** `PASS_WITH_WARNINGS`  
-**Summary:** VALIDATION PASSED WITH WARNINGS: 1 non-critical warnings noted.
+### Trailer: `spoiler_adversarial_v1` (family)
+**Overall Status:** `PASS`  
+**Summary:** VALIDATION PASSED: All 9 independent validators verified compliance with rights, rating, truth, and safety.
 
 | Validator | Status | Severity | Message |
 |---|---|---|---|
@@ -27,13 +27,13 @@
 | `rights_validator` | PASS | LOW | All music, actor, and scene rights cleared and active under current contract licenses. |
 | `rating_validator` | PASS | LOW | Content rating fully compliant with family policy standards. |
 | `cultural_validator` | PASS | LOW | Cultural authenticity and dialect subtitle semantics verified with dignity. |
-| `bias_validator` | PASS_WITH_WARNINGS | MEDIUM | Acknowledged dataset bias warning: Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!] |
+| `bias_validator` | PASS | LOW | No algorithmic bias or geographic stereotyping detected in trailer plan. |
 | `accessibility_validator` | PASS | LOW | Full accessibility compliance: verified subtitle presence, CPS thresholds, and timing. |
-| `budget_validator` | PASS | LOW | Budget compliance verified: estimated cost ($0.45 USD) within $25.00 limit. |
+| `budget_validator` | PASS | LOW | Budget compliance verified: estimated cost ($0.05 USD) within $25.00 limit. |
 
-### Trailer: `young_adult_v1` (young_adult)
-**Overall Status:** `PASS_WITH_WARNINGS`  
-**Summary:** VALIDATION PASSED WITH WARNINGS: 1 non-critical warnings noted.
+### Trailer: `spoiler_adversarial_v1` (young_adult)
+**Overall Status:** `PASS`  
+**Summary:** VALIDATION PASSED: All 9 independent validators verified compliance with rights, rating, truth, and safety.
 
 | Validator | Status | Severity | Message |
 |---|---|---|---|
@@ -43,13 +43,13 @@
 | `rights_validator` | PASS | LOW | All music, actor, and scene rights cleared and active under current contract licenses. |
 | `rating_validator` | PASS | LOW | Content rating fully compliant with young_adult policy standards. |
 | `cultural_validator` | PASS | LOW | Cultural authenticity and dialect subtitle semantics verified with dignity. |
-| `bias_validator` | PASS_WITH_WARNINGS | MEDIUM | Acknowledged dataset bias warning: Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!] |
+| `bias_validator` | PASS | LOW | No algorithmic bias or geographic stereotyping detected in trailer plan. |
 | `accessibility_validator` | PASS | LOW | Full accessibility compliance: verified subtitle presence, CPS thresholds, and timing. |
-| `budget_validator` | PASS | LOW | Budget compliance verified: estimated cost ($0.40 USD) within $25.00 limit. |
+| `budget_validator` | PASS | LOW | Budget compliance verified: estimated cost ($0.05 USD) within $25.00 limit. |
 
-### Trailer: `dialect_region_v1` (dialect_region)
-**Overall Status:** `PASS_WITH_WARNINGS`  
-**Summary:** VALIDATION PASSED WITH WARNINGS: 1 non-critical warnings noted.
+### Trailer: `spoiler_adversarial_v1` (dialect_region)
+**Overall Status:** `PASS`  
+**Summary:** VALIDATION PASSED: All 9 independent validators verified compliance with rights, rating, truth, and safety.
 
 | Validator | Status | Severity | Message |
 |---|---|---|---|
@@ -59,14 +59,6 @@
 | `rights_validator` | PASS | LOW | All music, actor, and scene rights cleared and active under current contract licenses. |
 | `rating_validator` | PASS | LOW | Content rating fully compliant with dialect_region policy standards. |
 | `cultural_validator` | PASS | LOW | Cultural authenticity and dialect subtitle semantics verified with dignity. |
-| `bias_validator` | PASS_WITH_WARNINGS | MEDIUM | Acknowledged dataset bias warning: Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!] |
+| `bias_validator` | PASS | LOW | No algorithmic bias or geographic stereotyping detected in trailer plan. |
 | `accessibility_validator` | PASS | LOW | Full accessibility compliance: verified subtitle presence, CPS thresholds, and timing. |
-| `budget_validator` | PASS | LOW | Budget compliance verified: estimated cost ($0.42 USD) within $25.00 limit. |
-
-## 3. Selective Replanning & Change Impact Analysis
-
-**Trigger:** Rule 'rule_contract_music_03' changed to EXPIRED  
-**Affected Trailers:** `['young_adult_v1']`  
-**Unaffected Trailers:** `['family_v1', 'dialect_region_v1']`  
-**Re-planning Justifications:**
-- Trailer 'young_adult_v1' references music_restriction 'music_03_synth_pulse' in segments ['seg_ya_01', 'seg_ya_02', 'seg_ya_03', 'seg_ya_04']. Triggered selective replanning.
+| `budget_validator` | PASS | LOW | Budget compliance verified: estimated cost ($0.05 USD) within $25.00 limit. |

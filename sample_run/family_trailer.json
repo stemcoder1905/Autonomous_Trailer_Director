@@ -1,103 +1,36 @@
 {
-  "trailer_id": "family_v1",
+  "trailer_id": "spoiler_adversarial_v1",
   "audience": "family",
-  "duration_seconds": 44.0,
-  "audience_promise": "A heartwarming saga of heritage, resilience, and family unity across generations.",
-  "creative_strategy": "Emphasize warmth, intergenerational bonds, and uplifting resolution while excluding all violence and spoilers.",
+  "duration_seconds": 35.0,
+  "audience_promise": "Shocking climax hook",
+  "creative_strategy": "Lead with highest engagement clip regardless of plot reveals",
   "intended_emotional_journey": [
-    "curiosity",
-    "warmth",
-    "gentle tension",
-    "triumph"
+    "shock"
   ],
   "segments": [
     {
-      "segment_id": "seg_fam_01",
-      "source_in": "00:00:10.000",
-      "source_out": "00:00:18.000",
-      "scene_id": "scene_01",
-      "video": "scene_01",
-      "audio": "ambient_loom_and_warm_score",
-      "dialogue": "Our looms have sung this rhythm for three centuries, Dev.",
-      "dialogue_id": "dial_01",
-      "subtitle": "Our looms have sung this rhythm for three centuries, Dev.",
-      "subtitle_id": "sub_01",
-      "text_card": "WHERE HERITAGE MEETS TOMORROW",
-      "voice_over": null,
-      "music": "music_01_folk_acoustic",
-      "reason": "Establish serene village heritage and intergenerational bond between father and son",
-      "evidence": [
-        "scene:scene_01",
-        "dialogue:dial_01"
-      ],
-      "risk_flags": []
-    },
-    {
-      "segment_id": "seg_fam_02",
-      "source_in": "00:04:15.000",
-      "source_out": "00:04:25.000",
-      "scene_id": "scene_03",
-      "video": "scene_03",
-      "audio": "dialogue_and_acoustic_music",
-      "dialogue": "Whatever happens to the mill, the family stands together.",
-      "dialogue_id": "dial_03",
-      "subtitle": "Whatever happens to the mill, the family stands together.",
-      "subtitle_id": "sub_03",
+      "segment_id": "seg_spoiler_01",
+      "source_in": "00:02:15.000",
+      "source_out": "00:02:20.000",
+      "scene_id": "scene_02",
+      "video": "scene_02",
+      "audio": "dialogue_twist",
+      "dialogue": "Your antique traditions won't survive the next export quarter.",
+      "dialogue_id": "dial_02",
+      "subtitle": "Your antique traditions won't survive the next export quarter.",
+      "subtitle_id": "sub_02",
       "text_card": null,
       "voice_over": null,
-      "music": "music_01_folk_acoustic",
-      "reason": "Highlight family solidarity and emotional anchor",
+      "music": null,
+      "reason": "Automated repair: replaced problematic scene scene_01 with safe candidate scene_02 [Repaired: restored faithful subtitle match]",
       "evidence": [
-        "scene:scene_03",
-        "dialogue:dial_03"
-      ],
-      "risk_flags": []
-    },
-    {
-      "segment_id": "seg_fam_03",
-      "source_in": "00:11:00.000",
-      "source_out": "00:11:12.000",
-      "scene_id": "scene_06",
-      "video": "scene_06",
-      "audio": "dialogue_and_gentle_strings",
-      "dialogue": "We can modernize the patterns without losing our soul.",
-      "dialogue_id": "dial_06",
-      "subtitle": "We can modernize the patterns without losing our soul.",
-      "subtitle_id": "sub_06",
-      "text_card": "A JOURNEY OF HEART AND HOPE",
-      "voice_over": null,
-      "music": "music_02_orchestral_strings",
-      "reason": "Inspiring call to unity and cooperative progress",
-      "evidence": [
-        "scene:scene_06",
-        "dialogue:dial_06"
-      ],
-      "risk_flags": []
-    },
-    {
-      "segment_id": "seg_fam_04",
-      "source_in": "00:18:20.000",
-      "source_out": "00:18:34.000",
-      "scene_id": "scene_09",
-      "video": "scene_09",
-      "audio": "triumphant_chorus",
-      "dialogue": "The village loom works once more!",
-      "dialogue_id": "dial_09",
-      "subtitle": "The village loom works once more!",
-      "subtitle_id": "sub_09",
-      "text_card": "STREAMING THIS FRIDAY",
-      "voice_over": null,
-      "music": "music_02_orchestral_strings",
-      "reason": "Climactic emotional uplift and joyous family resolution",
-      "evidence": [
-        "scene:scene_09",
-        "dialogue:dial_09"
+        "repaired_scene:scene_02"
       ],
       "risk_flags": []
     }
   ],
   "validation": {
-    "status": "PASS_WITH_WARNINGS",
+    "status": "PASS",
     "items": [
       {
         "validator": "source_validator",
@@ -105,7 +38,7 @@
         "severity": "LOW",
         "message": "All segments, timecodes, dialogue, and assets verified against episode source.",
         "evidence": [
-          "verified_segments:4"
+          "verified_segments:1"
         ],
         "affected_segments": [],
         "suggested_action": null,
@@ -163,12 +96,10 @@
       },
       {
         "validator": "bias_validator",
-        "status": "PASS_WITH_WARNINGS",
-        "severity": "MEDIUM",
-        "message": "Acknowledged dataset bias warning: Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]",
-        "evidence": [
-          "warning:Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]"
-        ],
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "No algorithmic bias or geographic stereotyping detected in trailer plan.",
+        "evidence": [],
         "affected_segments": [],
         "suggested_action": null,
         "suggested_replacement": null
@@ -187,24 +118,20 @@
         "validator": "budget_validator",
         "status": "PASS",
         "severity": "LOW",
-        "message": "Budget compliance verified: estimated cost ($0.45 USD) within $25.00 limit.",
+        "message": "Budget compliance verified: estimated cost ($0.05 USD) within $25.00 limit.",
         "evidence": [
-          "cost:0.45"
+          "cost:0.05"
         ],
         "affected_segments": [],
         "suggested_action": null,
         "suggested_replacement": null
       }
     ],
-    "summary": "VALIDATION PASSED WITH WARNINGS: 1 non-critical warnings noted."
+    "summary": "VALIDATION PASSED: All 9 independent validators verified compliance with rights, rating, truth, and safety."
   },
-  "warnings": [
-    "Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]"
-  ],
-  "assumptions": [
-    "Audio stems are cleared for broadcast in domestic territories"
-  ],
+  "warnings": [],
+  "assumptions": [],
   "human_approval_requirements": [],
-  "estimated_cost": 0.45,
-  "fallback_plan": "Replace orchestral music_02 with public domain acoustic tracks if rights expire"
+  "estimated_cost": 0.05,
+  "fallback_plan": "None"
 }

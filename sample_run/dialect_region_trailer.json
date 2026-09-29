@@ -1,107 +1,36 @@
 {
-  "trailer_id": "dialect_region_v1",
+  "trailer_id": "spoiler_adversarial_v1",
   "audience": "dialect_region",
-  "duration_seconds": 54.0,
-  "audience_promise": "An authentic, deeply grounded portrayal of rural craftsmanship, local wit, and regional dignity.",
-  "creative_strategy": "Ground narrative in authentic colloquial dialogue, vernacular proverbs, and artisans' pride, strictly avoiding urban mockery or stereotypes.",
+  "duration_seconds": 35.0,
+  "audience_promise": "Shocking climax hook",
+  "creative_strategy": "Lead with highest engagement clip regardless of plot reveals",
   "intended_emotional_journey": [
-    "cultural pride",
-    "nostalgia",
-    "respect",
-    "collective resolve"
+    "shock"
   ],
   "segments": [
     {
-      "segment_id": "seg_dia_01",
-      "source_in": "00:00:10.000",
-      "source_out": "00:00:22.000",
-      "scene_id": "scene_01",
-      "video": "scene_01",
-      "audio": "authentic_dialect_dialogue_and_flute",
-      "dialogue": "The warp knows your fingers before your mind even wakes up, young man.",
-      "dialogue_id": "dial_01",
-      "subtitle": "The warp knows your fingers before your mind even wakes up, young man.",
-      "subtitle_id": "sub_01",
-      "text_card": "OUR VOICE. OUR SOIL. OUR STORY.",
-      "voice_over": null,
-      "music": "music_01_folk_acoustic",
-      "reason": "Honor authentic regional idiom and respectful portrayal of traditional craftsmanship",
-      "evidence": [
-        "scene:scene_01",
-        "dialogue:dial_01",
-        "subtitle:sub_01"
-      ],
-      "risk_flags": []
-    },
-    {
-      "segment_id": "seg_dia_02",
-      "source_in": "00:09:10.000",
-      "source_out": "00:09:24.000",
-      "scene_id": "scene_05",
-      "video": "scene_05",
-      "audio": "village_square_chatter_and_music",
-      "dialogue": "A weaver doesn't beg for fair price; his cloth commands it with honor.",
-      "dialogue_id": "dial_05",
-      "subtitle": "A weaver doesn't beg for fair price; his cloth commands it with honor.",
-      "subtitle_id": "sub_05",
+      "segment_id": "seg_spoiler_01",
+      "source_in": "00:02:15.000",
+      "source_out": "00:02:20.000",
+      "scene_id": "scene_02",
+      "video": "scene_02",
+      "audio": "dialogue_twist",
+      "dialogue": "Your antique traditions won't survive the next export quarter.",
+      "dialogue_id": "dial_02",
+      "subtitle": "Your antique traditions won't survive the next export quarter.",
+      "subtitle_id": "sub_02",
       "text_card": null,
       "voice_over": null,
-      "music": "music_01_folk_acoustic",
-      "reason": "Showcase regional self-respect, community agency, and cultural pride",
+      "music": null,
+      "reason": "Automated repair: replaced problematic scene scene_01 with safe candidate scene_02 [Repaired: restored faithful subtitle match]",
       "evidence": [
-        "scene:scene_05",
-        "dialogue:dial_05",
-        "subtitle:sub_05"
-      ],
-      "risk_flags": []
-    },
-    {
-      "segment_id": "seg_dia_03",
-      "source_in": "00:11:00.000",
-      "source_out": "00:11:14.000",
-      "scene_id": "scene_06",
-      "video": "scene_06",
-      "audio": "heartfelt_discussion",
-      "dialogue": "When we speak in our mother tongue, even the wood of the loom nods.",
-      "dialogue_id": "dial_06",
-      "subtitle": "When we speak in our mother tongue, even the wood of the loom nods.",
-      "subtitle_id": "sub_06",
-      "text_card": "HONORING OUR ROOTS",
-      "voice_over": null,
-      "music": "music_01_folk_acoustic",
-      "reason": "Highlight linguistic pride and emotional resonance with dialect audience",
-      "evidence": [
-        "scene:scene_06",
-        "dialogue:dial_06",
-        "subtitle:sub_06"
-      ],
-      "risk_flags": []
-    },
-    {
-      "segment_id": "seg_dia_04",
-      "source_in": "00:18:20.000",
-      "source_out": "00:18:34.000",
-      "scene_id": "scene_09",
-      "video": "scene_09",
-      "audio": "festive_percussion_and_cheering",
-      "dialogue": "The village loom works once more!",
-      "dialogue_id": "dial_09",
-      "subtitle": "The village loom works once more!",
-      "subtitle_id": "sub_09",
-      "text_card": "PROUDLY PRESENTED IN BHOJPURI & MAITHILI",
-      "voice_over": null,
-      "music": "music_01_folk_acoustic",
-      "reason": "Authentic regional celebration without exaggeration or stereotyping",
-      "evidence": [
-        "scene:scene_09",
-        "dialogue:dial_09",
-        "subtitle:sub_09"
+        "repaired_scene:scene_02"
       ],
       "risk_flags": []
     }
   ],
   "validation": {
-    "status": "PASS_WITH_WARNINGS",
+    "status": "PASS",
     "items": [
       {
         "validator": "source_validator",
@@ -109,7 +38,7 @@
         "severity": "LOW",
         "message": "All segments, timecodes, dialogue, and assets verified against episode source.",
         "evidence": [
-          "verified_segments:4"
+          "verified_segments:1"
         ],
         "affected_segments": [],
         "suggested_action": null,
@@ -167,12 +96,10 @@
       },
       {
         "validator": "bias_validator",
-        "status": "PASS_WITH_WARNINGS",
-        "severity": "MEDIUM",
-        "message": "Acknowledged dataset bias warning: Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]",
-        "evidence": [
-          "warning:Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]"
-        ],
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "No algorithmic bias or geographic stereotyping detected in trailer plan.",
+        "evidence": [],
         "affected_segments": [],
         "suggested_action": null,
         "suggested_replacement": null
@@ -191,24 +118,20 @@
         "validator": "budget_validator",
         "status": "PASS",
         "severity": "LOW",
-        "message": "Budget compliance verified: estimated cost ($0.42 USD) within $25.00 limit.",
+        "message": "Budget compliance verified: estimated cost ($0.05 USD) within $25.00 limit.",
         "evidence": [
-          "cost:0.42"
+          "cost:0.05"
         ],
         "affected_segments": [],
         "suggested_action": null,
         "suggested_replacement": null
       }
     ],
-    "summary": "VALIDATION PASSED WITH WARNINGS: 1 non-critical warnings noted."
+    "summary": "VALIDATION PASSED: All 9 independent validators verified compliance with rights, rating, truth, and safety."
   },
-  "warnings": [
-    "Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]"
-  ],
-  "assumptions": [
-    "Subtitles retain precise regional dialect idioms"
-  ],
+  "warnings": [],
+  "assumptions": [],
   "human_approval_requirements": [],
-  "estimated_cost": 0.42,
-  "fallback_plan": "Retain primary folk acoustic track music_01"
+  "estimated_cost": 0.05,
+  "fallback_plan": "None"
 }

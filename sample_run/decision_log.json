@@ -1,7 +1,7 @@
 [
   {
     "log_id": "log_0001",
-    "timestamp": "2026-09-29T10:03:22.791956+00:00",
+    "timestamp": "2026-09-29T11:04:00.595227+00:00",
     "agent": "StoryUnderstandingAgent",
     "action": "ANALYZE_STORY",
     "input_evidence": [
@@ -23,7 +23,7 @@
   },
   {
     "log_id": "log_0002",
-    "timestamp": "2026-09-29T10:03:22.793347+00:00",
+    "timestamp": "2026-09-29T11:04:00.608454+00:00",
     "agent": "ConstraintAnalysisAgent",
     "action": "COMPILE_CONSTRAINTS",
     "input_evidence": [
@@ -45,7 +45,7 @@
   },
   {
     "log_id": "log_0003",
-    "timestamp": "2026-09-29T10:03:22.795164+00:00",
+    "timestamp": "2026-09-29T11:04:00.627254+00:00",
     "agent": "AudienceStrategyAgent",
     "action": "DEVELOP_STRATEGY",
     "input_evidence": [
@@ -73,29 +73,7 @@
   },
   {
     "log_id": "log_0004",
-    "timestamp": "2026-09-29T10:03:22.797619+00:00",
-    "agent": "CreativeTrailerPlannerAgent",
-    "action": "PLAN_TRAILER",
-    "input_evidence": [
-      "audience:family",
-      "scenes:['scene_01', 'scene_03', 'scene_06', 'scene_09']"
-    ],
-    "selected_decision": {
-      "trailer_id": "family_v1",
-      "duration": 44.0
-    },
-    "rejected_decisions": [],
-    "validation_results": [],
-    "risk": "LOW",
-    "cost": 0.05,
-    "affected_segments": [],
-    "revision": 1,
-    "reason": "Generated candidate plan with 4 segments for family",
-    "model_provider": "mock"
-  },
-  {
-    "log_id": "log_0005",
-    "timestamp": "2026-09-29T10:03:22.799369+00:00",
+    "timestamp": "2026-09-29T11:04:00.636787+00:00",
     "agent": "AudienceStrategyAgent",
     "action": "DEVELOP_STRATEGY",
     "input_evidence": [
@@ -122,30 +100,8 @@
     "model_provider": "mock"
   },
   {
-    "log_id": "log_0006",
-    "timestamp": "2026-09-29T10:03:22.801949+00:00",
-    "agent": "CreativeTrailerPlannerAgent",
-    "action": "PLAN_TRAILER",
-    "input_evidence": [
-      "audience:young_adult",
-      "scenes:['scene_02', 'scene_04', 'scene_07', 'scene_08']"
-    ],
-    "selected_decision": {
-      "trailer_id": "young_adult_v1",
-      "duration": 38.0
-    },
-    "rejected_decisions": [],
-    "validation_results": [],
-    "risk": "LOW",
-    "cost": 0.05,
-    "affected_segments": [],
-    "revision": 1,
-    "reason": "Generated candidate plan with 4 segments for young_adult",
-    "model_provider": "mock"
-  },
-  {
-    "log_id": "log_0007",
-    "timestamp": "2026-09-29T10:03:22.804611+00:00",
+    "log_id": "log_0005",
+    "timestamp": "2026-09-29T11:04:00.648887+00:00",
     "agent": "AudienceStrategyAgent",
     "action": "DEVELOP_STRATEGY",
     "input_evidence": [
@@ -172,40 +128,18 @@
     "model_provider": "mock"
   },
   {
-    "log_id": "log_0008",
-    "timestamp": "2026-09-29T10:03:22.807791+00:00",
-    "agent": "CreativeTrailerPlannerAgent",
-    "action": "PLAN_TRAILER",
-    "input_evidence": [
-      "audience:dialect_region",
-      "scenes:['scene_01', 'scene_05', 'scene_06', 'scene_09']"
-    ],
-    "selected_decision": {
-      "trailer_id": "dialect_region_v1",
-      "duration": 54.0
-    },
-    "rejected_decisions": [],
-    "validation_results": [],
-    "risk": "LOW",
-    "cost": 0.05,
-    "affected_segments": [],
-    "revision": 1,
-    "reason": "Generated candidate plan with 4 segments for dialect_region",
-    "model_provider": "mock"
-  },
-  {
-    "log_id": "log_0009",
-    "timestamp": "2026-09-29T10:03:22.811884+00:00",
+    "log_id": "log_0006",
+    "timestamp": "2026-09-29T11:04:00.658624+00:00",
     "agent": "IndependentValidationAgent",
     "action": "VALIDATE_TRAILER",
     "input_evidence": [
-      "trailer:family_v1",
-      "segments:4"
+      "trailer:spoiler_adversarial_v1",
+      "segments:1"
     ],
     "selected_decision": {
-      "status": "PASS_WITH_WARNINGS",
-      "failures": 0,
-      "warnings": 1
+      "status": "FAIL",
+      "failures": 7,
+      "warnings": 0
     },
     "rejected_decisions": [],
     "validation_results": [
@@ -215,7 +149,898 @@
         "severity": "LOW",
         "message": "All segments, timecodes, dialogue, and assets verified against episode source.",
         "evidence": [
-          "verified_segments:4"
+          "verified_segments:1"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "spoiler_validator",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "message": "Segment 'seg_spoiler_01' in scene 'scene_10' reveals MAJOR spoiler: Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage",
+        "evidence": [
+          "spoiler:spoil_01",
+          "fact:Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage",
+          "scene:scene_10"
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "REPLACE_SEGMENT",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "spoiler_validator",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "message": "Segment 'seg_spoiler_01' dialogue 'dial_10' leaks protected spoiler: Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage",
+        "evidence": [
+          "spoiler:spoil_01",
+          "dialogue:dial_10"
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "REMOVE_DIALOGUE",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "story_truth_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Story truth verified: all relationships and events conform to canon.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rights_validator",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "message": "Segment 'seg_spoiler_01' uses scene 'scene_10' which is under active contractual embargo: Scene 10 is embargoed from all promotional materials prior to full season release.",
+        "evidence": [
+          "rule_id:rule_contract_scene_10_embargo",
+          "scene:scene_10"
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "REPLACE_SEGMENT",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rights_validator",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "message": "Segment 'seg_spoiler_01' violates actor rider: All promotional visual and audio appearances of Sunil Pandit / Harish are strictly prohibited.",
+        "evidence": [
+          "rule_id:rule_contract_actor_harish",
+          "actor:actor:Sunil Pandit"
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "REPLACE_SEGMENT",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rating_validator",
+        "status": "FAIL",
+        "severity": "HIGH",
+        "message": "Segment 'seg_spoiler_01' uses scene 'scene_10' which is prohibited for audience 'family' due to content rating policy.",
+        "evidence": [
+          "policy:family",
+          "prohibited_scene:scene_10"
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "REPLACE_SEGMENT",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rating_validator",
+        "status": "FAIL",
+        "severity": "MEDIUM",
+        "message": "Family trailer includes unsuitable emotion 'shocking_betrayal' in scene 'scene_10'",
+        "evidence": [
+          "scene:scene_10",
+          "emotion:shocking_betrayal"
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "REPLACE_SEGMENT",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "cultural_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Cultural authenticity and dialect subtitle semantics verified with dignity.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "bias_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "No algorithmic bias or geographic stereotyping detected in trailer plan.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "accessibility_validator",
+        "status": "FAIL",
+        "severity": "HIGH",
+        "message": "Segment 'seg_spoiler_01' contains spoken dialogue without required accessible subtitles.",
+        "evidence": [
+          "segment:seg_spoiler_01",
+          "dialogue:You thought Vikram acted alone? It was always my money, nephew."
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "CHANGE_SUBTITLE",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "budget_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Budget compliance verified: estimated cost ($0.05 USD) within $25.00 limit.",
+        "evidence": [
+          "cost:0.05"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      }
+    ],
+    "risk": "HIGH",
+    "cost": 0.045,
+    "affected_segments": [],
+    "revision": 1,
+    "reason": "VALIDATION FAILED: 7 critical violations detected across 1 segments.",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0007",
+    "timestamp": "2026-09-29T11:04:00.698999+00:00",
+    "agent": "IndependentValidationAgent",
+    "action": "VALIDATE_TRAILER",
+    "input_evidence": [
+      "trailer:spoiler_adversarial_v1",
+      "segments:1"
+    ],
+    "selected_decision": {
+      "status": "FAIL",
+      "failures": 5,
+      "warnings": 0
+    },
+    "rejected_decisions": [],
+    "validation_results": [
+      {
+        "validator": "source_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "All segments, timecodes, dialogue, and assets verified against episode source.",
+        "evidence": [
+          "verified_segments:1"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "spoiler_validator",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "message": "Segment 'seg_spoiler_01' in scene 'scene_10' reveals MAJOR spoiler: Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage",
+        "evidence": [
+          "spoiler:spoil_01",
+          "fact:Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage",
+          "scene:scene_10"
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "REPLACE_SEGMENT",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "spoiler_validator",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "message": "Segment 'seg_spoiler_01' dialogue 'dial_10' leaks protected spoiler: Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage",
+        "evidence": [
+          "spoiler:spoil_01",
+          "dialogue:dial_10"
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "REMOVE_DIALOGUE",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "story_truth_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Story truth verified: all relationships and events conform to canon.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rights_validator",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "message": "Segment 'seg_spoiler_01' uses scene 'scene_10' which is under active contractual embargo: Scene 10 is embargoed from all promotional materials prior to full season release.",
+        "evidence": [
+          "rule_id:rule_contract_scene_10_embargo",
+          "scene:scene_10"
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "REPLACE_SEGMENT",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rights_validator",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "message": "Segment 'seg_spoiler_01' violates actor rider: All promotional visual and audio appearances of Sunil Pandit / Harish are strictly prohibited.",
+        "evidence": [
+          "rule_id:rule_contract_actor_harish",
+          "actor:actor:Sunil Pandit"
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "REPLACE_SEGMENT",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rating_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Content rating fully compliant with young_adult policy standards.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "cultural_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Cultural authenticity and dialect subtitle semantics verified with dignity.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "bias_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "No algorithmic bias or geographic stereotyping detected in trailer plan.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "accessibility_validator",
+        "status": "FAIL",
+        "severity": "HIGH",
+        "message": "Segment 'seg_spoiler_01' contains spoken dialogue without required accessible subtitles.",
+        "evidence": [
+          "segment:seg_spoiler_01",
+          "dialogue:You thought Vikram acted alone? It was always my money, nephew."
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "CHANGE_SUBTITLE",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "budget_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Budget compliance verified: estimated cost ($0.05 USD) within $25.00 limit.",
+        "evidence": [
+          "cost:0.05"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      }
+    ],
+    "risk": "HIGH",
+    "cost": 0.045,
+    "affected_segments": [],
+    "revision": 1,
+    "reason": "VALIDATION FAILED: 5 critical violations detected across 1 segments.",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0008",
+    "timestamp": "2026-09-29T11:04:00.730983+00:00",
+    "agent": "IndependentValidationAgent",
+    "action": "VALIDATE_TRAILER",
+    "input_evidence": [
+      "trailer:spoiler_adversarial_v1",
+      "segments:1"
+    ],
+    "selected_decision": {
+      "status": "FAIL",
+      "failures": 5,
+      "warnings": 0
+    },
+    "rejected_decisions": [],
+    "validation_results": [
+      {
+        "validator": "source_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "All segments, timecodes, dialogue, and assets verified against episode source.",
+        "evidence": [
+          "verified_segments:1"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "spoiler_validator",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "message": "Segment 'seg_spoiler_01' in scene 'scene_10' reveals MAJOR spoiler: Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage",
+        "evidence": [
+          "spoiler:spoil_01",
+          "fact:Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage",
+          "scene:scene_10"
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "REPLACE_SEGMENT",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "spoiler_validator",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "message": "Segment 'seg_spoiler_01' dialogue 'dial_10' leaks protected spoiler: Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage",
+        "evidence": [
+          "spoiler:spoil_01",
+          "dialogue:dial_10"
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "REMOVE_DIALOGUE",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "story_truth_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Story truth verified: all relationships and events conform to canon.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rights_validator",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "message": "Segment 'seg_spoiler_01' uses scene 'scene_10' which is under active contractual embargo: Scene 10 is embargoed from all promotional materials prior to full season release.",
+        "evidence": [
+          "rule_id:rule_contract_scene_10_embargo",
+          "scene:scene_10"
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "REPLACE_SEGMENT",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rights_validator",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "message": "Segment 'seg_spoiler_01' violates actor rider: All promotional visual and audio appearances of Sunil Pandit / Harish are strictly prohibited.",
+        "evidence": [
+          "rule_id:rule_contract_actor_harish",
+          "actor:actor:Sunil Pandit"
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "REPLACE_SEGMENT",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rating_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Content rating fully compliant with dialect_region policy standards.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "cultural_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Cultural authenticity and dialect subtitle semantics verified with dignity.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "bias_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "No algorithmic bias or geographic stereotyping detected in trailer plan.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "accessibility_validator",
+        "status": "FAIL",
+        "severity": "HIGH",
+        "message": "Segment 'seg_spoiler_01' contains spoken dialogue without required accessible subtitles.",
+        "evidence": [
+          "segment:seg_spoiler_01",
+          "dialogue:You thought Vikram acted alone? It was always my money, nephew."
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "CHANGE_SUBTITLE",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "budget_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Budget compliance verified: estimated cost ($0.05 USD) within $25.00 limit.",
+        "evidence": [
+          "cost:0.05"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      }
+    ],
+    "risk": "HIGH",
+    "cost": 0.045,
+    "affected_segments": [],
+    "revision": 1,
+    "reason": "VALIDATION FAILED: 5 critical violations detected across 1 segments.",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0009",
+    "timestamp": "2026-09-29T11:04:00.767961+00:00",
+    "agent": "IndependentValidationAgent",
+    "action": "VALIDATE_TRAILER",
+    "input_evidence": [
+      "trailer:spoiler_adversarial_v1",
+      "segments:1"
+    ],
+    "selected_decision": {
+      "status": "FAIL",
+      "failures": 7,
+      "warnings": 0
+    },
+    "rejected_decisions": [],
+    "validation_results": [
+      {
+        "validator": "source_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "All segments, timecodes, dialogue, and assets verified against episode source.",
+        "evidence": [
+          "verified_segments:1"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "spoiler_validator",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "message": "Segment 'seg_spoiler_01' in scene 'scene_10' reveals MAJOR spoiler: Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage",
+        "evidence": [
+          "spoiler:spoil_01",
+          "fact:Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage",
+          "scene:scene_10"
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "REPLACE_SEGMENT",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "spoiler_validator",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "message": "Segment 'seg_spoiler_01' dialogue 'dial_10' leaks protected spoiler: Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage",
+        "evidence": [
+          "spoiler:spoil_01",
+          "dialogue:dial_10"
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "REMOVE_DIALOGUE",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "story_truth_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Story truth verified: all relationships and events conform to canon.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rights_validator",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "message": "Segment 'seg_spoiler_01' uses scene 'scene_10' which is under active contractual embargo: Scene 10 is embargoed from all promotional materials prior to full season release.",
+        "evidence": [
+          "rule_id:rule_contract_scene_10_embargo",
+          "scene:scene_10"
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "REPLACE_SEGMENT",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rights_validator",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "message": "Segment 'seg_spoiler_01' violates actor rider: All promotional visual and audio appearances of Sunil Pandit / Harish are strictly prohibited.",
+        "evidence": [
+          "rule_id:rule_contract_actor_harish",
+          "actor:actor:Sunil Pandit"
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "REPLACE_SEGMENT",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rating_validator",
+        "status": "FAIL",
+        "severity": "HIGH",
+        "message": "Segment 'seg_spoiler_01' uses scene 'scene_10' which is prohibited for audience 'family' due to content rating policy.",
+        "evidence": [
+          "policy:family",
+          "prohibited_scene:scene_10"
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "REPLACE_SEGMENT",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rating_validator",
+        "status": "FAIL",
+        "severity": "MEDIUM",
+        "message": "Family trailer includes unsuitable emotion 'shocking_betrayal' in scene 'scene_10'",
+        "evidence": [
+          "scene:scene_10",
+          "emotion:shocking_betrayal"
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "REPLACE_SEGMENT",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "cultural_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Cultural authenticity and dialect subtitle semantics verified with dignity.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "bias_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "No algorithmic bias or geographic stereotyping detected in trailer plan.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "accessibility_validator",
+        "status": "FAIL",
+        "severity": "HIGH",
+        "message": "Segment 'seg_spoiler_01' contains spoken dialogue without required accessible subtitles.",
+        "evidence": [
+          "segment:seg_spoiler_01",
+          "dialogue:You thought Vikram acted alone? It was always my money, nephew."
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "CHANGE_SUBTITLE",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "budget_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Budget compliance verified: estimated cost ($0.05 USD) within $25.00 limit.",
+        "evidence": [
+          "cost:0.05"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      }
+    ],
+    "risk": "HIGH",
+    "cost": 0.045,
+    "affected_segments": [],
+    "revision": 1,
+    "reason": "VALIDATION FAILED: 7 critical violations detected across 1 segments.",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0010",
+    "timestamp": "2026-09-29T11:04:00.775205+00:00",
+    "agent": "RepairAgent",
+    "action": "REPAIR_REPLACE_SCENE",
+    "input_evidence": [
+      "Segment 'seg_spoiler_01' in scene 'scene_10' reveals MAJOR spoiler: Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage"
+    ],
+    "selected_decision": {
+      "segment_id": "seg_spoiler_01",
+      "replacement_scene": "scene_01"
+    },
+    "rejected_decisions": [
+      {
+        "rejected_scene": "scene_10",
+        "failure_cause": "Segment 'seg_spoiler_01' in scene 'scene_10' reveals MAJOR spoiler: Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage"
+      }
+    ],
+    "validation_results": [],
+    "risk": "LOW",
+    "cost": 0.0,
+    "affected_segments": [
+      "seg_spoiler_01"
+    ],
+    "revision": 1,
+    "reason": "Replaced problematic scene 'scene_10' with safe alternative 'scene_01'",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0011",
+    "timestamp": "2026-09-29T11:04:00.795015+00:00",
+    "agent": "RepairAgent",
+    "action": "REPAIR_REPLACE_SCENE",
+    "input_evidence": [
+      "Segment 'seg_spoiler_01' dialogue 'dial_10' leaks protected spoiler: Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage"
+    ],
+    "selected_decision": {
+      "segment_id": "seg_spoiler_01",
+      "replacement_scene": "scene_02"
+    },
+    "rejected_decisions": [
+      {
+        "rejected_scene": "scene_01",
+        "failure_cause": "Segment 'seg_spoiler_01' dialogue 'dial_10' leaks protected spoiler: Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage"
+      }
+    ],
+    "validation_results": [],
+    "risk": "LOW",
+    "cost": 0.0,
+    "affected_segments": [
+      "seg_spoiler_01"
+    ],
+    "revision": 1,
+    "reason": "Replaced problematic scene 'scene_01' with safe alternative 'scene_02'",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0012",
+    "timestamp": "2026-09-29T11:04:00.810181+00:00",
+    "agent": "RepairAgent",
+    "action": "REPAIR_REPLACE_SCENE",
+    "input_evidence": [
+      "Segment 'seg_spoiler_01' uses scene 'scene_10' which is under active contractual embargo: Scene 10 is embargoed from all promotional materials prior to full season release."
+    ],
+    "selected_decision": {
+      "segment_id": "seg_spoiler_01",
+      "replacement_scene": "scene_01"
+    },
+    "rejected_decisions": [
+      {
+        "rejected_scene": "scene_02",
+        "failure_cause": "Segment 'seg_spoiler_01' uses scene 'scene_10' which is under active contractual embargo: Scene 10 is embargoed from all promotional materials prior to full season release."
+      }
+    ],
+    "validation_results": [],
+    "risk": "LOW",
+    "cost": 0.0,
+    "affected_segments": [
+      "seg_spoiler_01"
+    ],
+    "revision": 1,
+    "reason": "Replaced problematic scene 'scene_02' with safe alternative 'scene_01'",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0013",
+    "timestamp": "2026-09-29T11:04:00.810181+00:00",
+    "agent": "RepairAgent",
+    "action": "REPAIR_REPLACE_SCENE",
+    "input_evidence": [
+      "Segment 'seg_spoiler_01' violates actor rider: All promotional visual and audio appearances of Sunil Pandit / Harish are strictly prohibited."
+    ],
+    "selected_decision": {
+      "segment_id": "seg_spoiler_01",
+      "replacement_scene": "scene_02"
+    },
+    "rejected_decisions": [
+      {
+        "rejected_scene": "scene_01",
+        "failure_cause": "Segment 'seg_spoiler_01' violates actor rider: All promotional visual and audio appearances of Sunil Pandit / Harish are strictly prohibited."
+      }
+    ],
+    "validation_results": [],
+    "risk": "LOW",
+    "cost": 0.0,
+    "affected_segments": [
+      "seg_spoiler_01"
+    ],
+    "revision": 1,
+    "reason": "Replaced problematic scene 'scene_01' with safe alternative 'scene_02'",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0014",
+    "timestamp": "2026-09-29T11:04:00.851663+00:00",
+    "agent": "RepairAgent",
+    "action": "REPAIR_REPLACE_SCENE",
+    "input_evidence": [
+      "Segment 'seg_spoiler_01' uses scene 'scene_10' which is prohibited for audience 'family' due to content rating policy."
+    ],
+    "selected_decision": {
+      "segment_id": "seg_spoiler_01",
+      "replacement_scene": "scene_01"
+    },
+    "rejected_decisions": [
+      {
+        "rejected_scene": "scene_02",
+        "failure_cause": "Segment 'seg_spoiler_01' uses scene 'scene_10' which is prohibited for audience 'family' due to content rating policy."
+      }
+    ],
+    "validation_results": [],
+    "risk": "LOW",
+    "cost": 0.0,
+    "affected_segments": [
+      "seg_spoiler_01"
+    ],
+    "revision": 1,
+    "reason": "Replaced problematic scene 'scene_02' with safe alternative 'scene_01'",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0015",
+    "timestamp": "2026-09-29T11:04:00.873742+00:00",
+    "agent": "RepairAgent",
+    "action": "REPAIR_REPLACE_SCENE",
+    "input_evidence": [
+      "Family trailer includes unsuitable emotion 'shocking_betrayal' in scene 'scene_10'"
+    ],
+    "selected_decision": {
+      "segment_id": "seg_spoiler_01",
+      "replacement_scene": "scene_02"
+    },
+    "rejected_decisions": [
+      {
+        "rejected_scene": "scene_01",
+        "failure_cause": "Family trailer includes unsuitable emotion 'shocking_betrayal' in scene 'scene_10'"
+      }
+    ],
+    "validation_results": [],
+    "risk": "LOW",
+    "cost": 0.0,
+    "affected_segments": [
+      "seg_spoiler_01"
+    ],
+    "revision": 1,
+    "reason": "Replaced problematic scene 'scene_01' with safe alternative 'scene_02'",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0016",
+    "timestamp": "2026-09-29T11:04:00.883102+00:00",
+    "agent": "RepairAgent",
+    "action": "REPAIR_SUBTITLE_MISMATCH",
+    "input_evidence": [
+      "Segment 'seg_spoiler_01' contains spoken dialogue without required accessible subtitles."
+    ],
+    "selected_decision": {
+      "segment_id": "seg_spoiler_01",
+      "new_subtitle": "Your antique traditions won't survive the next export quarter."
+    },
+    "rejected_decisions": [
+      {
+        "corrupted_subtitle": "Your antique traditions won't survive the next export quarter."
+      }
+    ],
+    "validation_results": [],
+    "risk": "LOW",
+    "cost": 0.0,
+    "affected_segments": [
+      "seg_spoiler_01"
+    ],
+    "revision": 1,
+    "reason": "Restored canonical dialogue text to subtitle for 'seg_spoiler_01'",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0017",
+    "timestamp": "2026-09-29T11:04:00.915063+00:00",
+    "agent": "IndependentValidationAgent",
+    "action": "VALIDATE_TRAILER",
+    "input_evidence": [
+      "trailer:spoiler_adversarial_v1",
+      "segments:1"
+    ],
+    "selected_decision": {
+      "status": "PASS",
+      "failures": 0,
+      "warnings": 0
+    },
+    "rejected_decisions": [],
+    "validation_results": [
+      {
+        "validator": "source_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "All segments, timecodes, dialogue, and assets verified against episode source.",
+        "evidence": [
+          "verified_segments:1"
         ],
         "affected_segments": [],
         "suggested_action": null,
@@ -273,12 +1098,10 @@
       },
       {
         "validator": "bias_validator",
-        "status": "PASS_WITH_WARNINGS",
-        "severity": "MEDIUM",
-        "message": "Acknowledged dataset bias warning: Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]",
-        "evidence": [
-          "warning:Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]"
-        ],
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "No algorithmic bias or geographic stereotyping detected in trailer plan.",
+        "evidence": [],
         "affected_segments": [],
         "suggested_action": null,
         "suggested_replacement": null
@@ -297,35 +1120,35 @@
         "validator": "budget_validator",
         "status": "PASS",
         "severity": "LOW",
-        "message": "Budget compliance verified: estimated cost ($0.45 USD) within $25.00 limit.",
+        "message": "Budget compliance verified: estimated cost ($0.05 USD) within $25.00 limit.",
         "evidence": [
-          "cost:0.45"
+          "cost:0.05"
         ],
         "affected_segments": [],
         "suggested_action": null,
         "suggested_replacement": null
       }
     ],
-    "risk": "MEDIUM",
+    "risk": "LOW",
     "cost": 0.045,
     "affected_segments": [],
     "revision": 1,
-    "reason": "VALIDATION PASSED WITH WARNINGS: 1 non-critical warnings noted.",
+    "reason": "VALIDATION PASSED: All 9 independent validators verified compliance with rights, rating, truth, and safety.",
     "model_provider": "mock"
   },
   {
-    "log_id": "log_0010",
-    "timestamp": "2026-09-29T10:03:22.816274+00:00",
+    "log_id": "log_0018",
+    "timestamp": "2026-09-29T11:04:00.948530+00:00",
     "agent": "IndependentValidationAgent",
     "action": "VALIDATE_TRAILER",
     "input_evidence": [
-      "trailer:young_adult_v1",
-      "segments:4"
+      "trailer:spoiler_adversarial_v1",
+      "segments:1"
     ],
     "selected_decision": {
-      "status": "PASS_WITH_WARNINGS",
-      "failures": 0,
-      "warnings": 1
+      "status": "FAIL",
+      "failures": 5,
+      "warnings": 0
     },
     "rejected_decisions": [],
     "validation_results": [
@@ -335,7 +1158,310 @@
         "severity": "LOW",
         "message": "All segments, timecodes, dialogue, and assets verified against episode source.",
         "evidence": [
-          "verified_segments:4"
+          "verified_segments:1"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "spoiler_validator",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "message": "Segment 'seg_spoiler_01' in scene 'scene_10' reveals MAJOR spoiler: Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage",
+        "evidence": [
+          "spoiler:spoil_01",
+          "fact:Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage",
+          "scene:scene_10"
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "REPLACE_SEGMENT",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "spoiler_validator",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "message": "Segment 'seg_spoiler_01' dialogue 'dial_10' leaks protected spoiler: Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage",
+        "evidence": [
+          "spoiler:spoil_01",
+          "dialogue:dial_10"
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "REMOVE_DIALOGUE",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "story_truth_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Story truth verified: all relationships and events conform to canon.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rights_validator",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "message": "Segment 'seg_spoiler_01' uses scene 'scene_10' which is under active contractual embargo: Scene 10 is embargoed from all promotional materials prior to full season release.",
+        "evidence": [
+          "rule_id:rule_contract_scene_10_embargo",
+          "scene:scene_10"
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "REPLACE_SEGMENT",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rights_validator",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "message": "Segment 'seg_spoiler_01' violates actor rider: All promotional visual and audio appearances of Sunil Pandit / Harish are strictly prohibited.",
+        "evidence": [
+          "rule_id:rule_contract_actor_harish",
+          "actor:actor:Sunil Pandit"
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "REPLACE_SEGMENT",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rating_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Content rating fully compliant with young_adult policy standards.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "cultural_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Cultural authenticity and dialect subtitle semantics verified with dignity.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "bias_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "No algorithmic bias or geographic stereotyping detected in trailer plan.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "accessibility_validator",
+        "status": "FAIL",
+        "severity": "HIGH",
+        "message": "Segment 'seg_spoiler_01' contains spoken dialogue without required accessible subtitles.",
+        "evidence": [
+          "segment:seg_spoiler_01",
+          "dialogue:You thought Vikram acted alone? It was always my money, nephew."
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "CHANGE_SUBTITLE",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "budget_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Budget compliance verified: estimated cost ($0.05 USD) within $25.00 limit.",
+        "evidence": [
+          "cost:0.05"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      }
+    ],
+    "risk": "HIGH",
+    "cost": 0.045,
+    "affected_segments": [],
+    "revision": 1,
+    "reason": "VALIDATION FAILED: 5 critical violations detected across 1 segments.",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0019",
+    "timestamp": "2026-09-29T11:04:00.975076+00:00",
+    "agent": "RepairAgent",
+    "action": "REPAIR_REPLACE_SCENE",
+    "input_evidence": [
+      "Segment 'seg_spoiler_01' in scene 'scene_10' reveals MAJOR spoiler: Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage"
+    ],
+    "selected_decision": {
+      "segment_id": "seg_spoiler_01",
+      "replacement_scene": "scene_01"
+    },
+    "rejected_decisions": [
+      {
+        "rejected_scene": "scene_10",
+        "failure_cause": "Segment 'seg_spoiler_01' in scene 'scene_10' reveals MAJOR spoiler: Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage"
+      }
+    ],
+    "validation_results": [],
+    "risk": "LOW",
+    "cost": 0.0,
+    "affected_segments": [
+      "seg_spoiler_01"
+    ],
+    "revision": 1,
+    "reason": "Replaced problematic scene 'scene_10' with safe alternative 'scene_01'",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0020",
+    "timestamp": "2026-09-29T11:04:00.992072+00:00",
+    "agent": "RepairAgent",
+    "action": "REPAIR_REPLACE_SCENE",
+    "input_evidence": [
+      "Segment 'seg_spoiler_01' dialogue 'dial_10' leaks protected spoiler: Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage"
+    ],
+    "selected_decision": {
+      "segment_id": "seg_spoiler_01",
+      "replacement_scene": "scene_02"
+    },
+    "rejected_decisions": [
+      {
+        "rejected_scene": "scene_01",
+        "failure_cause": "Segment 'seg_spoiler_01' dialogue 'dial_10' leaks protected spoiler: Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage"
+      }
+    ],
+    "validation_results": [],
+    "risk": "LOW",
+    "cost": 0.0,
+    "affected_segments": [
+      "seg_spoiler_01"
+    ],
+    "revision": 1,
+    "reason": "Replaced problematic scene 'scene_01' with safe alternative 'scene_02'",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0021",
+    "timestamp": "2026-09-29T11:04:01.014580+00:00",
+    "agent": "RepairAgent",
+    "action": "REPAIR_REPLACE_SCENE",
+    "input_evidence": [
+      "Segment 'seg_spoiler_01' uses scene 'scene_10' which is under active contractual embargo: Scene 10 is embargoed from all promotional materials prior to full season release."
+    ],
+    "selected_decision": {
+      "segment_id": "seg_spoiler_01",
+      "replacement_scene": "scene_01"
+    },
+    "rejected_decisions": [
+      {
+        "rejected_scene": "scene_02",
+        "failure_cause": "Segment 'seg_spoiler_01' uses scene 'scene_10' which is under active contractual embargo: Scene 10 is embargoed from all promotional materials prior to full season release."
+      }
+    ],
+    "validation_results": [],
+    "risk": "LOW",
+    "cost": 0.0,
+    "affected_segments": [
+      "seg_spoiler_01"
+    ],
+    "revision": 1,
+    "reason": "Replaced problematic scene 'scene_02' with safe alternative 'scene_01'",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0022",
+    "timestamp": "2026-09-29T11:04:01.029097+00:00",
+    "agent": "RepairAgent",
+    "action": "REPAIR_REPLACE_SCENE",
+    "input_evidence": [
+      "Segment 'seg_spoiler_01' violates actor rider: All promotional visual and audio appearances of Sunil Pandit / Harish are strictly prohibited."
+    ],
+    "selected_decision": {
+      "segment_id": "seg_spoiler_01",
+      "replacement_scene": "scene_02"
+    },
+    "rejected_decisions": [
+      {
+        "rejected_scene": "scene_01",
+        "failure_cause": "Segment 'seg_spoiler_01' violates actor rider: All promotional visual and audio appearances of Sunil Pandit / Harish are strictly prohibited."
+      }
+    ],
+    "validation_results": [],
+    "risk": "LOW",
+    "cost": 0.0,
+    "affected_segments": [
+      "seg_spoiler_01"
+    ],
+    "revision": 1,
+    "reason": "Replaced problematic scene 'scene_01' with safe alternative 'scene_02'",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0023",
+    "timestamp": "2026-09-29T11:04:01.045151+00:00",
+    "agent": "RepairAgent",
+    "action": "REPAIR_SUBTITLE_MISMATCH",
+    "input_evidence": [
+      "Segment 'seg_spoiler_01' contains spoken dialogue without required accessible subtitles."
+    ],
+    "selected_decision": {
+      "segment_id": "seg_spoiler_01",
+      "new_subtitle": "Your antique traditions won't survive the next export quarter."
+    },
+    "rejected_decisions": [
+      {
+        "corrupted_subtitle": "Your antique traditions won't survive the next export quarter."
+      }
+    ],
+    "validation_results": [],
+    "risk": "LOW",
+    "cost": 0.0,
+    "affected_segments": [
+      "seg_spoiler_01"
+    ],
+    "revision": 1,
+    "reason": "Restored canonical dialogue text to subtitle for 'seg_spoiler_01'",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0024",
+    "timestamp": "2026-09-29T11:04:01.099231+00:00",
+    "agent": "IndependentValidationAgent",
+    "action": "VALIDATE_TRAILER",
+    "input_evidence": [
+      "trailer:spoiler_adversarial_v1",
+      "segments:1"
+    ],
+    "selected_decision": {
+      "status": "PASS",
+      "failures": 0,
+      "warnings": 0
+    },
+    "rejected_decisions": [],
+    "validation_results": [
+      {
+        "validator": "source_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "All segments, timecodes, dialogue, and assets verified against episode source.",
+        "evidence": [
+          "verified_segments:1"
         ],
         "affected_segments": [],
         "suggested_action": null,
@@ -393,12 +1519,10 @@
       },
       {
         "validator": "bias_validator",
-        "status": "PASS_WITH_WARNINGS",
-        "severity": "MEDIUM",
-        "message": "Acknowledged dataset bias warning: Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]",
-        "evidence": [
-          "warning:Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]"
-        ],
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "No algorithmic bias or geographic stereotyping detected in trailer plan.",
+        "evidence": [],
         "affected_segments": [],
         "suggested_action": null,
         "suggested_replacement": null
@@ -417,35 +1541,35 @@
         "validator": "budget_validator",
         "status": "PASS",
         "severity": "LOW",
-        "message": "Budget compliance verified: estimated cost ($0.40 USD) within $25.00 limit.",
+        "message": "Budget compliance verified: estimated cost ($0.05 USD) within $25.00 limit.",
         "evidence": [
-          "cost:0.4"
+          "cost:0.05"
         ],
         "affected_segments": [],
         "suggested_action": null,
         "suggested_replacement": null
       }
     ],
-    "risk": "MEDIUM",
+    "risk": "LOW",
     "cost": 0.045,
     "affected_segments": [],
     "revision": 1,
-    "reason": "VALIDATION PASSED WITH WARNINGS: 1 non-critical warnings noted.",
+    "reason": "VALIDATION PASSED: All 9 independent validators verified compliance with rights, rating, truth, and safety.",
     "model_provider": "mock"
   },
   {
-    "log_id": "log_0011",
-    "timestamp": "2026-09-29T10:03:22.821351+00:00",
+    "log_id": "log_0025",
+    "timestamp": "2026-09-29T11:04:01.145651+00:00",
     "agent": "IndependentValidationAgent",
     "action": "VALIDATE_TRAILER",
     "input_evidence": [
-      "trailer:dialect_region_v1",
-      "segments:4"
+      "trailer:spoiler_adversarial_v1",
+      "segments:1"
     ],
     "selected_decision": {
-      "status": "PASS_WITH_WARNINGS",
-      "failures": 0,
-      "warnings": 1
+      "status": "FAIL",
+      "failures": 5,
+      "warnings": 0
     },
     "rejected_decisions": [],
     "validation_results": [
@@ -455,7 +1579,310 @@
         "severity": "LOW",
         "message": "All segments, timecodes, dialogue, and assets verified against episode source.",
         "evidence": [
-          "verified_segments:4"
+          "verified_segments:1"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "spoiler_validator",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "message": "Segment 'seg_spoiler_01' in scene 'scene_10' reveals MAJOR spoiler: Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage",
+        "evidence": [
+          "spoiler:spoil_01",
+          "fact:Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage",
+          "scene:scene_10"
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "REPLACE_SEGMENT",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "spoiler_validator",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "message": "Segment 'seg_spoiler_01' dialogue 'dial_10' leaks protected spoiler: Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage",
+        "evidence": [
+          "spoiler:spoil_01",
+          "dialogue:dial_10"
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "REMOVE_DIALOGUE",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "story_truth_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Story truth verified: all relationships and events conform to canon.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rights_validator",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "message": "Segment 'seg_spoiler_01' uses scene 'scene_10' which is under active contractual embargo: Scene 10 is embargoed from all promotional materials prior to full season release.",
+        "evidence": [
+          "rule_id:rule_contract_scene_10_embargo",
+          "scene:scene_10"
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "REPLACE_SEGMENT",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rights_validator",
+        "status": "FAIL",
+        "severity": "CRITICAL",
+        "message": "Segment 'seg_spoiler_01' violates actor rider: All promotional visual and audio appearances of Sunil Pandit / Harish are strictly prohibited.",
+        "evidence": [
+          "rule_id:rule_contract_actor_harish",
+          "actor:actor:Sunil Pandit"
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "REPLACE_SEGMENT",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rating_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Content rating fully compliant with dialect_region policy standards.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "cultural_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Cultural authenticity and dialect subtitle semantics verified with dignity.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "bias_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "No algorithmic bias or geographic stereotyping detected in trailer plan.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "accessibility_validator",
+        "status": "FAIL",
+        "severity": "HIGH",
+        "message": "Segment 'seg_spoiler_01' contains spoken dialogue without required accessible subtitles.",
+        "evidence": [
+          "segment:seg_spoiler_01",
+          "dialogue:You thought Vikram acted alone? It was always my money, nephew."
+        ],
+        "affected_segments": [
+          "seg_spoiler_01"
+        ],
+        "suggested_action": "CHANGE_SUBTITLE",
+        "suggested_replacement": null
+      },
+      {
+        "validator": "budget_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Budget compliance verified: estimated cost ($0.05 USD) within $25.00 limit.",
+        "evidence": [
+          "cost:0.05"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      }
+    ],
+    "risk": "HIGH",
+    "cost": 0.045,
+    "affected_segments": [],
+    "revision": 1,
+    "reason": "VALIDATION FAILED: 5 critical violations detected across 1 segments.",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0026",
+    "timestamp": "2026-09-29T11:04:01.175018+00:00",
+    "agent": "RepairAgent",
+    "action": "REPAIR_REPLACE_SCENE",
+    "input_evidence": [
+      "Segment 'seg_spoiler_01' in scene 'scene_10' reveals MAJOR spoiler: Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage"
+    ],
+    "selected_decision": {
+      "segment_id": "seg_spoiler_01",
+      "replacement_scene": "scene_01"
+    },
+    "rejected_decisions": [
+      {
+        "rejected_scene": "scene_10",
+        "failure_cause": "Segment 'seg_spoiler_01' in scene 'scene_10' reveals MAJOR spoiler: Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage"
+      }
+    ],
+    "validation_results": [],
+    "risk": "LOW",
+    "cost": 0.0,
+    "affected_segments": [
+      "seg_spoiler_01"
+    ],
+    "revision": 1,
+    "reason": "Replaced problematic scene 'scene_10' with safe alternative 'scene_01'",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0027",
+    "timestamp": "2026-09-29T11:04:01.190880+00:00",
+    "agent": "RepairAgent",
+    "action": "REPAIR_REPLACE_SCENE",
+    "input_evidence": [
+      "Segment 'seg_spoiler_01' dialogue 'dial_10' leaks protected spoiler: Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage"
+    ],
+    "selected_decision": {
+      "segment_id": "seg_spoiler_01",
+      "replacement_scene": "scene_02"
+    },
+    "rejected_decisions": [
+      {
+        "rejected_scene": "scene_01",
+        "failure_cause": "Segment 'seg_spoiler_01' dialogue 'dial_10' leaks protected spoiler: Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage"
+      }
+    ],
+    "validation_results": [],
+    "risk": "LOW",
+    "cost": 0.0,
+    "affected_segments": [
+      "seg_spoiler_01"
+    ],
+    "revision": 1,
+    "reason": "Replaced problematic scene 'scene_01' with safe alternative 'scene_02'",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0028",
+    "timestamp": "2026-09-29T11:04:01.212417+00:00",
+    "agent": "RepairAgent",
+    "action": "REPAIR_REPLACE_SCENE",
+    "input_evidence": [
+      "Segment 'seg_spoiler_01' uses scene 'scene_10' which is under active contractual embargo: Scene 10 is embargoed from all promotional materials prior to full season release."
+    ],
+    "selected_decision": {
+      "segment_id": "seg_spoiler_01",
+      "replacement_scene": "scene_01"
+    },
+    "rejected_decisions": [
+      {
+        "rejected_scene": "scene_02",
+        "failure_cause": "Segment 'seg_spoiler_01' uses scene 'scene_10' which is under active contractual embargo: Scene 10 is embargoed from all promotional materials prior to full season release."
+      }
+    ],
+    "validation_results": [],
+    "risk": "LOW",
+    "cost": 0.0,
+    "affected_segments": [
+      "seg_spoiler_01"
+    ],
+    "revision": 1,
+    "reason": "Replaced problematic scene 'scene_02' with safe alternative 'scene_01'",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0029",
+    "timestamp": "2026-09-29T11:04:01.247277+00:00",
+    "agent": "RepairAgent",
+    "action": "REPAIR_REPLACE_SCENE",
+    "input_evidence": [
+      "Segment 'seg_spoiler_01' violates actor rider: All promotional visual and audio appearances of Sunil Pandit / Harish are strictly prohibited."
+    ],
+    "selected_decision": {
+      "segment_id": "seg_spoiler_01",
+      "replacement_scene": "scene_02"
+    },
+    "rejected_decisions": [
+      {
+        "rejected_scene": "scene_01",
+        "failure_cause": "Segment 'seg_spoiler_01' violates actor rider: All promotional visual and audio appearances of Sunil Pandit / Harish are strictly prohibited."
+      }
+    ],
+    "validation_results": [],
+    "risk": "LOW",
+    "cost": 0.0,
+    "affected_segments": [
+      "seg_spoiler_01"
+    ],
+    "revision": 1,
+    "reason": "Replaced problematic scene 'scene_01' with safe alternative 'scene_02'",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0030",
+    "timestamp": "2026-09-29T11:04:01.256765+00:00",
+    "agent": "RepairAgent",
+    "action": "REPAIR_SUBTITLE_MISMATCH",
+    "input_evidence": [
+      "Segment 'seg_spoiler_01' contains spoken dialogue without required accessible subtitles."
+    ],
+    "selected_decision": {
+      "segment_id": "seg_spoiler_01",
+      "new_subtitle": "Your antique traditions won't survive the next export quarter."
+    },
+    "rejected_decisions": [
+      {
+        "corrupted_subtitle": "Your antique traditions won't survive the next export quarter."
+      }
+    ],
+    "validation_results": [],
+    "risk": "LOW",
+    "cost": 0.0,
+    "affected_segments": [
+      "seg_spoiler_01"
+    ],
+    "revision": 1,
+    "reason": "Restored canonical dialogue text to subtitle for 'seg_spoiler_01'",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0031",
+    "timestamp": "2026-09-29T11:04:01.291644+00:00",
+    "agent": "IndependentValidationAgent",
+    "action": "VALIDATE_TRAILER",
+    "input_evidence": [
+      "trailer:spoiler_adversarial_v1",
+      "segments:1"
+    ],
+    "selected_decision": {
+      "status": "PASS",
+      "failures": 0,
+      "warnings": 0
+    },
+    "rejected_decisions": [],
+    "validation_results": [
+      {
+        "validator": "source_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "All segments, timecodes, dialogue, and assets verified against episode source.",
+        "evidence": [
+          "verified_segments:1"
         ],
         "affected_segments": [],
         "suggested_action": null,
@@ -513,12 +1940,10 @@
       },
       {
         "validator": "bias_validator",
-        "status": "PASS_WITH_WARNINGS",
-        "severity": "MEDIUM",
-        "message": "Acknowledged dataset bias warning: Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]",
-        "evidence": [
-          "warning:Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]"
-        ],
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "No algorithmic bias or geographic stereotyping detected in trailer plan.",
+        "evidence": [],
         "affected_segments": [],
         "suggested_action": null,
         "suggested_replacement": null
@@ -537,458 +1962,20 @@
         "validator": "budget_validator",
         "status": "PASS",
         "severity": "LOW",
-        "message": "Budget compliance verified: estimated cost ($0.42 USD) within $25.00 limit.",
+        "message": "Budget compliance verified: estimated cost ($0.05 USD) within $25.00 limit.",
         "evidence": [
-          "cost:0.42"
+          "cost:0.05"
         ],
         "affected_segments": [],
         "suggested_action": null,
         "suggested_replacement": null
       }
     ],
-    "risk": "MEDIUM",
+    "risk": "LOW",
     "cost": 0.045,
     "affected_segments": [],
     "revision": 1,
-    "reason": "VALIDATION PASSED WITH WARNINGS: 1 non-critical warnings noted.",
-    "model_provider": "mock"
-  },
-  {
-    "log_id": "log_0012",
-    "timestamp": "2026-09-29T10:03:22.827080+00:00",
-    "agent": "IndependentValidationAgent",
-    "action": "VALIDATE_TRAILER",
-    "input_evidence": [
-      "trailer:young_adult_v1",
-      "segments:4"
-    ],
-    "selected_decision": {
-      "status": "FAIL",
-      "failures": 4,
-      "warnings": 1
-    },
-    "rejected_decisions": [],
-    "validation_results": [
-      {
-        "validator": "source_validator",
-        "status": "PASS",
-        "severity": "LOW",
-        "message": "All segments, timecodes, dialogue, and assets verified against episode source.",
-        "evidence": [
-          "verified_segments:4"
-        ],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      },
-      {
-        "validator": "spoiler_validator",
-        "status": "PASS",
-        "severity": "LOW",
-        "message": "Zero major spoilers detected; narrative twists and climax protected.",
-        "evidence": [],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      },
-      {
-        "validator": "story_truth_validator",
-        "status": "PASS",
-        "severity": "LOW",
-        "message": "Story truth verified: all relationships and events conform to canon.",
-        "evidence": [],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      },
-      {
-        "validator": "rights_validator",
-        "status": "FAIL",
-        "severity": "CRITICAL",
-        "message": "Segment 'seg_ya_01' uses music track 'music_03_synth_pulse' whose sync license EXPIRED on 2026-03-31.",
-        "evidence": [
-          "rule_id:rule_contract_music_03",
-          "music:music_03_synth_pulse",
-          "expiry:2026-03-31",
-          "ref_date:2026-02-15"
-        ],
-        "affected_segments": [
-          "seg_ya_01"
-        ],
-        "suggested_action": "CHANGE_MUSIC",
-        "suggested_replacement": null
-      },
-      {
-        "validator": "rights_validator",
-        "status": "FAIL",
-        "severity": "CRITICAL",
-        "message": "Segment 'seg_ya_02' uses music track 'music_03_synth_pulse' whose sync license EXPIRED on 2026-03-31.",
-        "evidence": [
-          "rule_id:rule_contract_music_03",
-          "music:music_03_synth_pulse",
-          "expiry:2026-03-31",
-          "ref_date:2026-02-15"
-        ],
-        "affected_segments": [
-          "seg_ya_02"
-        ],
-        "suggested_action": "CHANGE_MUSIC",
-        "suggested_replacement": null
-      },
-      {
-        "validator": "rights_validator",
-        "status": "FAIL",
-        "severity": "CRITICAL",
-        "message": "Segment 'seg_ya_03' uses music track 'music_03_synth_pulse' whose sync license EXPIRED on 2026-03-31.",
-        "evidence": [
-          "rule_id:rule_contract_music_03",
-          "music:music_03_synth_pulse",
-          "expiry:2026-03-31",
-          "ref_date:2026-02-15"
-        ],
-        "affected_segments": [
-          "seg_ya_03"
-        ],
-        "suggested_action": "CHANGE_MUSIC",
-        "suggested_replacement": null
-      },
-      {
-        "validator": "rights_validator",
-        "status": "FAIL",
-        "severity": "CRITICAL",
-        "message": "Segment 'seg_ya_04' uses music track 'music_03_synth_pulse' whose sync license EXPIRED on 2026-03-31.",
-        "evidence": [
-          "rule_id:rule_contract_music_03",
-          "music:music_03_synth_pulse",
-          "expiry:2026-03-31",
-          "ref_date:2026-02-15"
-        ],
-        "affected_segments": [
-          "seg_ya_04"
-        ],
-        "suggested_action": "CHANGE_MUSIC",
-        "suggested_replacement": null
-      },
-      {
-        "validator": "rating_validator",
-        "status": "PASS",
-        "severity": "LOW",
-        "message": "Content rating fully compliant with young_adult policy standards.",
-        "evidence": [],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      },
-      {
-        "validator": "cultural_validator",
-        "status": "PASS",
-        "severity": "LOW",
-        "message": "Cultural authenticity and dialect subtitle semantics verified with dignity.",
-        "evidence": [],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      },
-      {
-        "validator": "bias_validator",
-        "status": "PASS_WITH_WARNINGS",
-        "severity": "MEDIUM",
-        "message": "Acknowledged dataset bias warning: Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]",
-        "evidence": [
-          "warning:Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]"
-        ],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      },
-      {
-        "validator": "accessibility_validator",
-        "status": "PASS",
-        "severity": "LOW",
-        "message": "Full accessibility compliance: verified subtitle presence, CPS thresholds, and timing.",
-        "evidence": [],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      },
-      {
-        "validator": "budget_validator",
-        "status": "PASS",
-        "severity": "LOW",
-        "message": "Budget compliance verified: estimated cost ($0.40 USD) within $25.00 limit.",
-        "evidence": [
-          "cost:0.4"
-        ],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      }
-    ],
-    "risk": "HIGH",
-    "cost": 0.045,
-    "affected_segments": [],
-    "revision": 1,
-    "reason": "VALIDATION FAILED: 4 critical violations detected across 4 segments.",
-    "model_provider": "mock"
-  },
-  {
-    "log_id": "log_0013",
-    "timestamp": "2026-09-29T10:03:22.836444+00:00",
-    "agent": "RepairAgent",
-    "action": "REPAIR_CHANGE_MUSIC",
-    "input_evidence": [
-      "Segment 'seg_ya_01' uses music track 'music_03_synth_pulse' whose sync license EXPIRED on 2026-03-31."
-    ],
-    "selected_decision": {
-      "segment_id": "seg_ya_01",
-      "new_music": "music_01_folk_acoustic"
-    },
-    "rejected_decisions": [
-      {
-        "rejected_music": "music_03_synth_pulse"
-      }
-    ],
-    "validation_results": [],
-    "risk": "LOW",
-    "cost": 0.0,
-    "affected_segments": [
-      "seg_ya_01"
-    ],
-    "revision": 1,
-    "reason": "Replaced expired/restricted music 'music_03_synth_pulse' with cleared 'music_01_folk_acoustic'",
-    "model_provider": "mock"
-  },
-  {
-    "log_id": "log_0014",
-    "timestamp": "2026-09-29T10:03:22.842343+00:00",
-    "agent": "RepairAgent",
-    "action": "REPAIR_CHANGE_MUSIC",
-    "input_evidence": [
-      "Segment 'seg_ya_02' uses music track 'music_03_synth_pulse' whose sync license EXPIRED on 2026-03-31."
-    ],
-    "selected_decision": {
-      "segment_id": "seg_ya_02",
-      "new_music": "music_01_folk_acoustic"
-    },
-    "rejected_decisions": [
-      {
-        "rejected_music": "music_03_synth_pulse"
-      }
-    ],
-    "validation_results": [],
-    "risk": "LOW",
-    "cost": 0.0,
-    "affected_segments": [
-      "seg_ya_02"
-    ],
-    "revision": 1,
-    "reason": "Replaced expired/restricted music 'music_03_synth_pulse' with cleared 'music_01_folk_acoustic'",
-    "model_provider": "mock"
-  },
-  {
-    "log_id": "log_0015",
-    "timestamp": "2026-09-29T10:03:22.847579+00:00",
-    "agent": "RepairAgent",
-    "action": "REPAIR_CHANGE_MUSIC",
-    "input_evidence": [
-      "Segment 'seg_ya_03' uses music track 'music_03_synth_pulse' whose sync license EXPIRED on 2026-03-31."
-    ],
-    "selected_decision": {
-      "segment_id": "seg_ya_03",
-      "new_music": "music_01_folk_acoustic"
-    },
-    "rejected_decisions": [
-      {
-        "rejected_music": "music_03_synth_pulse"
-      }
-    ],
-    "validation_results": [],
-    "risk": "LOW",
-    "cost": 0.0,
-    "affected_segments": [
-      "seg_ya_03"
-    ],
-    "revision": 1,
-    "reason": "Replaced expired/restricted music 'music_03_synth_pulse' with cleared 'music_01_folk_acoustic'",
-    "model_provider": "mock"
-  },
-  {
-    "log_id": "log_0016",
-    "timestamp": "2026-09-29T10:03:22.852863+00:00",
-    "agent": "RepairAgent",
-    "action": "REPAIR_CHANGE_MUSIC",
-    "input_evidence": [
-      "Segment 'seg_ya_04' uses music track 'music_03_synth_pulse' whose sync license EXPIRED on 2026-03-31."
-    ],
-    "selected_decision": {
-      "segment_id": "seg_ya_04",
-      "new_music": "music_01_folk_acoustic"
-    },
-    "rejected_decisions": [
-      {
-        "rejected_music": "music_03_synth_pulse"
-      }
-    ],
-    "validation_results": [],
-    "risk": "LOW",
-    "cost": 0.0,
-    "affected_segments": [
-      "seg_ya_04"
-    ],
-    "revision": 1,
-    "reason": "Replaced expired/restricted music 'music_03_synth_pulse' with cleared 'music_01_folk_acoustic'",
-    "model_provider": "mock"
-  },
-  {
-    "log_id": "log_0017",
-    "timestamp": "2026-09-29T10:03:22.859612+00:00",
-    "agent": "IndependentValidationAgent",
-    "action": "VALIDATE_TRAILER",
-    "input_evidence": [
-      "trailer:young_adult_v1",
-      "segments:4"
-    ],
-    "selected_decision": {
-      "status": "PASS_WITH_WARNINGS",
-      "failures": 0,
-      "warnings": 1
-    },
-    "rejected_decisions": [],
-    "validation_results": [
-      {
-        "validator": "source_validator",
-        "status": "PASS",
-        "severity": "LOW",
-        "message": "All segments, timecodes, dialogue, and assets verified against episode source.",
-        "evidence": [
-          "verified_segments:4"
-        ],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      },
-      {
-        "validator": "spoiler_validator",
-        "status": "PASS",
-        "severity": "LOW",
-        "message": "Zero major spoilers detected; narrative twists and climax protected.",
-        "evidence": [],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      },
-      {
-        "validator": "story_truth_validator",
-        "status": "PASS",
-        "severity": "LOW",
-        "message": "Story truth verified: all relationships and events conform to canon.",
-        "evidence": [],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      },
-      {
-        "validator": "rights_validator",
-        "status": "PASS",
-        "severity": "LOW",
-        "message": "All music, actor, and scene rights cleared and active under current contract licenses.",
-        "evidence": [],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      },
-      {
-        "validator": "rating_validator",
-        "status": "PASS",
-        "severity": "LOW",
-        "message": "Content rating fully compliant with young_adult policy standards.",
-        "evidence": [],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      },
-      {
-        "validator": "cultural_validator",
-        "status": "PASS",
-        "severity": "LOW",
-        "message": "Cultural authenticity and dialect subtitle semantics verified with dignity.",
-        "evidence": [],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      },
-      {
-        "validator": "bias_validator",
-        "status": "PASS_WITH_WARNINGS",
-        "severity": "MEDIUM",
-        "message": "Acknowledged dataset bias warning: Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]",
-        "evidence": [
-          "warning:Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]"
-        ],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      },
-      {
-        "validator": "accessibility_validator",
-        "status": "PASS",
-        "severity": "LOW",
-        "message": "Full accessibility compliance: verified subtitle presence, CPS thresholds, and timing.",
-        "evidence": [],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      },
-      {
-        "validator": "budget_validator",
-        "status": "PASS",
-        "severity": "LOW",
-        "message": "Budget compliance verified: estimated cost ($0.40 USD) within $25.00 limit.",
-        "evidence": [
-          "cost:0.4"
-        ],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      }
-    ],
-    "risk": "MEDIUM",
-    "cost": 0.045,
-    "affected_segments": [],
-    "revision": 1,
-    "reason": "VALIDATION PASSED WITH WARNINGS: 1 non-critical warnings noted.",
-    "model_provider": "mock"
-  },
-  {
-    "log_id": "log_0018",
-    "timestamp": "2026-09-29T10:03:22.865684+00:00",
-    "agent": "ChangeImpactAgent",
-    "action": "SELECTIVE_REPLAN",
-    "input_evidence": [
-      "changed_rule:rule_contract_music_03",
-      "status:EXPIRED"
-    ],
-    "selected_decision": {
-      "affected": [
-        "young_adult_v1"
-      ],
-      "unaffected": [
-        "family_v1",
-        "dialect_region_v1"
-      ]
-    },
-    "rejected_decisions": [],
-    "validation_results": [],
-    "risk": "LOW",
-    "cost": 0.0,
-    "affected_segments": [
-      "seg_ya_01",
-      "seg_ya_02",
-      "seg_ya_03",
-      "seg_ya_04"
-    ],
-    "revision": 1,
-    "reason": "Selective replanning executed for 1 affected trailers; 2 preserved untouched.",
+    "reason": "VALIDATION PASSED: All 9 independent validators verified compliance with rights, rating, truth, and safety.",
     "model_provider": "mock"
   }
 ]
