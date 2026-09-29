@@ -63,13 +63,31 @@ flowchart TD
 
 ---
 
-## 3. Typed State Management (`src/state.py`)
+## 3. Memory and State Management
 
-The state container `DirectorState` is strictly typed using Pydantic:
+The platform avoids the brittleness, non-determinism, and context bloat of hidden conversational LLM memory or opaque agent message histories. Instead, workflow state is represented explicitly, deterministically, and declaratively:
+
+- **Zero Hidden Conversational Memory:** The system does not depend on hidden conversational memory, prompt chat histories, or implicit agent memory buffers across execution steps. Every agent receives explicit, typed domain models and returns structured artifacts.
+- **Explicit Workflow State (`DirectorState`):** All pipeline state is contained within the strictly typed Pydantic container `DirectorState` (`src/state.py`) and persisted on disk as inspectable JSON artifacts (`sample_run/`).
+- **Comprehensive State Representation:** The workflow state explicitly encapsulates:
+  - Episode information (`episode_package`)
+  - Story map and narrative universe (`story_map`)
+  - Spoiler map and combination spoiler tuples (`spoiler_map`)
+  - Authoritative constraint rules compiled from contracts and policies (`constraint_map`)
+  - Audience-tailored trailer plans (`trailer_plans`)
+  - Multi-layer validation results and reports (`validation_reports`)
+  - Change-impact analysis data (`change_impact_reports`)
+  - Chronological decision audit logs and execution history (`execution_history`, `decision_log.json`)
+  - Estimated and actual AI computational cost tracking (`estimated_cost_usd`, `actual_cost_usd`, `total_cost_usd`, `cost_breakdown`, `resource_usage`)
+  - Active execution scenario and authoritative reference date (`active_scenario`, `reference_date`)
+- **Inspectability, Reproducibility, and Serializability:** Because the workflow state is fully typed and serializable to JSON, any execution run can be paused, frozen, audited, replayed, or inspected at any node in the graph without external cloud dependencies.
+- **Selective Replanning via Change-Impact Analysis:** When business constraints or music licenses change (e.g., sync rights expiration), the explicit state representation allows `ChangeImpactAgent` to perform granular dependency analysis and selectively replan only the affected cuts rather than rebuilding every trailer from scratch, preserving creative decisions and saving computational budget.
+
 ```python
 class DirectorState(BaseModel):
     episode_package: Optional[EpisodePackage] = None
     story_map: Optional[StoryMap] = None
+    spoiler_map: Optional[SpoilerMap] = None
     constraint_map: Optional[ConstraintMap] = None
     trailer_plans: Dict[str, TrailerPlan] = Field(default_factory=dict)
     validation_reports: Dict[str, TrailerValidationReport] = Field(default_factory=dict)
@@ -77,15 +95,19 @@ class DirectorState(BaseModel):
     active_scenario: Optional[str] = None
     current_node: str = "INITIALIZED"
     execution_history: List[str] = Field(default_factory=list)
+    estimated_cost_usd: float = 0.0
+    actual_cost_usd: float = 0.0
     total_cost_usd: float = 0.0
+    cost_breakdown: Dict[str, Any] = Field(default_factory=dict)
+    resource_usage: Dict[str, Any] = Field(default_factory=dict)
+    reference_date: str = "2026-02-15"
 ```
-This guarantees complete serializability, zero hidden global mutations, and inspectable state snapshots at any point in the pipeline.
 
 ---
 
-## 4. The 9-Layer Independent Validation Suite
+## 4. The Independent Validation Layer
 
-Creative proposals must pass all 9 independent validators located in `src/validators/`:
+The system uses nine deterministic policy/content validators, supplemented by an independent physical-media validation layer (`MediaValidator`):
 
 1. **`SourceValidator`**:
    - Verifies referenced `scene_id` exists in the verified master package (e.g. rejects hallucinated `scene_25`).

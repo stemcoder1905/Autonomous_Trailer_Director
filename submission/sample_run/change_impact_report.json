@@ -1,0 +1,92 @@
+[
+  {
+    "change_id": "change_rule_contract_music_03",
+    "trigger": "Rule 'rule_contract_music_03' changed to EXPIRED",
+    "affected_trailers": [
+      "young_adult_v1"
+    ],
+    "affected_segments": {
+      "young_adult_v1": [
+        "seg_ya_01",
+        "seg_ya_02",
+        "seg_ya_03",
+        "seg_ya_04"
+      ]
+    },
+    "unaffected_trailers": [
+      "family_v1",
+      "dialect_region_v1"
+    ],
+    "unaffected_segments": {
+      "family_v1": [
+        "seg_fam_01",
+        "seg_fam_02",
+        "seg_fam_03",
+        "seg_fam_04"
+      ],
+      "young_adult_v1": [],
+      "dialect_region_v1": [
+        "seg_dia_01",
+        "seg_dia_02",
+        "seg_dia_03",
+        "seg_dia_04"
+      ]
+    },
+    "old_decision": {
+      "young_adult_v1": {
+        "asset": "music_03_synth_pulse",
+        "affected_segments": [
+          "seg_ya_01",
+          "seg_ya_02",
+          "seg_ya_03",
+          "seg_ya_04"
+        ]
+      }
+    },
+    "new_decision": {
+      "young_adult_v1": {
+        "repaired_segments": [
+          {
+            "segment_id": "seg_ya_01",
+            "music": "music_01_folk_acoustic",
+            "scene_id": "scene_02"
+          },
+          {
+            "segment_id": "seg_ya_02",
+            "music": "music_01_folk_acoustic",
+            "scene_id": "scene_04"
+          },
+          {
+            "segment_id": "seg_ya_03",
+            "music": "music_01_folk_acoustic",
+            "scene_id": "scene_07"
+          },
+          {
+            "segment_id": "seg_ya_04",
+            "music": "music_01_folk_acoustic",
+            "scene_id": "scene_08"
+          }
+        ]
+      }
+    },
+    "reason": "Constraint rule 'rule_contract_music_03' changed to EXPIRED; selectively replanned 1 affected trailers while preserving 2 unaffected trailers completely intact.",
+    "replan_reasons": [
+      "Trailer 'young_adult_v1' references music_restriction 'music_03_synth_pulse' in segments ['seg_ya_01', 'seg_ya_02', 'seg_ya_03', 'seg_ya_04']. Triggered selective replanning."
+    ],
+    "validation_before": {
+      "family_v1": "PASS_WITH_WARNINGS",
+      "young_adult_v1": "PASS_WITH_WARNINGS",
+      "dialect_region_v1": "PASS_WITH_WARNINGS"
+    },
+    "validation_after": {
+      "family_v1": "PASS_WITH_WARNINGS",
+      "young_adult_v1": "PASS_WITH_WARNINGS",
+      "dialect_region_v1": "PASS_WITH_WARNINGS"
+    },
+    "new_validation_statuses": {
+      "family_v1": "PASS_WITH_WARNINGS",
+      "young_adult_v1": "PASS_WITH_WARNINGS",
+      "dialect_region_v1": "PASS_WITH_WARNINGS"
+    }
+  }
+]

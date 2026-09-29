@@ -214,5 +214,5 @@ All 67 tests pass deterministically (zero external network requirement for repla
 | `young_adult_trailer.json` | Precise EDL trailer plan for young adult audiences. |
 | `dialect_region_trailer.json` | Precise EDL trailer plan for regional dialect audiences. |
 | `decision_log.json` | Chronological audit trail logging every agent decision, rationale, rejected alternative, and cost. |
-| `validation_report.md` | Executive validation report summarizing status across all 9 independent validators. |
+| `validation_report.md` | Executive validation report summarizing status across nine deterministic policy/content validators and physical media verification. |
 | `change_impact_report.json` | Dependency audit report generated during selective replanning events. |

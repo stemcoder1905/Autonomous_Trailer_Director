@@ -114,10 +114,46 @@ During the development lifecycle, generative coding assistants frequently propos
 
 ---
 
+### Case 9: Rapid File Re-writing Causing Windows Sharing Violations (`[Errno 22]`)
+- **The Plausible Suggestion:**  
+  The assistant implemented decision log persistence by directly opening and overwriting `sample_run/decision_log.json` on every single decision log event: `with open(target, "w") as f: json.dump(...)`.
+- **Why It Looked Plausible:**  
+  It ensured disk persistence immediately after every agent step.
+- **Why It Was Fundamentally Flawed:**  
+  During workflow execution, `log_decision` is called dozens of times within milliseconds. On Windows systems, background file indexers and antivirus scanners briefly lock recently touched files. Rapidly reopening the same path in `"w"` mode caused intermittent `OSError: [Errno 22] Invalid argument` file-sharing violations.
+- **The Engineering Correction:**  
+  Implemented atomic write resilience using a temporary `.tmp` file that is atomically swapped into place via `replace()`, with a safe `OSError` retry fallback.
+
+---
+
+### Case 10: Artificial Candidate ID Bias in Plan Selection
+- **The Plausible Suggestion:**  
+  When implementing candidate selection, the assistant assigned `audience_score = 1.0` specifically if `cand.trailer_id.endswith("_v1")`.
+- **Why It Looked Plausible:**  
+  Candidate 1 was designed from the primary brief, so boosting it made initial unit tests pass reliably.
+- **Why It Was Fundamentally Flawed:**  
+  Rigging candidate evaluation by ID string prefix breaks agentic decision-making. Alternative arcs (such as Arc B: *Industrial Stakes* or Arc C: *Youth Innovation*) could never fairly compete or win even if they better matched duration or emotional pacing.
+- **The Engineering Correction:**  
+  Removed the ID bias entirely. Rewrote multi-dimensional scoring to evaluate actual narrative content: candidate scenes vs. brief candidate scene sets, target duration proximity, and emotional journey overlap, while ensuring `NO_SAFE_CANDIDATE` is returned if all candidates violate constraints.
+
+---
+
+### Case 11: Schema Attribute Mismatch (`sp.scene_id` vs `sp.affected_scenes`)
+- **The Plausible Suggestion:**  
+  When extracting spoiler scenes in the audience agent and planner, the assistant wrote set comprehensions assuming a singular attribute: `{sp.scene_id for sp in story_map.spoilers}`.
+- **Why It Looked Plausible:**  
+  Other schema models (such as `SceneMetadata` and `SensitiveContentItem`) use `scene_id`.
+- **Why It Was Fundamentally Flawed:**  
+  In the narrative canon, major spoilers (e.g. twist antagonist identity or buyout collusion) span multiple scenes (`affected_scenes: List[str]`). Accessing `.scene_id` raised an immediate Pydantic `AttributeError`.
+- **The Engineering Correction:**  
+  Updated all spoiler set comprehensions to iterate through `sp.affected_scenes` (`{sc for sp in story_map.spoilers for sc in sp.affected_scenes}`), properly protecting all scenes tainted by major plot twists.
+
+---
+
 ## 3. Code Verification Methodology
 
 Every line of code in this repository was verified through a three-stage quality gate:
-1. **Automated Unit Testing (`python -m pytest -v`):** 64 comprehensive unit, multimodal, audit enhancement, and integration tests covering boundary conditions, prompt injections, multimodal vision/ASR grounding, combination spoilers, rights management, and escalation taxonomies.
+1. **Automated Unit Testing (`python -m pytest -v`):** 67 comprehensive unit, multimodal, audit enhancement, and integration tests covering boundary conditions, prompt injections, multimodal vision/ASR grounding, combination spoilers, rights management, and escalation taxonomies.
 2. **Deterministic Replay Verification (`--mode replay`):** Verifying that identical inputs produce bitwise reproducible outputs without network dependencies.
 3. **Adversarial Scenario Injection (`--scenario <name>`):** Manually triggering every adversarial event to confirm that the validator intercepts the failure and the repair agent autonomously remediates it.
 

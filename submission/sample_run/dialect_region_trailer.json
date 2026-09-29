@@ -1,0 +1,907 @@
+{
+  "trailer_id": "dialect_region_v1",
+  "audience": "dialect_region",
+  "duration_seconds": 54.0,
+  "audience_promise": "An authentic, deeply grounded portrayal of rural craftsmanship, local wit, and regional dignity.",
+  "creative_strategy": "Ground narrative in authentic colloquial dialogue, vernacular proverbs, and artisans' pride, strictly avoiding urban mockery or stereotypes.",
+  "intended_emotional_journey": [
+    "cultural pride",
+    "nostalgia",
+    "respect",
+    "collective resolve"
+  ],
+  "segments": [
+    {
+      "segment_id": "seg_dia_01",
+      "source_in": "00:00:10.000",
+      "source_out": "00:00:22.000",
+      "scene_id": "scene_01",
+      "video": "scene_01",
+      "audio": "authentic_dialect_dialogue_and_flute",
+      "dialogue": "The warp knows your fingers before your mind even wakes up, young man.",
+      "dialogue_id": "dial_01",
+      "subtitle": "The warp knows your fingers before your mind even wakes up, young man.",
+      "subtitle_id": "sub_01",
+      "subtitle_track": "bhojpuri_purvanchal",
+      "text_card": "OUR VOICE. OUR SOIL. OUR STORY.",
+      "voice_over": null,
+      "music": "music_01_folk_acoustic",
+      "reason": "Honor authentic regional idiom and respectful portrayal of traditional craftsmanship",
+      "evidence": [
+        "scene:scene_01",
+        "dialogue:dial_01",
+        "subtitle:sub_01",
+        "vision_aggregate:PASS",
+        "vision_confidence:0.95",
+        "vision_aggregate:PASS",
+        "vision_confidence:0.95"
+      ],
+      "risk_flags": [],
+      "source": {
+        "source": "sample_data\\media\\episode_01.mp4",
+        "source_type": "REPLAY_FIXTURE",
+        "verification_method": "opencv_inspection",
+        "verified": true,
+        "timestamp": "10.0",
+        "video": "scene_01",
+        "start": 10.0,
+        "end": 22.0,
+        "scene_id": "scene_01",
+        "start_time": "00:00:10.000",
+        "end_time": "00:00:22.000",
+        "dialogue_id": "dial_01",
+        "music_id": "music_01_folk_acoustic"
+      },
+      "frame_evidence": [
+        "sample_run\\frames\\scene_01_start.jpg",
+        "sample_run\\frames\\scene_01_middle.jpg",
+        "sample_run\\frames\\scene_01_end.jpg"
+      ],
+      "visual_evidence": [
+        {
+          "claim": "Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.",
+          "observations": [
+            "scene_01_start.jpg: Frame visually confirms: Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.. Segment reason: Honor authentic regional idiom and respectful portrayal of traditional craftsmanship",
+            "scene_01_middle.jpg: Frame visually confirms: Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.. Segment reason: Honor authentic regional idiom and respectful portrayal of traditional craftsmanship",
+            "scene_01_end.jpg: Frame visually confirms: Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.. Segment reason: Honor authentic regional idiom and respectful portrayal of traditional craftsmanship"
+          ],
+          "confidence": 0.95,
+          "supported": true,
+          "source_type": "REPLAY_FIXTURE",
+          "verification_method": "MOCK_VISION",
+          "verified": false,
+          "status": "PASS",
+          "sampled_frames": [
+            "sample_run\\frames\\scene_01_start.jpg",
+            "sample_run\\frames\\scene_01_middle.jpg",
+            "sample_run\\frames\\scene_01_end.jpg"
+          ]
+        },
+        {
+          "claim": "Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.",
+          "observations": [
+            "scene_01_start.jpg: Frame visually confirms: Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.. Segment reason: Honor authentic regional idiom and respectful portrayal of traditional craftsmanship",
+            "scene_01_middle.jpg: Frame visually confirms: Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.. Segment reason: Honor authentic regional idiom and respectful portrayal of traditional craftsmanship",
+            "scene_01_end.jpg: Frame visually confirms: Dawn breaks over the traditional weaver village. Master Raghu patiently guides young Dev's hands along the polished cedar shuttle of the ancestral pit-loom.. Segment reason: Honor authentic regional idiom and respectful portrayal of traditional craftsmanship"
+          ],
+          "confidence": 0.95,
+          "supported": true,
+          "source_type": "REPLAY_FIXTURE",
+          "verification_method": "MOCK_VISION",
+          "verified": false,
+          "status": "PASS",
+          "sampled_frames": [
+            "sample_run\\frames\\scene_01_start.jpg",
+            "sample_run\\frames\\scene_01_middle.jpg",
+            "sample_run\\frames\\scene_01_end.jpg"
+          ]
+        }
+      ],
+      "dialogue_evidence": {
+        "source": "dialogue_metadata",
+        "source_type": "METADATA",
+        "verification_method": "NOT_PERFORMED",
+        "verified": false,
+        "evidence_verified": false,
+        "check_passed": true,
+        "timestamp": null,
+        "metadata_text": "",
+        "asr_text": "AUDIO_STREAM_NOT_AVAILABLE",
+        "match": true,
+        "asr_engine": "NONE",
+        "is_asr_output": false,
+        "audio_status": "AUDIO_STREAM_NOT_AVAILABLE",
+        "dialogue_id": "dial_01",
+        "track_id": "bhojpuri_purvanchal",
+        "speaker": "Dev",
+        "spoken_text": "The warp knows your fingers before your mind even wakes up, young man.",
+        "start_time": "00:00:10.000",
+        "end_time": "00:00:22.000",
+        "match_confidence": 0.0
+      },
+      "subtitle_evidence": {
+        "source": "subtitle_metadata",
+        "source_type": "METADATA",
+        "verification_method": "canonical_subtitle_verification",
+        "verified": true,
+        "evidence_verified": true,
+        "check_passed": true,
+        "timestamp": null,
+        "text": "The warp knows your fingers before your mind even wakes up, young man.",
+        "subtitle_id": "sub_01",
+        "track_id": "bhojpuri_purvanchal",
+        "dialect_variant": null,
+        "language": "bhojpuri",
+        "verified_accurate": true,
+        "semantic_match": true,
+        "meaning_changed": false
+      },
+      "rights_evidence": {
+        "source": "contracts_ledger",
+        "source_type": "METADATA",
+        "verification_method": "contract_rule_evaluation",
+        "verified": true,
+        "timestamp": null,
+        "promotional_use": true,
+        "territory": "GLOBAL",
+        "valid": true,
+        "license_id": "lic_scene_01",
+        "allowed_territories": [
+          "IN",
+          "GLOBAL"
+        ],
+        "allowed_platforms": [
+          "OTT",
+          "SOCIAL_PROMO"
+        ],
+        "valid_until": "2027-12-31",
+        "rights_cleared": true
+      },
+      "spoiler_evidence": {
+        "spoiler_free": true,
+        "status": "PASS",
+        "check_passed": true,
+        "evidence_verified": true
+      },
+      "story_truth_evidence": {
+        "canon_truthful": true,
+        "status": "PASS",
+        "check_passed": true,
+        "evidence_verified": true
+      },
+      "validation_results": [],
+      "provenance": {
+        "execution_mode": "replay",
+        "media_source": "replay_fixture",
+        "validator_engine": "IndependentValidationAgent",
+        "reference_date": "2026-02-15",
+        "overall_verdict": "PASS"
+      },
+      "validation_status_map": {
+        "source": "PASS",
+        "spoiler": "PASS",
+        "story_truth": "PASS",
+        "rights": "PASS",
+        "rating": "PASS",
+        "cultural": "PASS",
+        "bias": "PASS",
+        "accessibility": "PASS",
+        "budget": "PASS",
+        "media": "PASS"
+      }
+    },
+    {
+      "segment_id": "seg_dia_02",
+      "source_in": "00:09:10.000",
+      "source_out": "00:09:24.000",
+      "scene_id": "scene_05",
+      "video": "scene_05",
+      "audio": "village_square_chatter_and_music",
+      "dialogue": "A weaver doesn't beg for fair price; his cloth commands it with honor.",
+      "dialogue_id": "dial_05",
+      "subtitle": "A weaver doesn't beg for fair price; his cloth commands it with honor.",
+      "subtitle_id": "sub_05",
+      "subtitle_track": "bhojpuri_purvanchal",
+      "text_card": null,
+      "voice_over": null,
+      "music": "music_01_folk_acoustic",
+      "reason": "Showcase regional self-respect, community agency, and cultural pride",
+      "evidence": [
+        "scene:scene_05",
+        "dialogue:dial_05",
+        "subtitle:sub_05",
+        "vision_aggregate:PASS",
+        "vision_confidence:0.95",
+        "vision_aggregate:PASS",
+        "vision_confidence:0.95"
+      ],
+      "risk_flags": [],
+      "source": {
+        "source": "sample_data\\media\\episode_01.mp4",
+        "source_type": "REPLAY_FIXTURE",
+        "verification_method": "opencv_inspection",
+        "verified": true,
+        "timestamp": "550.0",
+        "video": "scene_05",
+        "start": 550.0,
+        "end": 564.0,
+        "scene_id": "scene_05",
+        "start_time": "00:09:10.000",
+        "end_time": "00:09:24.000",
+        "dialogue_id": "dial_05",
+        "music_id": "music_01_folk_acoustic"
+      },
+      "frame_evidence": [
+        "sample_run\\frames\\scene_05_start.jpg",
+        "sample_run\\frames\\scene_05_middle.jpg",
+        "sample_run\\frames\\scene_05_end.jpg"
+      ],
+      "visual_evidence": [
+        {
+          "claim": "Village square artisan council. Elder weavers discuss local price gouging. Raghu speaks with quiet dignity in local dialect, earning unanimous respect.",
+          "observations": [
+            "scene_05_start.jpg: Frame visually confirms: Village square artisan council. Elder weavers discuss local price gouging. Raghu speaks with quiet dignity in local dialect, earning unanimous respect.. Segment reason: Showcase regional self-respect, community agency, and cultural pride",
+            "scene_05_middle.jpg: Frame visually confirms: Village square artisan council. Elder weavers discuss local price gouging. Raghu speaks with quiet dignity in local dialect, earning unanimous respect.. Segment reason: Showcase regional self-respect, community agency, and cultural pride",
+            "scene_05_end.jpg: Frame visually confirms: Village square artisan council. Elder weavers discuss local price gouging. Raghu speaks with quiet dignity in local dialect, earning unanimous respect.. Segment reason: Showcase regional self-respect, community agency, and cultural pride"
+          ],
+          "confidence": 0.95,
+          "supported": true,
+          "source_type": "REPLAY_FIXTURE",
+          "verification_method": "MOCK_VISION",
+          "verified": false,
+          "status": "PASS",
+          "sampled_frames": [
+            "sample_run\\frames\\scene_05_start.jpg",
+            "sample_run\\frames\\scene_05_middle.jpg",
+            "sample_run\\frames\\scene_05_end.jpg"
+          ]
+        },
+        {
+          "claim": "Village square artisan council. Elder weavers discuss local price gouging. Raghu speaks with quiet dignity in local dialect, earning unanimous respect.",
+          "observations": [
+            "scene_05_start.jpg: Frame visually confirms: Village square artisan council. Elder weavers discuss local price gouging. Raghu speaks with quiet dignity in local dialect, earning unanimous respect.. Segment reason: Showcase regional self-respect, community agency, and cultural pride",
+            "scene_05_middle.jpg: Frame visually confirms: Village square artisan council. Elder weavers discuss local price gouging. Raghu speaks with quiet dignity in local dialect, earning unanimous respect.. Segment reason: Showcase regional self-respect, community agency, and cultural pride",
+            "scene_05_end.jpg: Frame visually confirms: Village square artisan council. Elder weavers discuss local price gouging. Raghu speaks with quiet dignity in local dialect, earning unanimous respect.. Segment reason: Showcase regional self-respect, community agency, and cultural pride"
+          ],
+          "confidence": 0.95,
+          "supported": true,
+          "source_type": "REPLAY_FIXTURE",
+          "verification_method": "MOCK_VISION",
+          "verified": false,
+          "status": "PASS",
+          "sampled_frames": [
+            "sample_run\\frames\\scene_05_start.jpg",
+            "sample_run\\frames\\scene_05_middle.jpg",
+            "sample_run\\frames\\scene_05_end.jpg"
+          ]
+        }
+      ],
+      "dialogue_evidence": {
+        "source": "dialogue_metadata",
+        "source_type": "METADATA",
+        "verification_method": "NOT_PERFORMED",
+        "verified": false,
+        "evidence_verified": false,
+        "check_passed": true,
+        "timestamp": null,
+        "metadata_text": "",
+        "asr_text": "AUDIO_STREAM_NOT_AVAILABLE",
+        "match": true,
+        "asr_engine": "NONE",
+        "is_asr_output": false,
+        "audio_status": "AUDIO_STREAM_NOT_AVAILABLE",
+        "dialogue_id": "dial_05",
+        "track_id": "bhojpuri_purvanchal",
+        "speaker": "Dev",
+        "spoken_text": "A weaver doesn't beg for fair price; his cloth commands it with honor.",
+        "start_time": "00:09:10.000",
+        "end_time": "00:09:24.000",
+        "match_confidence": 0.0
+      },
+      "subtitle_evidence": {
+        "source": "subtitle_metadata",
+        "source_type": "METADATA",
+        "verification_method": "canonical_subtitle_verification",
+        "verified": true,
+        "evidence_verified": true,
+        "check_passed": true,
+        "timestamp": null,
+        "text": "A weaver doesn't beg for fair price; his cloth commands it with honor.",
+        "subtitle_id": "sub_05",
+        "track_id": "bhojpuri_purvanchal",
+        "dialect_variant": null,
+        "language": "bhojpuri",
+        "verified_accurate": true,
+        "semantic_match": true,
+        "meaning_changed": false
+      },
+      "rights_evidence": {
+        "source": "contracts_ledger",
+        "source_type": "METADATA",
+        "verification_method": "contract_rule_evaluation",
+        "verified": true,
+        "timestamp": null,
+        "promotional_use": true,
+        "territory": "GLOBAL",
+        "valid": true,
+        "license_id": "lic_scene_05",
+        "allowed_territories": [
+          "IN",
+          "GLOBAL"
+        ],
+        "allowed_platforms": [
+          "OTT",
+          "SOCIAL_PROMO"
+        ],
+        "valid_until": "2027-12-31",
+        "rights_cleared": true
+      },
+      "spoiler_evidence": {
+        "spoiler_free": true,
+        "status": "PASS",
+        "check_passed": true,
+        "evidence_verified": true
+      },
+      "story_truth_evidence": {
+        "canon_truthful": true,
+        "status": "PASS",
+        "check_passed": true,
+        "evidence_verified": true
+      },
+      "validation_results": [],
+      "provenance": {
+        "execution_mode": "replay",
+        "media_source": "replay_fixture",
+        "validator_engine": "IndependentValidationAgent",
+        "reference_date": "2026-02-15",
+        "overall_verdict": "PASS"
+      },
+      "validation_status_map": {
+        "source": "PASS",
+        "spoiler": "PASS",
+        "story_truth": "PASS",
+        "rights": "PASS",
+        "rating": "PASS",
+        "cultural": "PASS",
+        "bias": "PASS",
+        "accessibility": "PASS",
+        "budget": "PASS",
+        "media": "PASS"
+      }
+    },
+    {
+      "segment_id": "seg_dia_03",
+      "source_in": "00:11:00.000",
+      "source_out": "00:11:14.000",
+      "scene_id": "scene_06",
+      "video": "scene_06",
+      "audio": "heartfelt_discussion",
+      "dialogue": "When we speak in our mother tongue, even the wood of the loom nods.",
+      "dialogue_id": "dial_06",
+      "subtitle": "When we speak in our mother tongue, even the wood of the loom nods.",
+      "subtitle_id": "sub_06",
+      "subtitle_track": "bhojpuri_purvanchal",
+      "text_card": "HONORING OUR ROOTS",
+      "voice_over": null,
+      "music": "music_01_folk_acoustic",
+      "reason": "Highlight linguistic pride and emotional resonance with dialect audience",
+      "evidence": [
+        "scene:scene_06",
+        "dialogue:dial_06",
+        "subtitle:sub_06",
+        "vision_aggregate:PASS",
+        "vision_confidence:0.95",
+        "vision_aggregate:PASS",
+        "vision_confidence:0.95"
+      ],
+      "risk_flags": [],
+      "source": {
+        "source": "sample_data\\media\\episode_01.mp4",
+        "source_type": "REPLAY_FIXTURE",
+        "verification_method": "opencv_inspection",
+        "verified": true,
+        "timestamp": "660.0",
+        "video": "scene_06",
+        "start": 660.0,
+        "end": 674.0,
+        "scene_id": "scene_06",
+        "start_time": "00:11:00.000",
+        "end_time": "00:11:14.000",
+        "dialogue_id": "dial_06",
+        "music_id": "music_01_folk_acoustic"
+      },
+      "frame_evidence": [
+        "sample_run\\frames\\scene_06_start.jpg",
+        "sample_run\\frames\\scene_06_middle.jpg",
+        "sample_run\\frames\\scene_06_end.jpg"
+      ],
+      "visual_evidence": [
+        {
+          "claim": "Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.",
+          "observations": [
+            "scene_06_start.jpg: Frame visually confirms: Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.. Segment reason: Highlight linguistic pride and emotional resonance with dialect audience",
+            "scene_06_middle.jpg: Frame visually confirms: Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.. Segment reason: Highlight linguistic pride and emotional resonance with dialect audience",
+            "scene_06_end.jpg: Frame visually confirms: Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.. Segment reason: Highlight linguistic pride and emotional resonance with dialect audience"
+          ],
+          "confidence": 0.95,
+          "supported": true,
+          "source_type": "REPLAY_FIXTURE",
+          "verification_method": "MOCK_VISION",
+          "verified": false,
+          "status": "PASS",
+          "sampled_frames": [
+            "sample_run\\frames\\scene_06_start.jpg",
+            "sample_run\\frames\\scene_06_middle.jpg",
+            "sample_run\\frames\\scene_06_end.jpg"
+          ]
+        },
+        {
+          "claim": "Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.",
+          "observations": [
+            "scene_06_start.jpg: Frame visually confirms: Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.. Segment reason: Highlight linguistic pride and emotional resonance with dialect audience",
+            "scene_06_middle.jpg: Frame visually confirms: Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.. Segment reason: Highlight linguistic pride and emotional resonance with dialect audience",
+            "scene_06_end.jpg: Frame visually confirms: Dev unrolls ancient parchment blueprints with Raghu. They discover the dialect folk songs passed down by Janki are actually mathematical warp codes.. Segment reason: Highlight linguistic pride and emotional resonance with dialect audience"
+          ],
+          "confidence": 0.95,
+          "supported": true,
+          "source_type": "REPLAY_FIXTURE",
+          "verification_method": "MOCK_VISION",
+          "verified": false,
+          "status": "PASS",
+          "sampled_frames": [
+            "sample_run\\frames\\scene_06_start.jpg",
+            "sample_run\\frames\\scene_06_middle.jpg",
+            "sample_run\\frames\\scene_06_end.jpg"
+          ]
+        }
+      ],
+      "dialogue_evidence": {
+        "source": "dialogue_metadata",
+        "source_type": "METADATA",
+        "verification_method": "NOT_PERFORMED",
+        "verified": false,
+        "evidence_verified": false,
+        "check_passed": true,
+        "timestamp": null,
+        "metadata_text": "",
+        "asr_text": "AUDIO_STREAM_NOT_AVAILABLE",
+        "match": true,
+        "asr_engine": "NONE",
+        "is_asr_output": false,
+        "audio_status": "AUDIO_STREAM_NOT_AVAILABLE",
+        "dialogue_id": "dial_06",
+        "track_id": "bhojpuri_purvanchal",
+        "speaker": "Dev",
+        "spoken_text": "When we speak in our mother tongue, even the wood of the loom nods.",
+        "start_time": "00:11:00.000",
+        "end_time": "00:11:14.000",
+        "match_confidence": 0.0
+      },
+      "subtitle_evidence": {
+        "source": "subtitle_metadata",
+        "source_type": "METADATA",
+        "verification_method": "canonical_subtitle_verification",
+        "verified": true,
+        "evidence_verified": true,
+        "check_passed": true,
+        "timestamp": null,
+        "text": "When we speak in our mother tongue, even the wood of the loom nods.",
+        "subtitle_id": "sub_06",
+        "track_id": "bhojpuri_purvanchal",
+        "dialect_variant": null,
+        "language": "bhojpuri",
+        "verified_accurate": true,
+        "semantic_match": true,
+        "meaning_changed": false
+      },
+      "rights_evidence": {
+        "source": "contracts_ledger",
+        "source_type": "METADATA",
+        "verification_method": "contract_rule_evaluation",
+        "verified": true,
+        "timestamp": null,
+        "promotional_use": true,
+        "territory": "GLOBAL",
+        "valid": true,
+        "license_id": "lic_scene_06",
+        "allowed_territories": [
+          "IN",
+          "GLOBAL"
+        ],
+        "allowed_platforms": [
+          "OTT",
+          "SOCIAL_PROMO"
+        ],
+        "valid_until": "2027-12-31",
+        "rights_cleared": true
+      },
+      "spoiler_evidence": {
+        "spoiler_free": true,
+        "status": "PASS",
+        "check_passed": true,
+        "evidence_verified": true
+      },
+      "story_truth_evidence": {
+        "canon_truthful": true,
+        "status": "PASS",
+        "check_passed": true,
+        "evidence_verified": true
+      },
+      "validation_results": [],
+      "provenance": {
+        "execution_mode": "replay",
+        "media_source": "replay_fixture",
+        "validator_engine": "IndependentValidationAgent",
+        "reference_date": "2026-02-15",
+        "overall_verdict": "PASS"
+      },
+      "validation_status_map": {
+        "source": "PASS",
+        "spoiler": "PASS",
+        "story_truth": "PASS",
+        "rights": "PASS",
+        "rating": "PASS",
+        "cultural": "PASS",
+        "bias": "PASS",
+        "accessibility": "PASS",
+        "budget": "PASS",
+        "media": "PASS"
+      }
+    },
+    {
+      "segment_id": "seg_dia_04",
+      "source_in": "00:18:20.000",
+      "source_out": "00:18:34.000",
+      "scene_id": "scene_09",
+      "video": "scene_09",
+      "audio": "festive_percussion_and_cheering",
+      "dialogue": "The village loom works once more!",
+      "dialogue_id": "dial_09",
+      "subtitle": "The village loom works once more!",
+      "subtitle_id": "sub_09",
+      "subtitle_track": "bhojpuri_purvanchal",
+      "text_card": "PROUDLY PRESENTED IN BHOJPURI & MAITHILI",
+      "voice_over": null,
+      "music": "music_01_folk_acoustic",
+      "reason": "Authentic regional celebration without exaggeration or stereotyping",
+      "evidence": [
+        "scene:scene_09",
+        "dialogue:dial_09",
+        "subtitle:sub_09",
+        "vision_aggregate:PASS",
+        "vision_confidence:0.95",
+        "vision_aggregate:PASS",
+        "vision_confidence:0.95"
+      ],
+      "risk_flags": [],
+      "source": {
+        "source": "sample_data\\media\\episode_01.mp4",
+        "source_type": "REPLAY_FIXTURE",
+        "verification_method": "opencv_inspection",
+        "verified": true,
+        "timestamp": "1100.0",
+        "video": "scene_09",
+        "start": 1100.0,
+        "end": 1114.0,
+        "scene_id": "scene_09",
+        "start_time": "00:18:20.000",
+        "end_time": "00:18:34.000",
+        "dialogue_id": "dial_09",
+        "music_id": "music_01_folk_acoustic"
+      },
+      "frame_evidence": [
+        "sample_run\\frames\\scene_09_start.jpg",
+        "sample_run\\frames\\scene_09_middle.jpg",
+        "sample_run\\frames\\scene_09_end.jpg"
+      ],
+      "visual_evidence": [
+        {
+          "claim": "Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.",
+          "observations": [
+            "scene_09_start.jpg: Frame visually confirms: Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.. Segment reason: Authentic regional celebration without exaggeration or stereotyping",
+            "scene_09_middle.jpg: Frame visually confirms: Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.. Segment reason: Authentic regional celebration without exaggeration or stereotyping",
+            "scene_09_end.jpg: Frame visually confirms: Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.. Segment reason: Authentic regional celebration without exaggeration or stereotyping"
+          ],
+          "confidence": 0.95,
+          "supported": true,
+          "source_type": "REPLAY_FIXTURE",
+          "verification_method": "MOCK_VISION",
+          "verified": false,
+          "status": "PASS",
+          "sampled_frames": [
+            "sample_run\\frames\\scene_09_start.jpg",
+            "sample_run\\frames\\scene_09_middle.jpg",
+            "sample_run\\frames\\scene_09_end.jpg"
+          ]
+        },
+        {
+          "claim": "Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.",
+          "observations": [
+            "scene_09_start.jpg: Frame visually confirms: Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.. Segment reason: Authentic regional celebration without exaggeration or stereotyping",
+            "scene_09_middle.jpg: Frame visually confirms: Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.. Segment reason: Authentic regional celebration without exaggeration or stereotyping",
+            "scene_09_end.jpg: Frame visually confirms: Dawn rally. The entire artisan guild gathers by candlelight to re-thread the 10,000 warp strands, singing the ancient dialect rhythm together.. Segment reason: Authentic regional celebration without exaggeration or stereotyping"
+          ],
+          "confidence": 0.95,
+          "supported": true,
+          "source_type": "REPLAY_FIXTURE",
+          "verification_method": "MOCK_VISION",
+          "verified": false,
+          "status": "PASS",
+          "sampled_frames": [
+            "sample_run\\frames\\scene_09_start.jpg",
+            "sample_run\\frames\\scene_09_middle.jpg",
+            "sample_run\\frames\\scene_09_end.jpg"
+          ]
+        }
+      ],
+      "dialogue_evidence": {
+        "source": "dialogue_metadata",
+        "source_type": "METADATA",
+        "verification_method": "NOT_PERFORMED",
+        "verified": false,
+        "evidence_verified": false,
+        "check_passed": true,
+        "timestamp": null,
+        "metadata_text": "",
+        "asr_text": "AUDIO_STREAM_NOT_AVAILABLE",
+        "match": true,
+        "asr_engine": "NONE",
+        "is_asr_output": false,
+        "audio_status": "AUDIO_STREAM_NOT_AVAILABLE",
+        "dialogue_id": "dial_09",
+        "track_id": "bhojpuri_purvanchal",
+        "speaker": "Dev",
+        "spoken_text": "The village loom works once more!",
+        "start_time": "00:18:20.000",
+        "end_time": "00:18:34.000",
+        "match_confidence": 0.0
+      },
+      "subtitle_evidence": {
+        "source": "subtitle_metadata",
+        "source_type": "METADATA",
+        "verification_method": "canonical_subtitle_verification",
+        "verified": true,
+        "evidence_verified": true,
+        "check_passed": true,
+        "timestamp": null,
+        "text": "The village loom works once more!",
+        "subtitle_id": "sub_09",
+        "track_id": "bhojpuri_purvanchal",
+        "dialect_variant": null,
+        "language": "bhojpuri",
+        "verified_accurate": true,
+        "semantic_match": true,
+        "meaning_changed": false
+      },
+      "rights_evidence": {
+        "source": "contracts_ledger",
+        "source_type": "METADATA",
+        "verification_method": "contract_rule_evaluation",
+        "verified": true,
+        "timestamp": null,
+        "promotional_use": true,
+        "territory": "GLOBAL",
+        "valid": true,
+        "license_id": "lic_scene_09",
+        "allowed_territories": [
+          "IN",
+          "GLOBAL"
+        ],
+        "allowed_platforms": [
+          "OTT",
+          "SOCIAL_PROMO"
+        ],
+        "valid_until": "2027-12-31",
+        "rights_cleared": true
+      },
+      "spoiler_evidence": {
+        "spoiler_free": true,
+        "status": "PASS",
+        "check_passed": true,
+        "evidence_verified": true
+      },
+      "story_truth_evidence": {
+        "canon_truthful": true,
+        "status": "PASS",
+        "check_passed": true,
+        "evidence_verified": true
+      },
+      "validation_results": [],
+      "provenance": {
+        "execution_mode": "replay",
+        "media_source": "replay_fixture",
+        "validator_engine": "IndependentValidationAgent",
+        "reference_date": "2026-02-15",
+        "overall_verdict": "PASS"
+      },
+      "validation_status_map": {
+        "source": "PASS",
+        "spoiler": "PASS",
+        "story_truth": "PASS",
+        "rights": "PASS",
+        "rating": "PASS",
+        "cultural": "PASS",
+        "bias": "PASS",
+        "accessibility": "PASS",
+        "budget": "PASS",
+        "media": "PASS"
+      }
+    }
+  ],
+  "validation": {
+    "status": "PASS_WITH_WARNINGS",
+    "items": [
+      {
+        "validator": "source_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "All segments, timecodes, dialogue, and assets verified against episode source.",
+        "evidence": [
+          "verified_segments:4"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "spoiler_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Zero major spoilers detected; narrative twists and climax protected.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "story_truth_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Story truth verified: all relationships and events conform to canon.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rights_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "All music, actor, and scene rights cleared and active under current contract licenses.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "rating_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Content rating fully compliant with dialect_region policy standards.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "cultural_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Cultural authenticity and dialect subtitle semantics verified with dignity.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "bias_validator",
+        "status": "PASS_WITH_WARNINGS",
+        "severity": "MEDIUM",
+        "message": "Acknowledged dataset bias warning: Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]",
+        "evidence": [
+          "warning:Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "accessibility_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Full accessibility compliance: verified subtitle presence, CPS thresholds, and timing.",
+        "evidence": [],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      },
+      {
+        "validator": "budget_validator",
+        "status": "PASS",
+        "severity": "LOW",
+        "message": "Budget compliance verified: estimated cost ($0.42 USD), actual cost ($0.00 USD) within $25.00 limit. Resource calls within quotas.",
+        "evidence": [
+          "estimated_cost:0.42",
+          "actual_cost:0.0",
+          "llm_calls:0"
+        ],
+        "affected_segments": [],
+        "suggested_action": null,
+        "suggested_replacement": null
+      }
+    ],
+    "summary": "VALIDATION PASSED WITH WARNINGS: 1 non-critical warnings noted."
+  },
+  "warnings": [
+    "Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]"
+  ],
+  "assumptions": [
+    "Subtitles retain precise regional dialect idioms"
+  ],
+  "human_approval_requirements": [],
+  "human_approval_required": false,
+  "approval_type": null,
+  "approval_reason": null,
+  "estimated_cost": 0.42,
+  "actual_cost": 0.0,
+  "cost_breakdown": {
+    "llm_actual_usd": 0.0,
+    "vision_actual_usd": 0.0,
+    "asr_actual_usd": 0.0,
+    "media_processing_actual_usd": 0.0,
+    "estimated_plan_usd": 0.42
+  },
+  "resource_usage": {},
+  "reference_date": null,
+  "candidate_selection_report": {
+    "selected_candidate_id": "dialect_region_v1",
+    "selection_rationale": "Selected candidate 'dialect_region_v1' with top composite score 0.843 and compliant validation status (PASS_WITH_WARNINGS).",
+    "candidate_evaluations": {
+      "dialect_region_v1": {
+        "validation_status": "PASS_WITH_WARNINGS",
+        "composite_score": 0.843,
+        "risk_score": 0.8,
+        "evidence_score": 1.0,
+        "audience_score": 0.684,
+        "coherence_score": 0.9,
+        "cost_score": 0.958,
+        "violations_count": 0,
+        "warnings_count": 1
+      },
+      "dialect_region_cand_B_stakes": {
+        "validation_status": "FAIL",
+        "composite_score": 0.431,
+        "risk_score": 0.0,
+        "evidence_score": 1.0,
+        "audience_score": 0.229,
+        "coherence_score": 0.9,
+        "cost_score": 0.956,
+        "violations_count": 3,
+        "warnings_count": 1
+      },
+      "dialect_region_cand_C_dynamic": {
+        "validation_status": "PASS_WITH_WARNINGS",
+        "composite_score": 0.751,
+        "risk_score": 0.8,
+        "evidence_score": 1.0,
+        "audience_score": 0.225,
+        "coherence_score": 0.9,
+        "cost_score": 0.96,
+        "violations_count": 0,
+        "warnings_count": 1
+      }
+    },
+    "rejection_reasons": {
+      "dialect_region_cand_B_stakes": "Validation failed with 3 critical violation(s).",
+      "dialect_region_cand_C_dynamic": "Lower composite score (0.751 vs 0.843)."
+    }
+  },
+  "generation_provenance": {
+    "agent": "CreativeTrailerPlannerAgent",
+    "model": "mock_or_live",
+    "context_items_count": 23,
+    "audience": "dialect_region",
+    "timestamp": "2026-04-15T12:00:00Z"
+  },
+  "fallback_plan": "Retain primary folk acoustic track music_01"
+}

@@ -373,7 +373,7 @@ Implemented in `src/providers/`:
 
 ### 23. Verification Suite, Adversarial Testing, and Test Coverage Matrix
 
-The test suite contains **64 automated tests** passing in ~59 seconds across 19 test suites.
+The test suite contains **67 automated tests** passing in ~66 seconds across 19 test suites.
 
 | Test File | Test Cases | Target Coverage | Status |
 |---|---|---|---|
@@ -393,10 +393,10 @@ The test suite contains **64 automated tests** passing in ~59 seconds across 19 
 | `test_budget_exceeded.py` | 1 | Budget ceiling violation and automated cost fallback | PASS |
 | `test_missing_scene.py` | 1 | Hallucinated phantom scene rejection | PASS |
 | `test_contract_change.py` | 1 | Selective replanning of affected trailers on contract amendment | PASS |
-| `test_model_fallback.py` | 2 | Provider fallback on primary failure, health check validation | PASS |
+| `test_model_fallback.py` | 5 | Provider fallback on primary failure, health check validation, fallback provenance tracking, vision provider fallback, and e2e model failure recovery | PASS |
 | `test_prompt_injection.py` | 1 | Prompt injection in scene description rejected by independent validator | PASS |
 | `test_api.py` | 3 | FastAPI health check, analyze endpoint, run workflow endpoint | PASS |
-| **Total** | **64** | **Comprehensive Full-Pipeline Coverage Across 19 Test Suites** | **100% PASS** |
+| **Total** | **67** | **Comprehensive Full-Pipeline Coverage Across 19 Test Suites** | **100% PASS** |
 
 ---
 

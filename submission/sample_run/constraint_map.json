@@ -1,0 +1,203 @@
+{
+  "episode_id": "ep_101",
+  "rules": [
+    {
+      "rule_id": "rule_contract_music_01",
+      "type": "music_restriction",
+      "scope": "asset:music_01_folk_acoustic",
+      "condition": "music == 'music_01_folk_acoustic'",
+      "allowed_behavior": "Worldwide promotional trailer synchronization permitted across all digital and broadcast tiers.",
+      "blocked_behavior": "None",
+      "evidence": [
+        "Contract #MUS-2026-01: Folk Acoustic Masters Clearing"
+      ],
+      "status": "ACTIVE",
+      "effective_date": "2026-01-01",
+      "expiry_date": "2028-12-31",
+      "metadata": {
+        "territories": [
+          "GLOBAL"
+        ],
+        "cost_per_sync_usd": 0.0
+      }
+    },
+    {
+      "rule_id": "rule_contract_music_02",
+      "type": "music_restriction",
+      "scope": "asset:music_02_orchestral_strings",
+      "condition": "music == 'music_02_orchestral_strings'",
+      "allowed_behavior": "Permitted for family and broadcast promotional usage in domestic and global OTT.",
+      "blocked_behavior": "Explicit or mature-rated promotional cuts blocked.",
+      "evidence": [
+        "Contract #MUS-2026-02: Orchestral Guild Agreement"
+      ],
+      "status": "ACTIVE",
+      "effective_date": "2026-01-01",
+      "expiry_date": "2027-12-31",
+      "metadata": {
+        "territories": [
+          "GLOBAL"
+        ],
+        "cost_per_sync_usd": 0.0
+      }
+    },
+    {
+      "rule_id": "rule_contract_music_03",
+      "type": "music_restriction",
+      "scope": "asset:music_03_synth_pulse",
+      "condition": "music == 'music_03_synth_pulse'",
+      "allowed_behavior": "Permitted for promotional trailer synchronization prior to expiry date.",
+      "blocked_behavior": "Synchronization strictly forbidden on or after expiry date.",
+      "evidence": [
+        "Contract #MUS-2026-03: Modern Beats Limited Sync License"
+      ],
+      "status": "ACTIVE",
+      "effective_date": "2026-01-01",
+      "expiry_date": "2026-03-31",
+      "metadata": {
+        "territories": [
+          "GLOBAL"
+        ],
+        "cost_per_sync_usd": 0.05
+      }
+    },
+    {
+      "rule_id": "rule_contract_actor_harish",
+      "type": "actor_restriction",
+      "scope": "actor:Sunil Pandit",
+      "condition": "character == 'Harish' or scene_id == 'scene_10'",
+      "allowed_behavior": "None in promotional marketing trailers prior to premiere broadcast.",
+      "blocked_behavior": "All promotional visual and audio appearances of Sunil Pandit / Harish are strictly prohibited.",
+      "evidence": [
+        "SAG-AFTRA Rider clause 14B: Secret Guest Star Twist Embargo"
+      ],
+      "status": "ACTIVE",
+      "effective_date": "2026-01-01",
+      "expiry_date": "2026-12-31",
+      "metadata": {
+        "penalty_clause_usd": 50000.0
+      }
+    },
+    {
+      "rule_id": "rule_contract_scene_10_embargo",
+      "type": "scene_restriction",
+      "scope": "scene:scene_10",
+      "condition": "scene_id == 'scene_10'",
+      "allowed_behavior": "None",
+      "blocked_behavior": "Scene 10 is embargoed from all promotional materials prior to full season release.",
+      "evidence": [
+        "Executive Producer Showrunner Directive #04: Climax Embargo"
+      ],
+      "status": "ACTIVE",
+      "effective_date": "2026-01-01",
+      "expiry_date": "2026-12-31",
+      "metadata": {}
+    },
+    {
+      "rule_id": "rule_contract_territory_global",
+      "type": "territory_restriction",
+      "scope": "territory:all",
+      "condition": "territory in ['GLOBAL', 'IN', 'US', 'UK']",
+      "allowed_behavior": "Global distribution allowed on certified OTT endpoints.",
+      "blocked_behavior": "Unlicensed third-party re-hosting blocked.",
+      "evidence": [
+        "Master Distribution Agreement 2026"
+      ],
+      "status": "ACTIVE",
+      "effective_date": "2026-01-01",
+      "expiry_date": "2028-12-31",
+      "metadata": {}
+    },
+    {
+      "rule_id": "rule_budget_limit",
+      "type": "budget",
+      "scope": "system:ai_planning",
+      "condition": "total_cost <= 25.0",
+      "allowed_behavior": "AI planning and verification allowed within budget threshold.",
+      "blocked_behavior": "Operations exceeding $25.00 USD must switch to lower-cost deterministic fallback.",
+      "evidence": [
+        "Engineering Operations Budget Policy Q1 2026"
+      ],
+      "status": "ACTIVE",
+      "effective_date": "2026-01-01",
+      "expiry_date": "2026-12-31",
+      "metadata": {
+        "max_cost_usd": 25.0
+      }
+    }
+  ],
+  "rating_rules": {
+    "family": {
+      "target_rating": "G",
+      "max_allowed_rating": "PG",
+      "prohibited_elements": [
+        "graphic_violence",
+        "weapons_threat",
+        "intense_fear",
+        "sabotage_actions",
+        "profanity",
+        "substance_abuse",
+        "sensual_content"
+      ],
+      "prohibited_scenes": [
+        "scene_08",
+        "scene_10"
+      ],
+      "allowed_emotions": [
+        "warm_reverence",
+        "family_solidarity",
+        "cultural_pride",
+        "awe_discovery",
+        "collective_triumph",
+        "peaceful_legacy"
+      ]
+    },
+    "young_adult": {
+      "target_rating": "PG-13",
+      "max_allowed_rating": "PG-13",
+      "prohibited_elements": [
+        "graphic_gore",
+        "explicit_profanity",
+        "explicit_sexuality"
+      ],
+      "allowed_emotions": [
+        "tense_confrontation",
+        "youthful_ambition",
+        "suspense_thrill",
+        "peril_action",
+        "cliffhanger_challenge"
+      ]
+    },
+    "dialect_region": {
+      "target_rating": "PG",
+      "max_allowed_rating": "PG",
+      "prohibited_elements": [
+        "cultural_stereotyping",
+        "dialect_caricature",
+        "demeaning_rural_tropes",
+        "profanity"
+      ],
+      "cultural_requirements": [
+        "authentic_vernacular_idiom",
+        "respectful_artisan_dignity",
+        "accurate_subtitles_reflecting_cultural_intent"
+      ]
+    }
+  },
+  "budget_limit_usd": 25.0,
+  "accessibility_requirements": {
+    "subtitles": {
+      "mandatory_for_dialogue": true,
+      "max_reading_speed_cps": 21.0,
+      "min_display_duration_seconds": 1.2,
+      "max_line_length_characters": 42
+    },
+    "text_cards": {
+      "min_display_duration_seconds": 1.5,
+      "max_words_per_card": 8
+    },
+    "multimodal_redundancy": {
+      "key_narrative_audio_must_have_subtitle_or_text_card": true
+    }
+  }
+}

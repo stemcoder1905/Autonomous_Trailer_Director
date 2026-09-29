@@ -1,63 +1,62 @@
 # Known Limitations & Production Constraints
 
-While the **Autonomous Trailer Director** provides an end-to-end, test-verified, and resilient agentic pipeline for editorial trailer planning, real-world deployment across large streaming catalogs introduces specific technical and algorithmic limitations.
+While the **Autonomous Trailer Director** provides an end-to-end, test-verified, and resilient agentic pipeline for editorial trailer planning, real-world deployment across production streaming catalogs involves specific technical, algorithmic, and multimodal limitations. The project demonstrates a hardened architectural prototype and quality-gate framework, but should not be claimed as an unattended end-to-end production system without human editorial oversight.
 
 ---
 
-## 1. Multimodal Grounding vs. Structured Metadata
+## 1. Synthetic / Mock Data & Replay Mode Limitations
 
-### Current Architecture
-- The system operates primarily on **structured multimodal metadata**: verified scene bounds, character rosters, dialogue transcripts, subtitle alignments, audio stem tags, and emotional tags.
-- For local testing and deterministic evaluation, timecode-accurate mock metadata is used.
-
-### Production Limitations
-- **Sub-clip Shot Boundary Detection:** In actual video files, a 2-minute scene may contain dozens of camera cuts. Selecting sub-segment cuts (`00:02:14.200` to `00:02:18.600`) requires computer vision tools (e.g. PySceneDetect or OpenCV optical flow) to ensure the cut lands on an exact I-frame or natural shot transition rather than cutting an actor mid-blink or mid-sentence.
-- **Audio Stem Layering:** Real trailer rendering requires separate dialogue, music, and Foley effects stems. Our EDL plan specifies the audio intent (e.g., `dialogue_and_acoustic_music`), but full acoustic ducking and cross-fading must be handled by the downstream NLE or FFmpeg engine.
+- **Synthetic Video Fixture:** The repository includes a deterministic synthetic video (`sample_data/media/episode_01.mp4`). While it has valid MP4 container dimensions, frame rates, and timecodes, it is an illustrative fixture designed for automated offline verification rather than broadcast video evaluation.
+- **Absence of Physical Audio Stream:** The replay fixture does not contain an actual audio track. In replay mode, speech recognition explicitly reports `AUDIO_STREAM_NOT_AVAILABLE` and `is_asr_output: False`. The system intentionally refuses to fabricate synthetic ASR transcripts from dialogue metadata.
+- **Replay vs. Live Determinism:** In replay mode, LLM and Vision provider responses are simulated using deterministic mock handlers (`MockLLMProvider`, `MockVisionProvider`). While this guarantees 100% reproducible test suites with zero external API costs, it does not evaluate the stochastic variability or latency of live frontier cloud models.
 
 ---
 
-## 2. Multi-Clip Combination Spoiler Boundaries
+## 2. Multimodal Model Inference & Vision/ASR Limits
 
-### Current Architecture
-- `SpoilerValidator` evaluates both single-clip spoilers and multi-clip combination tuples (e.g., pairing catastrophe scene `scene_08` with instant resolution `scene_09`).
-
-### Algorithmic Limits
-- **Combinatorial Explosion:** In an episode with 25 scenes, checking all possible combinations of 4-scene sequences requires evaluating \(\binom{25}{4} = 12,650\) combinations. Checking across an entire 10-episode season becomes computationally intractable without hierarchical graph pruning.
-- **Implicit Narrative Deduction:** Some spoilers do not exist in visual elements or dialogue, but are deduced by astute viewers from subtle atmospheric clues (e.g., character wearing a specific ring in scene 3 that only appears in scene 11). Current LLMs cannot reliably predict every human fan-theory deduction.
+- **Sub-Clip Shot Boundary Alignment:** Although the system includes OpenCV frame difference analysis (`detect_shot_boundaries`), fine-grained sub-second cuts in live video production require deep boundary models (e.g., TransNetV2, PySceneDetect) to guarantee cuts align with keyframes (I-frames) and avoid clipping actors mid-phoneme or mid-motion.
+- **Multimodal Visual Claim Ambiguity:** Vision models evaluate visual grounding from sampled frames (start, middle, end). Subtleties such as micro-expressions, rapid background action, or cinematic lighting shifts can produce low confidence scores ($< 0.75$), triggering mandatory human editorial review rather than autonomous final clearance.
+- **Audio Stem Layering & Mixdown:** Trailer delivery requires separate audio stems (dialogue, Foley effects, isolated score). The system generates Edit Decision Lists (EDLs) with audio track directives, but automated acoustic ducking, equalization, and final multi-track stem mixdown must be performed downstream by a professional Digital Audio Workstation (DAW) or FFmpeg rendering pipeline.
 
 ---
 
-## 3. Cultural & Dialect Nuance
+## 3. Dependency on Supplied Metadata & Ground-Truth Asymmetry
 
-### Current Architecture
-- The system checks dialect subtitle semantic alignment and enforces regional dignity policies, blocking crude urban stereotypes.
-
-### Real-World Boundaries
-- **Linguistic Ambiguity & Double Entendres:** Regional Indian dialects (e.g. Bhojpuri, Maithili, Magahi) contain rich localized idioms and sarcastic double entendres that standard translation models often misinterpret as offensive or literal.
-- **Audience Segmentation Bias:** While the system refuses to equate dialect groups with violent content, personalization based on regional geography always risks subtle echo-chamber bias unless actively diversified by human curators.
+- **Metadata Completeness:** The system relies on structured episode packages (scene boundaries, character lists, dialogue transcripts, subtitle alignments, and contract manifests). If upstream ingestion pipelines provide corrupt or incomplete metadata, validator passes may fail or require manual correction.
+- **Ground-Truth Asymmetry:** When external media is ingested without pre-indexed character metadata, face-recognition or speaker-diarization models would be required to independently identify uncredited actors or off-screen dialogue.
 
 ---
 
-## 4. Scalability Bottlenecks at Enterprise Scale
+## 4. Limits of Automated Cultural & Bias Detection
 
-1. **State Graph Memory Footprint:** Passing full episode transcript packages and complete video metadata through memory graph state works efficiently for single episodes (~20MB memory), but full multi-season series planning requires distributed state stores (Redis/PostgreSQL) rather than in-memory Pydantic objects.
-2. **Re-planning Lock Contention:** If hundreds of legal contracts expire concurrently (e.g. end of calendar year license turnover), triggering selective replanning across thousands of trailers simultaneously requires an asynchronous task queue (Celery/RabbitMQ) with distributed lock management.
+- **Linguistic Ambiguity & Regional Idioms:** Bhojpuri, Maithili, and Purvanchal dialects possess rich colloquial idioms, cultural proverbs, and double entendres. While the regex-based and semantic validators catch explicit sentiment inversions and coarse urban stereotypes (e.g. violent slapstick tropes), subtle sociolinguistic nuances still require verification by native vernacular consultants.
+- **Audience Personalization vs. Echo Chambers:** Algorithmic audience tailoring risks inadvertently reinforcing demographic preferences unless curated with intentional diversity. The system guards against negative stereotyping, but cultural resonance requires continual human calibration.
 
 ---
 
-## 5. Explicit Human Approval Triggers & Categorization
+## 5. Limits of Spoiler Detection & Implicit Narrative Deduction
 
-The system is designed with intentional **Human-in-the-Loop** checkpoints. The autonomous system will refuse to finalize an EDL without human sign-off under any of the following conditions:
+- **Combinatorial Spoiler Complexity:** Single-clip spoilers and explicit multi-clip juxtaposition tuples (e.g., disaster scene `scene_08` paired with resolution `scene_09`) are detected deterministically. However, exhaustively evaluating all possible permutations across long series ($>10$ episodes) becomes computationally intensive without domain-specific graph pruning.
+- **Implicit Narrative Deduction:** Viewers frequently deduce twists from background props, costume changes, or subtle character glances that automated narrative graphs may classify as benign. Automated systems cannot anticipate every fan-theory deduction.
+
+---
+
+## 6. Mandatory Human Editorial, Legal, and Cultural Approval (Human-in-the-Loop)
+
+The system is deliberately engineered with explicit **Human-in-the-Loop (HITL)** escalation checkpoints. Automated generation halts or flags trailers for sign-off under four structured classes:
 
 1. **`LEGAL` Approval Required**:
-   - Contractual rights contain unverified, pending, or territory-disputed clearances (`status: PENDING`).
-   - Actor quotas or music clearances are breached with no valid alternative canonical assets.
+   - Contractual sync licenses or talent blackout agreements are unverified, expired, or pending renegotiation without a safe alternative asset.
 2. **`CULTURAL` Approval Required**:
-   - Severe dialect subtitle semantic inversion or translation corruption without an authoritative canonical source.
-   - Regional dignity alerts or sensitive religious/cultural context flags.
+   - Dialect subtitle semantic discrepancies or sensitive cultural references that cannot be deterministically resolved against canonical dialogue.
 3. **`EDITORIAL` Approval Required**:
-   - Low multimodal vision confidence ($< 0.75$) or ambiguous frame evidence.
-   - Complex multi-clip combination spoiler risks requiring creative editorial judgment.
+   - Multimodal vision confidence falls below the confidence threshold ($< 0.75$), or complex multi-clip pacing tradeoffs require creative human discretion.
 4. **`CREATIVE` Approval Required**:
-   - Video duration boundary overshoot where physical media is shorter than metadata and no replacement scenes remain.
-   - All automated candidate repairs exhausted from the canonical pool.
+   - All automated candidate arcs fail constraint verification (`NO_SAFE_CANDIDATE`), requiring human editors to re-cut or approve alternative footage.
+
+---
+
+## 7. Production-Scale & Enterprise Infrastructure Boundaries
+
+- **In-Memory State Scaling:** `DirectorState` operates efficiently in-memory for single episodes (~20MB memory). Running continuous operations across large streaming catalogs (hundreds of seasons) will require migrating state to distributed persistence layers (PostgreSQL, Redis) and asynchronous task queues (Celery, Temporal).
+- **Concurrent Replanning Throughput:** Mass contract turnover (e.g. dozens of music sync licenses expiring simultaneously at year-end) requires distributed locking and worker pools to replan thousands of promotional assets without database contention.
