@@ -2,6 +2,7 @@
 from pathlib import Path
 from typing import Optional, List, Dict, Any
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
 
 from src.workflow.graph import TrailerDirectorWorkflow
@@ -51,6 +52,12 @@ class ReplanRequest(BaseModel):
     status: str
     expiry_date: Optional[str] = None
     input_path: Optional[str] = "sample_data"
+
+
+@app.get("/", include_in_schema=False)
+def root_redirect():
+    """Redirect root access directly to interactive Swagger API documentation."""
+    return RedirectResponse(url="/docs")
 
 
 @app.get("/health")
