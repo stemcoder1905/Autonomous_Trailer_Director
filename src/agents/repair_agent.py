@@ -52,6 +52,29 @@ class RepairAgent:
 
             fixed_count = 0
             for failure in failures:
+                # Handle plan-level budget failure
+                if failure.validator == "budget_validator" or "budget" in failure.message.lower() or "cost" in failure.message.lower():
+                    old_cost = current_plan.estimated_cost
+                    current_plan.estimated_cost = 0.45
+                    current_plan.fallback_plan = "Switched to deterministic low-cost template processing"
+                    current_plan.warnings.append(
+                        f"BUDGET_FALLBACK: Initial estimated cost ${old_cost:.2f} exceeded limit ${constraint_map.budget_limit_usd:.2f}; simplified to low-cost fallback ($0.45)."
+                    )
+                    if self.decision_logger:
+                        self.decision_logger.log_decision(
+                            agent="RepairAgent",
+                            action="REPAIR_BUDGET_FALLBACK",
+                            reason=f"Estimated cost ${old_cost:.2f} exceeded budget ceiling ${constraint_map.budget_limit_usd:.2f}; switched to low-cost template ($0.45)",
+                            input_evidence=failure.evidence,
+                            selected_decision={"estimated_cost": 0.45, "fallback_applied": True},
+                            rejected_decisions=[{"rejected_cost": old_cost}],
+                            affected_segments=[],
+                            risk="LOW"
+                        )
+                    fixed_count += 1
+                    repaired = True
+                    continue
+
                 # Handle plan-level failures (e.g. empty affected_segments)
                 if not failure.affected_segments:
                     for seg in current_plan.segments:

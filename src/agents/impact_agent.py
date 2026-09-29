@@ -43,23 +43,37 @@ class ChangeImpactAgent:
         affected_trailers: List[str] = []
         unaffected_trailers: List[str] = []
         affected_segments_map: Dict[str, List[str]] = {}
+        unaffected_segments_map: Dict[str, List[str]] = {}
         replan_reasons: List[str] = []
-        new_statuses: Dict[str, ValidationStatus] = {}
+        validation_before: Dict[str, Any] = {}
+        validation_after: Dict[str, Any] = {}
+        old_decision: Dict[str, Any] = {}
+        new_decision: Dict[str, Any] = {}
 
         target_scope = changed_rule.scope.split(":")[-1]  # e.g., 'music_03_synth_pulse' or 'scene_10'
 
         for plan in trailers:
+            validation_before[plan.trailer_id] = plan.validation.status.value
             affected_in_this_plan: List[str] = []
+            unaffected_in_this_plan: List[str] = []
             for seg in plan.segments:
                 # Check if segment depends on changed music, scene, or actor
                 if seg.music == target_scope:
                     affected_in_this_plan.append(seg.segment_id)
                 elif seg.scene_id == target_scope:
                     affected_in_this_plan.append(seg.segment_id)
+                else:
+                    unaffected_in_this_plan.append(seg.segment_id)
+
+            unaffected_segments_map[plan.trailer_id] = unaffected_in_this_plan
 
             if affected_in_this_plan:
                 affected_trailers.append(plan.trailer_id)
                 affected_segments_map[plan.trailer_id] = affected_in_this_plan
+                old_decision[plan.trailer_id] = {
+                    "asset": target_scope,
+                    "affected_segments": list(affected_in_this_plan)
+                }
                 reason = (
                     f"Trailer '{plan.trailer_id}' references {changed_rule.type.value} '{target_scope}' "
                     f"in segments {affected_in_this_plan}. Triggered selective replanning."
@@ -74,11 +88,26 @@ class ChangeImpactAgent:
                 # Overwrite segments in place for the affected trailer
                 plan.segments = repaired_plan.segments
                 plan.validation = repaired_plan.validation
-                new_statuses[plan.trailer_id] = plan.validation.status
+                validation_after[plan.trailer_id] = plan.validation.status.value
+                new_decision[plan.trailer_id] = {
+                    "repaired_segments": [
+                        {"segment_id": s.segment_id, "music": s.music, "scene_id": s.scene_id}
+                        for s in plan.segments
+                        if s.segment_id in affected_in_this_plan
+                    ]
+                }
             else:
                 unaffected_trailers.append(plan.trailer_id)
-                new_statuses[plan.trailer_id] = plan.validation.status
+                validation_after[plan.trailer_id] = plan.validation.status.value
                 logger.info(f"[ChangeImpactAgent] Trailer '{plan.trailer_id}' has NO dependency on '{target_scope}'; left completely untouched.")
+
+        overall_reason = (
+            f"Constraint rule '{changed_rule.rule_id}' changed to {changed_rule.status.value}; "
+            f"selectively replanned {len(affected_trailers)} affected trailers while preserving "
+            f"{len(unaffected_trailers)} unaffected trailers completely intact."
+        )
+
+        new_statuses = {tid: ValidationStatus(status) for tid, status in validation_after.items()}
 
         report = ChangeImpactReport(
             change_id=f"change_{changed_rule.rule_id}",
@@ -86,7 +115,13 @@ class ChangeImpactAgent:
             affected_trailers=affected_trailers,
             affected_segments=affected_segments_map,
             unaffected_trailers=unaffected_trailers,
+            unaffected_segments=unaffected_segments_map,
+            old_decision=old_decision,
+            new_decision=new_decision,
+            reason=overall_reason,
             replan_reasons=replan_reasons,
+            validation_before=validation_before,
+            validation_after=validation_after,
             new_validation_statuses=new_statuses
         )
 
@@ -102,3 +137,4 @@ class ChangeImpactAgent:
             )
 
         return report
+

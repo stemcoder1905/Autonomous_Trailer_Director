@@ -22,18 +22,22 @@ This document provides a comprehensive verification checklist auditing the imple
 | **Accessibility validation** | **Implemented** | `AccessibilityValidator` enforces mandatory subtitles, reading speed (`CPS <= 21.0`), and minimum display durations. |
 | **Source accuracy** | **Implemented** | `SourceValidator` rejects hallucinated scenes (`scene_25`), inverted timecodes (`in >= out`), or out-of-bound cuts. |
 | **Budget validation** | **Implemented** | `BudgetValidator` monitors cumulative AI and processing costs against configured `$25.00` budget ceiling. |
-| **Repair/rejection** | **Implemented** | `RepairAgent` diagnoses validation failures, searches safe canonical alternatives, and re-validates repaired plans. |
-| **Selective replanning** | **Implemented** | `ChangeImpactAgent` tracks dependencies; replans ONLY affected cuts when contracts change, leaving unaffected trailers 100% intact. |
-| **Changed-contract handling** | **Implemented** | Dynamic re-evaluation of contract status and selective replanning demonstrated in `test_contract_change.py` and `--scenario contract_change`. |
-| **Missing-scene test** | **Implemented** | Verified by `tests/test_missing_scene.py` and CLI `--scenario missing_scene`. |
+| **Repair/rejection** | **Implemented** | `RepairAgent` diagnoses validation failures, searches safe canonical alternatives, applies budget fallbacks, and re-validates repaired plans. |
+| **Selective replanning** | **Implemented** | `ChangeImpactAgent` tracks dependencies; replans ONLY affected cuts when contracts change, leaving unaffected trailers 100% intact. Detailed report records `affected_trailers`, `affected_segments`, `unaffected_trailers`, `unaffected_segments`, `old_decision`, `new_decision`, `reason`, `validation_before`, and `validation_after`. |
+| **Changed-contract handling** | **Implemented** | Dynamic re-evaluation of contract status and selective replanning demonstrated in `test_contract_change.py`, `test_e2e_contract_change`, and `--scenario contract_change`. |
+| **Missing-scene test** | **Implemented** | Verified by `tests/test_missing_scene.py`, `tests/test_end_to_end_scenarios.py::test_e2e_missing_scene_repair`, and CLI `--scenario missing_scene`. |
 | **Rights test** | **Implemented** | Verified by `tests/test_rights.py` (actor rider embargo and expired music license). |
-| **Spoiler test** | **Implemented** | Verified by `tests/test_spoiler.py` (single-clip twist reveal and multi-clip combination leak). |
+| **Spoiler test** | **Implemented** | Verified by `tests/test_spoiler.py` and `tests/test_end_to_end_scenarios.py::test_e2e_spoiler_repair` (single-clip twist reveal and multi-clip combination leak). |
 | **Policy failure test** | **Implemented** | Verified by `tests/test_rating.py` (rejecting PG-13 sabotage from family trailer). |
-| **Contract change test** | **Implemented** | Verified by `tests/test_contract_change.py` (dependency tracking and selective segment replanning). |
-| **Prompt injection test** | **Implemented** | Verified by `tests/test_prompt_injection.py` (untrusted data isolation). |
-| **Model fallback** | **Implemented** | Verified by `tests/test_model_fallback.py` and CLI `--scenario model_failure`. |
+| **Clickbait repair test** | **Implemented** | Verified by `tests/test_story_truth.py` and `tests/test_end_to_end_scenarios.py::test_e2e_clickbait_repair`. |
+| **Subtitle mismatch test** | **Implemented** | Verified by `tests/test_subtitle_mismatch.py` and `tests/test_end_to_end_scenarios.py::test_e2e_subtitle_mismatch_repair`. |
+| **Bias protection test** | **Implemented** | Verified by `tests/test_bias.py` and `tests/test_end_to_end_scenarios.py::test_e2e_bias_protection`. |
+| **Budget guardrail test** | **Implemented** | Verified by `tests/test_budget_exceeded.py` and `tests/test_end_to_end_scenarios.py::test_e2e_budget_fallback`. |
+| **Prompt injection test** | **Implemented** | Verified by `tests/test_prompt_injection.py`, `tests/test_end_to_end_scenarios.py::test_e2e_prompt_injection`, and CLI `--scenario prompt_injection`. |
+| **Model fallback** | **Implemented** | Verified by `tests/test_model_fallback.py`, `tests/test_end_to_end_scenarios.py::test_e2e_model_fallback`, and CLI `--scenario model_failure`. |
+| **End-to-End Scenario Suite** | **Implemented** | 10 dedicated end-to-end integration tests in `tests/test_end_to_end_scenarios.py`. |
 | **Mock/replay mode** | **Implemented** | Fully deterministic, zero-cost execution via `--mode replay`. |
-| **CLI** | **Implemented** | Rich CLI supporting `--input`, `--output`, `--mode`, `--audience`, and `--scenario` flags. |
+| **CLI** | **Implemented** | Rich CLI supporting `--input`, `--output`, `--mode`, `--audience`, and `--scenario` flags for all 9 scenarios. |
 | **Decision logs** | **Implemented** | Structured chronological audit trail persisted to `sample_run/decision_log.json`. |
 | **README** | **Implemented** | Detailed setup, usage, and architecture overview in root `README.md`. |
 | **ARCHITECTURE.md** | **Implemented** | Technical deep dive in `submission/ARCHITECTURE.md`. |
@@ -43,10 +47,16 @@ This document provides a comprehensive verification checklist auditing the imple
 
 ---
 
-## 2. Multimodal Status Declaration
+## 2. Implementation Status Classification
 
-- **Structured Multimodal Metadata:** **IMPLEMENTED**. Timecode bounds, dialogue transcripts, subtitle alignments, audio stem tags, and emotional tags are fully grounded and verified.
+- **Structured Multimodal Metadata:** **IMPLEMENTED**. Timecode bounds, dialogue transcripts, subtitle alignments, audio stem tags, and emotional tags are fully grounded, schema-validated, and verified.
+- **Agentic Planning & Graph Orchestration:** **IMPLEMENTED**. State graph workflow, creative planner, audience briefs, and story understanding.
+- **Independent Deterministic Verification:** **IMPLEMENTED**. 9 decoupled validators executing strict rules without LLM self-grading.
+- **Autonomous Repair & Fallback:** **IMPLEMENTED**. Automated candidate replacement, subtitle canonical restoration, text-card sanitization, and deterministic budget fallback.
+- **Change Impact & Selective Replanning:** **IMPLEMENTED**. Dependency tracking, minimal footprint replanning, and comprehensive impact reporting.
+- **Adversarial Security & Bias Defenses:** **IMPLEMENTED**. Untrusted data isolation, prompt injection scanning, contract boundary enforcement, and anti-stereotyping guardrails.
 - **Direct Video Frame Extraction & Acoustic Rendering:** **MOCKED / EXTENSIBLE**. Video and audio rendering are mock-abstracted to produce execution-ready EDLs for downstream NLE pipelines (Premiere Pro, DaVinci Resolve, or FFmpeg) as allowed by the specification ("Primary output is a machine-readable Edit Decision List; video rendering is optional").
+- **Live Cloud Multimodal LLM Invocation:** **EXTENSIBLE / PLUGGABLE**. Provider abstraction architecture (`ProviderManager`, `PrimaryLLMProvider`, `FallbackLLMProvider`, `MockLLMProvider`) allows dropping in live API keys without altering workflow code.
 
 ---
 
@@ -57,7 +67,8 @@ This document provides a comprehensive verification checklist auditing the imple
 platform win32 -- Python 3.10.0, pytest-9.1.1, pluggy-1.6.0
 rootdir: D:\Autonomous_Trailer_Director
 configfile: pyproject.toml
-collected 17 items
+testpaths: tests
+collected 27 items
 
 tests/test_api.py::test_api_health PASSED
 tests/test_api.py::test_api_analyze PASSED
@@ -65,6 +76,16 @@ tests/test_api.py::test_api_run PASSED
 tests/test_bias.py::test_bias_validator_rejects_spurious_violence_in_dialect_trailer PASSED
 tests/test_budget_exceeded.py::test_budget_exceeded_fails_validation PASSED
 tests/test_contract_change.py::test_selective_replanning_on_contract_change PASSED
+tests/test_end_to_end_scenarios.py::test_e2e_normal_replay PASSED
+tests/test_end_to_end_scenarios.py::test_e2e_spoiler_repair PASSED
+tests/test_end_to_end_scenarios.py::test_e2e_missing_scene_repair PASSED
+tests/test_end_to_end_scenarios.py::test_e2e_clickbait_repair PASSED
+tests/test_end_to_end_scenarios.py::test_e2e_subtitle_mismatch_repair PASSED
+tests/test_end_to_end_scenarios.py::test_e2e_contract_change PASSED
+tests/test_end_to_end_scenarios.py::test_e2e_bias_protection PASSED
+tests/test_end_to_end_scenarios.py::test_e2e_budget_fallback PASSED
+tests/test_end_to_end_scenarios.py::test_e2e_model_fallback PASSED
+tests/test_end_to_end_scenarios.py::test_e2e_prompt_injection PASSED
 tests/test_missing_scene.py::test_missing_scene_rejected PASSED
 tests/test_model_fallback.py::test_provider_fallback_to_mock_on_primary_failure PASSED
 tests/test_model_fallback.py::test_unconfigured_primary_provider_reports_unhealthy PASSED
@@ -77,5 +98,6 @@ tests/test_spoiler.py::test_combination_spoiler_detected PASSED
 tests/test_story_truth.py::test_clickbait_false_romance_rejected_and_repaired PASSED
 tests/test_subtitle_mismatch.py::test_dialect_subtitle_semantic_mismatch_detected_and_repaired PASSED
 
-============================= 17 passed in 1.22s ==============================
+============================= 27 passed in 1.77s ==============================
 ```
+

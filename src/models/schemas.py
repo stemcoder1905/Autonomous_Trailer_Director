@@ -265,7 +265,13 @@ class ChangeImpactReport(BaseModel):
     affected_trailers: List[str] = Field(default_factory=list)
     affected_segments: Dict[str, List[str]] = Field(default_factory=dict)
     unaffected_trailers: List[str] = Field(default_factory=list)
+    unaffected_segments: Dict[str, List[str]] = Field(default_factory=dict)
+    old_decision: Dict[str, Any] = Field(default_factory=dict)
+    new_decision: Dict[str, Any] = Field(default_factory=dict)
+    reason: str = ""
     replan_reasons: List[str] = Field(default_factory=list)
+    validation_before: Dict[str, Any] = Field(default_factory=dict)
+    validation_after: Dict[str, Any] = Field(default_factory=dict)
     new_validation_statuses: Dict[str, ValidationStatus] = Field(default_factory=dict)
 
 

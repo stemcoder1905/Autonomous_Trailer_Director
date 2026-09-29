@@ -139,14 +139,23 @@ python -m src.main --scenario contract_change --mode replay
 # Test 3: LLM hallucinates a non-existent scene (scene_25) -> Rejected & Repaired
 python -m src.main --scenario missing_scene --mode replay
 
-# Test 4: Marketing requests clickbait framing siblings as romantic partners -> Story Truth Rejection
+# Test 4: Marketing requests clickbait framing siblings as romantic partners -> Story Truth Rejection & Repaired
 python -m src.main --scenario clickbait --mode replay
 
-# Test 5: Corrupted dialect subtitle inverts dialogue sentiment -> Semantic Mismatch Rejection
+# Test 5: Corrupted dialect subtitle inverts dialogue sentiment -> Semantic Mismatch Rejection & Repaired
 python -m src.main --scenario subtitle_mismatch --mode replay
 
-# Test 6: Primary LLM provider simulated failure -> Seamless Mock/Fallback Activation
+# Test 6: Spurious marketing correlation introduces rural stereotyping -> Algorithmic Bias Rejection & Repaired
+python -m src.main --scenario bias --mode replay
+
+# Test 7: Computational cost exceeds $25.00 ceiling -> Budget Guardrail Rejection & Deterministic Fallback
+python -m src.main --scenario budget_exceeded --mode replay
+
+# Test 8: Primary LLM provider simulated failure -> Seamless Mock/Fallback Activation
 python -m src.main --scenario model_failure --mode replay
+
+# Test 9: Untrusted scene description attempts prompt injection to override contracts -> Ingestion Defense & Boundary Enforcement
+python -m src.main --scenario prompt_injection --mode replay
 ```
 
 ### D. Running the FastAPI Web Service
@@ -161,11 +170,12 @@ Interactive Swagger documentation is available at `http://127.0.0.1:8000/docs`.
 
 ## 5. Automated Test Suite
 
-Run all 17 unit, integration, and API tests covering security, rights, spoilers, and replanning:
+Run all 27 unit, integration, and scenario resilience tests covering security, rights, spoilers, and replanning:
 
 ```bash
 pytest -v
 ```
+
 
 ---
 

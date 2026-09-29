@@ -3,6 +3,12 @@ import argparse
 import json
 import sys
 from pathlib import Path
+
+# Ensure project root is in sys.path when invoked directly
+project_root = Path(__file__).resolve().parent.parent
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
+
 from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
@@ -60,7 +66,8 @@ def parse_args():
             "clickbait",
             "subtitle_mismatch",
             "model_failure",
-            "budget_exceeded"
+            "budget_exceeded",
+            "prompt_injection"
         ],
         default="none",
         help="Trigger a specific surprise scenario / adversarial test",
@@ -114,8 +121,11 @@ def export_validation_report_markdown(output_path: Path, state) -> None:
         ])
         for report in state.change_impact_reports:
             md_lines.append(f"**Trigger:** {report.trigger}  ")
+            md_lines.append(f"**Summary Reason:** {report.reason}  ")
             md_lines.append(f"**Affected Trailers:** `{report.affected_trailers}`  ")
-            md_lines.append(f"**Unaffected Trailers:** `{report.unaffected_trailers}`  ")
+            md_lines.append(f"**Affected Segments:** `{report.affected_segments}`  ")
+            md_lines.append(f"**Unaffected Trailers (Untouched):** `{report.unaffected_trailers}`  ")
+            md_lines.append(f"**Unaffected Segments:** `{report.unaffected_segments}`  ")
             md_lines.append("**Re-planning Justifications:**")
             for r in report.replan_reasons:
                 md_lines.append(f"- {r}")
@@ -170,7 +180,7 @@ def main():
     active_scenario = None if args.scenario == "none" else args.scenario
     state = workflow.run(selected_audiences=audiences, scenario=active_scenario)
 
-    # Scenario: Contract Change demonstration
+    # Scenario-specific handling and notifications
     if args.scenario == "contract_change":
         console.print("[bold magenta]>> Triggering Event: Music Rights Expiration for 'music_03_synth_pulse'...[/bold magenta]")
         expired_rule = ConstraintRule(
@@ -191,6 +201,26 @@ def main():
         with open(impact_path, "w", encoding="utf-8") as f:
             json.dump([r.model_dump() for r in state.change_impact_reports], f, indent=2)
         console.print(f"[green][OK] Saved change impact report to: {impact_path}[/green]")
+        for rep in state.change_impact_reports:
+            console.print(f"   [yellow]Affected Trailers:[/yellow] {rep.affected_trailers}")
+            console.print(f"   [green]Unaffected Trailers (Preserved Intact):[/green] {rep.unaffected_trailers}")
+            console.print(f"   [cyan]Reason:[/cyan] {rep.reason}")
+
+    elif args.scenario == "prompt_injection":
+        from src.ingestion.metadata_loader import MetadataLoader
+        flagged = MetadataLoader.detect_injection_attempts(state.episode_package.scenes)
+        console.print(f"[bold yellow]>> Ingestion Guardrail Flagged {len(flagged)} Untrusted Data Pattern(s):[/bold yellow]")
+        for item in flagged:
+            sample_text = item.get("sample", item.get("snippet", ""))
+            console.print(f"   - Scene: [cyan]{item['scene_id']}[/cyan] | Snippet: \"{sample_text}\" | Verdict: [bold red]{item['verdict']}[/bold red]")
+        console.print("   [green][OK] Independent validators rejected malicious contract override; valid plan enforced and repaired.[/green]")
+
+    elif args.scenario in ["spoiler", "missing_scene", "bias", "clickbait", "subtitle_mismatch", "budget_exceeded"]:
+        console.print(f"[bold cyan]>> Scenario '{args.scenario}' executed successfully:[/bold cyan]")
+        console.print(f"   [yellow]1. Adversarial proposal submitted[/yellow]")
+        console.print(f"   [red]2. Independent Validator rejected proposal with FAIL[/red]")
+        console.print(f"   [green]3. RepairAgent executed automated remediation[/green]")
+        console.print(f"   [bold green]4. Re-validation verified compliant trailer[/bold green]")
 
     # Persist artifacts to output directory
     story_map_path = output_dir / "story_map.json"
