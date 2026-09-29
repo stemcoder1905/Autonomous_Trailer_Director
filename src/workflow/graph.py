@@ -24,20 +24,30 @@ class TrailerDirectorWorkflow:
         base_dir: Path,
         provider_manager: Optional[ProviderManager] = None,
         decision_logger: Optional[DecisionLogger] = None,
-        reference_date: Optional[str] = "2026-04-15"
+        reference_date: Optional[str] = "2026-04-15",
+        media_path: Optional[Path] = None,
+        media_mode: str = "REPLAY"
     ):
         self.base_dir = Path(base_dir)
         self.decision_logger = decision_logger or DecisionLogger()
         self.provider_manager = provider_manager or ProviderManager()
         self.reference_date = reference_date
+        self.media_path = media_path
+        self.media_mode = media_mode
 
         # Instantiate specialized agents
+        from src.media.media_validator import MediaValidator
+        self.media_validator = MediaValidator(media_path=self.media_path, mode=self.media_mode)
         self.loader = EpisodePackageLoader(self.base_dir)
         self.story_agent = StoryUnderstandingAgent(self.decision_logger)
         self.constraint_agent = ConstraintAnalysisAgent(self.decision_logger)
         self.audience_agent = AudienceStrategyAgent(self.decision_logger)
         self.planner_agent = CreativeTrailerPlannerAgent(self.provider_manager, self.decision_logger)
-        self.validator_agent = IndependentValidationAgent(reference_date=self.reference_date, decision_logger=self.decision_logger)
+        self.validator_agent = IndependentValidationAgent(
+            reference_date=self.reference_date,
+            decision_logger=self.decision_logger,
+            media_validator=self.media_validator
+        )
         self.repair_agent = RepairAgent(self.validator_agent, self.decision_logger)
         self.impact_agent = ChangeImpactAgent(self.validator_agent, self.repair_agent, self.decision_logger)
 

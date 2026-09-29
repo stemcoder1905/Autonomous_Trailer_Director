@@ -4,17 +4,31 @@ from typing import Optional, Dict, Any, List, Union, Tuple
 from src.media.video_processor import VideoProcessor
 from src.media.frame_extractor import FrameExtractor
 from src.media.audio_processor import AudioProcessor
-from src.models.schemas import TrailerSegment, ValidationResultItem, SceneMetadata
-from src.models.enums import ValidationStatus, Severity, RepairAction
+from src.models.schemas import (
+    TrailerSegment,
+    ValidationResultItem,
+    SceneMetadata,
+    DialogueEvidence,
+    SegmentSourceEvidence,
+)
+from src.models.enums import ValidationStatus, Severity, RepairAction, SourceType
 from src.utils.logger import logger
 
 
 class MediaValidator:
     """Validates physical video file constraints, extracts visual frames, and checks visual ground-truth claims."""
 
-    def __init__(self, media_dir: Optional[Union[str, Path]] = None, frames_output_dir: Optional[Union[str, Path]] = None):
+    def __init__(
+        self,
+        media_dir: Optional[Union[str, Path]] = None,
+        media_path: Optional[Union[str, Path]] = None,
+        frames_output_dir: Optional[Union[str, Path]] = None,
+        mode: str = "REPLAY"
+    ):
         self.media_dir = Path(media_dir or "sample_data/media")
+        self.media_path = Path(media_path) if media_path else None
         self.frames_dir = Path(frames_output_dir or "sample_run/frames")
+        self.mode = mode
 
     def validate_segment_media(
         self,
@@ -24,7 +38,38 @@ class MediaValidator:
     ) -> List[ValidationResultItem]:
         """Runs physical media verification: duration boundaries, frame evidence, and visual claim audit."""
         results: List[ValidationResultItem] = []
-        target_video = self.media_dir / (video_filename or "episode_01.mp4")
+        target_video = self.media_path if self.media_path else (self.media_dir / (video_filename or "episode_01.mp4"))
+
+        # Determine explicit evidence provenance
+        is_synthetic = "sample_data" in str(target_video).lower() or "episode_01.mp4" in str(target_video).lower()
+        source_type = SourceType.REPLAY_FIXTURE if (self.mode == "REPLAY" and is_synthetic) else SourceType.REAL_MEDIA
+
+        # Check audio stream existence on physical container
+        has_audio, audio_status = AudioProcessor.detect_audio_stream(target_video)
+
+        # Update segment dialogue provenance: NEVER claim dialogue metadata is ASR output
+        if segment.dialogue or segment.dialogue_id:
+            if segment.dialogue_evidence is None:
+                segment.dialogue_evidence = DialogueEvidence(
+                    source=str(target_video),
+                    source_type=SourceType.METADATA,
+                    verification_method="metadata_grounding",
+                    verified=True,
+                    metadata_text=segment.dialogue or "",
+                    asr_text="",
+                    asr_engine="NONE",
+                    is_asr_output=False,
+                    audio_status=audio_status,
+                    dialogue_id=segment.dialogue_id
+                )
+            else:
+                segment.dialogue_evidence.source = str(target_video)
+                segment.dialogue_evidence.source_type = SourceType.METADATA
+                segment.dialogue_evidence.verification_method = "metadata_grounding"
+                segment.dialogue_evidence.audio_status = audio_status
+                segment.dialogue_evidence.asr_engine = "NONE"
+                segment.dialogue_evidence.is_asr_output = False
+                segment.dialogue_evidence.verified = True
 
         # 1. If physical media file exists, enforce physical media boundary mathematics
         if target_video.exists() and VideoProcessor.is_available():
@@ -32,6 +77,24 @@ class MediaValidator:
             from src.utils.timecode import timecode_to_seconds
             t_in = timecode_to_seconds(segment.source_in)
             t_out = timecode_to_seconds(segment.source_out)
+
+            # Update segment source provenance
+            if segment.source is None:
+                segment.source = SegmentSourceEvidence(
+                    source=str(target_video),
+                    source_type=source_type,
+                    verification_method="opencv_inspection",
+                    verified=meta.is_valid,
+                    timestamp=str(t_in),
+                    video=target_video.name,
+                    scene_id=segment.scene_id
+                )
+            else:
+                segment.source.source = str(target_video)
+                segment.source.source_type = source_type
+                segment.source.verification_method = "opencv_inspection"
+                segment.source.verified = meta.is_valid
+                segment.source.timestamp = str(t_in)
 
             # Check if cut exceeds physical media duration
             if t_out > meta.duration_seconds:
@@ -46,7 +109,8 @@ class MediaValidator:
                             f"video:{target_video.name}",
                             f"cut_in:{t_in}",
                             f"cut_out:{t_out}",
-                            f"media_duration:{meta.duration_seconds}"
+                            f"media_duration:{meta.duration_seconds}",
+                            f"source_type:{source_type.value}"
                         ],
                         affected_segments=[segment.segment_id],
                         suggested_action=RepairAction.REPLACE_SEGMENT

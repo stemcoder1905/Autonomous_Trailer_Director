@@ -60,3 +60,16 @@ class RepairAction(str, Enum):
     CHANGE_SUBTITLE = "CHANGE_SUBTITLE"
     CHANGE_MUSIC = "CHANGE_MUSIC"
     ESCALATE_TO_HUMAN = "ESCALATE_TO_HUMAN"
+
+
+class SourceType(str, Enum):
+    REAL_MEDIA = "REAL_MEDIA"
+    REPLAY_FIXTURE = "REPLAY_FIXTURE"
+    METADATA = "METADATA"
+    LIVE_MODEL = "LIVE_MODEL"
+    MOCK_MODEL = "MOCK_MODEL"
+
+
+class MediaMode(str, Enum):
+    REPLAY = "REPLAY"
+    REAL_MEDIA = "REAL_MEDIA"

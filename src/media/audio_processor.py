@@ -6,6 +6,9 @@ from typing import Optional, Dict, Any, Union, Tuple
 from src.utils.logger import logger
 
 
+from src.models.enums import SourceType
+
+
 class AudioProcessor:
     """Manages audio stem extraction and dialogue transcript verification."""
 
@@ -28,17 +31,67 @@ class AudioProcessor:
                 return False
 
     @classmethod
+    def get_source_type(cls, media_path: Union[str, Path]) -> SourceType:
+        """Identifies if media is replay fixture or external real media."""
+        m_str = str(media_path).replace("\\", "/").lower()
+        if "sample_data/media/episode_01.mp4" in m_str or "sample_data" in m_str or "synthetic" in m_str:
+            return SourceType.REPLAY_FIXTURE
+        return SourceType.REAL_MEDIA
+
+    @classmethod
+    def detect_audio_stream(cls, media_path: Union[str, Path]) -> Tuple[bool, str]:
+        """Detects whether an actual audio stream exists in the media file."""
+        m_path = Path(media_path)
+        if not m_path.exists():
+            return False, "FILE_NOT_FOUND"
+
+        # 1. Probe using FFmpeg if present
+        if cls.is_ffmpeg_available():
+            try:
+                cmd = ["ffmpeg", "-i", str(m_path)]
+                res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+                output = (res.stderr or "") + (res.stdout or "")
+                if "Audio:" in output:
+                    return True, "AUDIO_STREAM_DETECTED"
+                else:
+                    return False, "AUDIO_STREAM_NOT_AVAILABLE"
+            except Exception:
+                pass
+
+        # 2. Pure Python container format probe
+        suffix = m_path.suffix.lower()
+        if suffix in [".wav", ".mp3", ".aac", ".m4a", ".flac", ".ogg"]:
+            return True, "AUDIO_STREAM_DETECTED"
+
+        # MP4/MOV atom probe: check for 'soun' handler box
+        if suffix in [".mp4", ".mov", ".m4v"]:
+            try:
+                with open(m_path, "rb") as f:
+                    chunk = f.read(1024 * 1024 * 2)  # Read first 2MB
+                    if b"soun" in chunk:
+                        return True, "AUDIO_STREAM_DETECTED"
+            except Exception:
+                pass
+
+        return False, "AUDIO_STREAM_NOT_AVAILABLE"
+
+    @classmethod
     def extract_audio(
         cls,
         video_path: Union[str, Path],
         output_wav_path: Union[str, Path]
     ) -> Tuple[bool, str]:
-        """Extracts mono 16kHz WAV audio track from video using FFmpeg if present."""
+        """Extracts mono 16kHz WAV audio track only when an audio stream actually exists."""
         v_path = Path(video_path)
         out_wav = Path(output_wav_path)
 
         if not v_path.exists():
             return False, f"Source video file '{v_path}' not found."
+
+        # Detect audio stream first: do not extract audio if none exists
+        has_audio, status = cls.detect_audio_stream(v_path)
+        if not has_audio:
+            return False, "AUDIO_STREAM_NOT_AVAILABLE"
 
         if not cls.is_ffmpeg_available():
             return False, "FFmpeg binary is not available on PATH; audio extraction running in capability-reported mode."
@@ -64,23 +117,48 @@ class AudioProcessor:
         end_seconds: float,
         reference_dialogue: Optional[str] = None
     ) -> Dict[str, Any]:
-        """Transcribes audio for a cut segment and verifies alignment with expected dialogue."""
+        """Transcribes audio only when an audio stream exists. Never claims metadata dialogue is ASR output."""
         media_path = Path(video_or_audio_path)
+        source_type = cls.get_source_type(media_path)
+        has_audio, audio_status = cls.detect_audio_stream(media_path)
+
+        # If no audio stream exists, return AUDIO_STREAM_NOT_AVAILABLE
+        if not has_audio:
+            return {
+                "source": str(media_path),
+                "source_type": source_type.value,
+                "verification_method": "audio_stream_probe",
+                "verified": False,
+                "audio_verified": False,
+                "audio_status": "AUDIO_STREAM_NOT_AVAILABLE",
+                "asr_engine": "NONE",
+                "is_asr_output": False,
+                "transcript": None,
+                "dialogue_match": False,
+                "similarity": 0.0,
+                "note": "AUDIO_STREAM_NOT_AVAILABLE. System strictly avoids claiming dialogue metadata is ASR output."
+            }
+
         has_whisper = cls.is_whisper_available()
         has_ffmpeg = cls.is_ffmpeg_available()
 
-        # If live whisper is available and audio is present, attempt live transcription
+        # If live whisper and ffmpeg are available, perform live ASR
         if has_whisper and media_path.exists() and has_ffmpeg:
             try:
                 import whisper
                 model = whisper.load_model("tiny")
-                # Whisper transcribe
                 res = model.transcribe(str(media_path))
                 text = res.get("text", "").strip()
                 match_ok, sim = cls.verify_dialogue_match(reference_dialogue or "", text)
                 return {
+                    "source": str(media_path),
+                    "source_type": SourceType.REAL_MEDIA.value,
+                    "verification_method": "whisper_asr_transcription",
+                    "verified": True,
                     "audio_verified": True,
+                    "audio_status": "AUDIO_STREAM_DETECTED",
                     "asr_engine": "whisper_tiny",
+                    "is_asr_output": True,
                     "transcript": {
                         "start": start_seconds,
                         "end": end_seconds,
@@ -90,26 +168,22 @@ class AudioProcessor:
                     "similarity": round(sim, 3)
                 }
             except Exception as e:
-                logger.warning(f"[AudioProcessor] Live Whisper transcription failed ({e}); using grounded replay fallback.")
+                logger.warning(f"[AudioProcessor] Whisper transcription error ({e}); reporting capability status.")
 
-        # Canonical grounded ASR simulation for deterministic replay mode
-        asr_text = reference_dialogue or "Spoken dialogue verified from canonical audio stem."
-        match_ok, sim = cls.verify_dialogue_match(reference_dialogue or "", asr_text)
-
+        # Audio stream exists but ASR engine is not installed
         return {
+            "source": str(media_path),
+            "source_type": source_type.value,
+            "verification_method": "audio_stream_probe",
+            "verified": True,
             "audio_verified": True,
-            "asr_engine": "canonical_stem_grounded",
-            "capability_status": {
-                "ffmpeg_present": has_ffmpeg,
-                "whisper_present": has_whisper
-            },
-            "transcript": {
-                "start": start_seconds,
-                "end": end_seconds,
-                "text": asr_text
-            },
-            "dialogue_match": match_ok,
-            "similarity": round(sim, 3)
+            "audio_status": "AUDIO_STREAM_DETECTED",
+            "asr_engine": "WHISPER_NOT_INSTALLED",
+            "is_asr_output": False,
+            "transcript": None,
+            "dialogue_match": False,
+            "similarity": 0.0,
+            "note": "Audio stream detected. Whisper library not installed; ASR transcription not performed."
         }
 
     @classmethod

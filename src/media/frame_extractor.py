@@ -97,7 +97,14 @@ class FrameExtractor:
                 # If extraction fails (e.g. mock environment), record placeholder path
                 frames_checked.append(f"frames/{scene_id}_{name}.jpg")
 
+        source_type = "REPLAY_FIXTURE" if ("sample_data" in str(video_path).lower() or "synthetic" in str(video_path).lower()) else "REAL_MEDIA"
+
         return {
+            "source": str(video_path),
+            "source_type": source_type,
+            "verification_method": "opencv_frame_seek",
+            "verified": (success_count > 0),
+            "timestamp": start_seconds,
             "scene_id": scene_id,
             "start_time": start_seconds,
             "end_time": end_seconds,

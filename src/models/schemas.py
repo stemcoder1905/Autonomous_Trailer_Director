@@ -1,6 +1,6 @@
 """Pydantic schemas for the Autonomous Trailer Director platform."""
 from __future__ import annotations
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Union
 from pydantic import BaseModel, Field
 from src.models.enums import (
     AudienceType,
@@ -11,6 +11,8 @@ from src.models.enums import (
     ConstraintStatus,
     ContentRating,
     RepairAction,
+    SourceType,
+    MediaMode,
 )
 
 
@@ -190,7 +192,25 @@ class CostSheet(BaseModel):
     cost_breakdown: List[CostItem] = Field(default_factory=list)
 
 
+class MediaEvidence(BaseModel):
+    source: str
+    source_type: SourceType = SourceType.REPLAY_FIXTURE
+    verification_method: str = "opencv_inspection"
+    verified: bool = True
+    timestamp: Optional[Union[float, str]] = None
+    media_mode: str = "REPLAY"  # "REPLAY" or "REAL_MEDIA"
+    video_stream_detected: bool = False
+    audio_stream_detected: bool = False
+    audio_status: Optional[str] = None  # e.g. "AUDIO_STREAM_NOT_AVAILABLE"
+    details: Dict[str, Any] = Field(default_factory=dict)
+
+
 class SegmentSourceEvidence(BaseModel):
+    source: str = "sample_data/media/episode_01.mp4"
+    source_type: SourceType = SourceType.REPLAY_FIXTURE
+    verification_method: str = "opencv_container_inspection"
+    verified: bool = True
+    timestamp: Optional[Union[float, str]] = None
     video: str = "episode_01.mp4"
     start: float = 0.0
     end: float = 0.0
@@ -202,10 +222,17 @@ class SegmentSourceEvidence(BaseModel):
 
 
 class DialogueEvidence(BaseModel):
+    source: str = "dialogue_metadata"
+    source_type: SourceType = SourceType.METADATA
+    verification_method: str = "metadata_grounding"
+    verified: bool = True
+    timestamp: Optional[Union[float, str]] = None
     metadata_text: str = ""
     asr_text: str = ""
     match: bool = True
-    asr_engine: str = "canonical_stem_grounded"
+    asr_engine: str = "NOT_PERFORMED"  # System never claims metadata is ASR output
+    is_asr_output: bool = False
+    audio_status: str = "AUDIO_STREAM_NOT_AVAILABLE"
     dialogue_id: Optional[str] = None
     speaker: Optional[str] = None
     spoken_text: Optional[str] = None
@@ -215,14 +242,23 @@ class DialogueEvidence(BaseModel):
 
 
 class SubtitleEvidence(BaseModel):
-    text: str = ""
+    source: str = "subtitle_metadata"
+    source_type: SourceType = SourceType.METADATA
+    verification_method: str = "canonical_subtitle_verification"
     verified: bool = True
+    timestamp: Optional[Union[float, str]] = None
+    text: str = ""
     subtitle_id: Optional[str] = None
     language: Optional[str] = None
     verified_accurate: bool = True
 
 
 class RightsEvidence(BaseModel):
+    source: str = "contracts_ledger"
+    source_type: SourceType = SourceType.METADATA
+    verification_method: str = "contract_rule_evaluation"
+    verified: bool = True
+    timestamp: Optional[Union[float, str]] = None
     promotional_use: bool = True
     territory: str = "GLOBAL"
     valid: bool = True

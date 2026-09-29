@@ -2,6 +2,7 @@
 from pathlib import Path
 from typing import Optional, Tuple, Dict, Any, Union
 from pydantic import BaseModel, Field
+from src.models.enums import SourceType
 from src.utils.logger import logger
 
 try:
@@ -22,6 +23,9 @@ class VideoMetadata(BaseModel):
     height: int = 0
     codec: str = "unknown"
     is_valid: bool = False
+    has_video_stream: bool = False
+    source_type: SourceType = SourceType.REPLAY_FIXTURE
+    verification_method: str = "opencv_inspection"
     error_message: Optional[str] = None
 
 
@@ -34,13 +38,78 @@ class VideoProcessor:
         return OPENCV_AVAILABLE
 
     @classmethod
+    def get_source_type(cls, video_path: Union[str, Path]) -> SourceType:
+        """Determines whether video is the synthetic replay fixture or an external real media file."""
+        v_str = str(video_path).replace("\\", "/").lower()
+        if "sample_data/media/episode_01.mp4" in v_str or "sample_data" in v_str or "synthetic" in v_str:
+            return SourceType.REPLAY_FIXTURE
+        return SourceType.REAL_MEDIA
+
+    @classmethod
+    def detect_video_stream(cls, video_path: Union[str, Path]) -> Tuple[bool, Dict[str, Any]]:
+        """Inspects whether a valid video stream is present in the media container."""
+        v_path = Path(video_path)
+        source_type = cls.get_source_type(v_path)
+        if not v_path.exists():
+            return False, {
+                "source": str(v_path),
+                "source_type": source_type.value,
+                "verification_method": "opencv_inspection",
+                "verified": False,
+                "error": f"Video file not found at '{v_path}'"
+            }
+
+        if not OPENCV_AVAILABLE:
+            return False, {
+                "source": str(v_path),
+                "source_type": source_type.value,
+                "verification_method": "opencv_inspection",
+                "verified": False,
+                "error": "OpenCV is not installed"
+            }
+
+        cap = cv2.VideoCapture(str(v_path))
+        if not cap.isOpened():
+            return False, {
+                "source": str(v_path),
+                "source_type": source_type.value,
+                "verification_method": "opencv_inspection",
+                "verified": False,
+                "error": f"Failed to open video container at '{v_path}'"
+            }
+
+        try:
+            width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH) or 0)
+            height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT) or 0)
+            frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT) or 0)
+            fps = float(cap.get(cv2.CAP_PROP_FPS) or 0.0)
+            has_stream = bool(width > 0 and height > 0 and frames > 0)
+            return has_stream, {
+                "source": str(v_path),
+                "source_type": source_type.value,
+                "verification_method": "opencv_inspection",
+                "verified": has_stream,
+                "width": width,
+                "height": height,
+                "frame_count": frames,
+                "fps": round(fps, 3),
+                "duration_seconds": round(frames / fps, 3) if fps > 0 else 0.0
+            }
+        finally:
+            cap.release()
+
+    @classmethod
     def extract_metadata(cls, video_path: Union[str, Path]) -> VideoMetadata:
         """Inspects video container using OpenCV to detect FPS, frame count, resolution, and duration."""
         v_path = Path(video_path)
+        source_type = cls.get_source_type(v_path)
+
         if not v_path.exists():
             return VideoMetadata(
                 path=str(v_path),
                 is_valid=False,
+                has_video_stream=False,
+                source_type=source_type,
                 error_message=f"Video file does not exist at '{v_path}'"
             )
 
@@ -48,6 +117,8 @@ class VideoProcessor:
             return VideoMetadata(
                 path=str(v_path),
                 is_valid=False,
+                has_video_stream=False,
+                source_type=source_type,
                 error_message="OpenCV is not installed; cannot inspect physical video frames."
             )
 
@@ -56,6 +127,8 @@ class VideoProcessor:
             return VideoMetadata(
                 path=str(v_path),
                 is_valid=False,
+                has_video_stream=False,
+                source_type=source_type,
                 error_message=f"Failed to open video container at '{v_path}'"
             )
 
@@ -68,6 +141,7 @@ class VideoProcessor:
             codec = "".join([chr((fourcc >> 8 * i) & 0xFF) for i in range(4)]).strip()
 
             duration = round(frame_count / fps, 3) if fps > 0 else 0.0
+            has_stream = bool(width > 0 and height > 0 and frame_count > 0)
 
             return VideoMetadata(
                 path=str(v_path),
@@ -77,12 +151,17 @@ class VideoProcessor:
                 width=width,
                 height=height,
                 codec=codec or "mp4v",
-                is_valid=True
+                is_valid=has_stream,
+                has_video_stream=has_stream,
+                source_type=source_type,
+                verification_method="opencv_inspection"
             )
         except Exception as e:
             return VideoMetadata(
                 path=str(v_path),
                 is_valid=False,
+                has_video_stream=False,
+                source_type=source_type,
                 error_message=f"Error inspecting video stream: {str(e)}"
             )
         finally:
