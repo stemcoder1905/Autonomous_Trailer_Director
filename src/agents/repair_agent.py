@@ -95,8 +95,21 @@ class RepairAgent:
 
             if fixed_count == 0:
                 logger.warning("[RepairAgent] No automated alternative found; escalating to human review.")
+                current_plan.human_approval_required = True
+                top_failure = failures[0]
+                if "rights" in top_failure.validator or "contract" in top_failure.message.lower():
+                    current_plan.approval_type = "RIGHTS"
+                elif "spoiler" in top_failure.validator:
+                    current_plan.approval_type = "SPOILER"
+                elif "rating" in top_failure.validator:
+                    current_plan.approval_type = "RATING"
+                elif "legal" in top_failure.validator:
+                    current_plan.approval_type = "LEGAL"
+                else:
+                    current_plan.approval_type = "CREATIVE"
+                current_plan.approval_reason = f"Automated repair exhausted ({top_failure.validator}): {top_failure.message}"
                 current_plan.human_approval_requirements.append(
-                    f"Automated repair exhausted: {failures[0].message}"
+                    f"Automated repair exhausted: {top_failure.message}"
                 )
                 break
 
@@ -105,7 +118,23 @@ class RepairAgent:
             current_plan, package, story_map, constraint_map
         )
         current_plan.validation = final_report
-        return current_plan, final_report.status != ValidationStatus.FAIL
+        passed = final_report.status != ValidationStatus.FAIL
+        if not passed:
+            current_plan.human_approval_required = True
+            if not current_plan.approval_type:
+                fails = [i for i in final_report.items if i.status == ValidationStatus.FAIL]
+                if fails:
+                    top = fails[0]
+                    if "rights" in top.validator:
+                        current_plan.approval_type = "RIGHTS"
+                    elif "spoiler" in top.validator:
+                        current_plan.approval_type = "SPOILER"
+                    elif "rating" in top.validator:
+                        current_plan.approval_type = "RATING"
+                    else:
+                        current_plan.approval_type = "CREATIVE"
+                    current_plan.approval_reason = top.message
+        return current_plan, passed
 
     def _repair_segment(
         self,
@@ -229,6 +258,11 @@ class RepairAgent:
             target_seg.video = candidate.scene_id
             target_seg.reason = f"Automated repair: replaced problematic scene {old_scene} with safe candidate {candidate.scene_id}"
             target_seg.evidence = [f"repaired_scene:{candidate.scene_id}"]
+            target_seg.frame_evidence = [
+                f"sample_run/frames/{candidate.scene_id}_start.jpg",
+                f"sample_run/frames/{candidate.scene_id}_middle.jpg",
+                f"sample_run/frames/{candidate.scene_id}_end.jpg"
+            ]
 
             if self.decision_logger:
                 self.decision_logger.log_decision(

@@ -9,6 +9,8 @@ from src.models.schemas import (
     SensitiveContentItem,
     SceneEvidence,
     SpoilerLevel,
+    SpoilerMap,
+    SpoilerMapEntry,
 )
 from src.utils.timecode import timecode_to_seconds
 from src.utils.logger import logger, DecisionLogger
@@ -195,3 +197,48 @@ class StoryUnderstandingAgent:
             )
 
         return story_map
+
+    def generate_spoiler_map(self, story_map: StoryMap) -> SpoilerMap:
+        """Generate structured spoiler map distinguishing single-scene and combination spoilers."""
+        single_spoilers: List[SpoilerMapEntry] = []
+        combo_spoilers: List[SpoilerMapEntry] = []
+
+        for item in story_map.spoilers:
+            is_combo = bool(item.revealed_by_combination_of) or len(item.affected_scenes) > 1
+            entry = SpoilerMapEntry(
+                scene_id=item.affected_scenes[0] if item.affected_scenes else "scene_00",
+                severity=item.level.value,
+                description=item.fact,
+                trailer_allowed=(item.level == SpoilerLevel.NONE),
+                evidence=[f"spoiler:{item.spoiler_id}"] + [f"scene:{s}" for s in item.affected_scenes],
+                spoiler_id=item.spoiler_id,
+                spoiler_type="COMBINATION" if is_combo else "SINGLE_SCENE",
+                affected_scenes=item.affected_scenes,
+                revealed_by_combination_of=item.revealed_by_combination_of,
+                risk_summary=item.reason,
+                remediation_guidance=f"Exclude or truncate scenes {item.affected_scenes} to prevent premature reveal of: {item.fact}"
+            )
+            if is_combo:
+                combo_spoilers.append(entry)
+            else:
+                single_spoilers.append(entry)
+
+        spoiler_map = SpoilerMap(
+            episode_id=story_map.episode_id,
+            spoilers=single_spoilers + combo_spoilers,
+            single_scene_spoilers=single_spoilers,
+            combination_spoilers=combo_spoilers,
+            total_spoilers=len(single_spoilers) + len(combo_spoilers)
+        )
+
+        if self.decision_logger:
+            self.decision_logger.log_decision(
+                agent="StoryUnderstandingAgent",
+                action="GENERATE_SPOILER_MAP",
+                reason=f"Synthesized spoiler map with {len(single_spoilers)} single-scene and {len(combo_spoilers)} combination spoilers",
+                input_evidence=[f"episode:{story_map.episode_id}", f"total_spoilers:{spoiler_map.total_spoilers}"],
+                selected_decision={"single": len(single_spoilers), "combo": len(combo_spoilers)},
+                risk="HIGH" if any(s.level == SpoilerLevel.MAJOR for s in story_map.spoilers) else "MEDIUM"
+            )
+
+        return spoiler_map

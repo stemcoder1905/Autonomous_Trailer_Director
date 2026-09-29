@@ -5,6 +5,7 @@ from src.models.enums import AudienceType
 from src.models.schemas import (
     EpisodePackage,
     StoryMap,
+    SpoilerMap,
     ConstraintMap,
     TrailerPlan,
     TrailerValidationReport,
@@ -16,6 +17,7 @@ class DirectorState(BaseModel):
     """Immutable, typed state container passed through the agentic graph."""
     episode_package: Optional[EpisodePackage] = None
     story_map: Optional[StoryMap] = None
+    spoiler_map: Optional[SpoilerMap] = None
     constraint_map: Optional[ConstraintMap] = None
     trailer_plans: Dict[str, TrailerPlan] = Field(default_factory=dict)
     validation_reports: Dict[str, TrailerValidationReport] = Field(default_factory=dict)

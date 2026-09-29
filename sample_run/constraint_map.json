@@ -46,15 +46,20 @@
       "type": "music_restriction",
       "scope": "asset:music_03_synth_pulse",
       "condition": "music == 'music_03_synth_pulse'",
-      "allowed_behavior": "None",
-      "blocked_behavior": "License expired on 2026-03-31; all promotional sync prohibited.",
+      "allowed_behavior": "Permitted for promotional trailer synchronization prior to expiry date.",
+      "blocked_behavior": "Synchronization strictly forbidden on or after expiry date.",
       "evidence": [
-        "Contract Amendment Notice MUS-2026-03-EXP"
+        "Contract #MUS-2026-03: Modern Beats Limited Sync License"
       ],
-      "status": "EXPIRED",
+      "status": "ACTIVE",
       "effective_date": "2026-01-01",
       "expiry_date": "2026-03-31",
-      "metadata": {}
+      "metadata": {
+        "territories": [
+          "GLOBAL"
+        ],
+        "cost_per_sync_usd": 0.05
+      }
     },
     {
       "rule_id": "rule_contract_actor_harish",

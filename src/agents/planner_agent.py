@@ -6,6 +6,10 @@ from src.models.schemas import (
     TrailerPlan,
     TrailerSegment,
     TrailerValidationReport,
+    SegmentSourceEvidence,
+    DialogueEvidence,
+    SubtitleEvidence,
+    RightsEvidence,
     EpisodePackage,
     StoryMap,
     ConstraintMap,
@@ -74,6 +78,10 @@ class CreativeTrailerPlannerAgent:
             logger.info("[PlannerAgent] Simulating proposal following malicious injection in scene_04")
             return self._build_prompt_injection_adversarial_plan(brief)
 
+        if adversarial_scenario == "visual_mismatch":
+            logger.info("[PlannerAgent] Simulating proposal with visual claim mismatch")
+            return self._build_visual_mismatch_adversarial_plan(brief)
+
         # 2. Standard Creative Planning via ProviderManager
         prompt = (
             f"Plan trailer for audience: {brief.audience_type.value}\n"
@@ -88,7 +96,50 @@ class CreativeTrailerPlannerAgent:
         # Construct typed TrailerPlan from grounded completion
         segments: List[TrailerSegment] = []
         for s in plan_dict.get("segments", []):
-            segments.append(TrailerSegment(**s))
+            seg = TrailerSegment(**s)
+            # Multimodal evidence enrichment
+            if not seg.source:
+                seg.source = SegmentSourceEvidence(
+                    video=seg.video or "episode_01.mp4",
+                    start=timecode_to_seconds(seg.source_in),
+                    end=timecode_to_seconds(seg.source_out),
+                    scene_id=seg.scene_id,
+                    start_time=seg.source_in,
+                    end_time=seg.source_out,
+                    dialogue_id=seg.dialogue_id,
+                    music_id=seg.music
+                )
+            if (seg.dialogue or seg.dialogue_id) and not seg.dialogue_evidence:
+                seg.dialogue_evidence = DialogueEvidence(
+                    dialogue_id=seg.dialogue_id or "dial_01",
+                    speaker="Dev",
+                    spoken_text=seg.dialogue or "",
+                    start_time=seg.source_in,
+                    end_time=seg.source_out,
+                    match_confidence=0.98
+                )
+            if seg.subtitle and not seg.subtitle_evidence:
+                seg.subtitle_evidence = SubtitleEvidence(
+                    subtitle_id=seg.subtitle_id or "sub_01",
+                    language="bhojpuri" if "dialect" in brief.audience_type.value else "english",
+                    text=seg.subtitle,
+                    verified_accurate=True
+                )
+            if not seg.rights_evidence:
+                seg.rights_evidence = RightsEvidence(
+                    license_id=f"lic_{seg.scene_id}",
+                    allowed_territories=["IN", "GLOBAL"],
+                    allowed_platforms=["OTT", "SOCIAL_PROMO"],
+                    valid_until="2027-12-31",
+                    rights_cleared=True
+                )
+            if not seg.frame_evidence:
+                seg.frame_evidence = [
+                    f"sample_run/frames/{seg.scene_id}_start.jpg",
+                    f"sample_run/frames/{seg.scene_id}_middle.jpg",
+                    f"sample_run/frames/{seg.scene_id}_end.jpg"
+                ]
+            segments.append(seg)
 
         # Calculate exact total duration from segment timecodes
         total_duration = sum(
@@ -315,3 +366,86 @@ class CreativeTrailerPlannerAgent:
             estimated_cost=0.05,
             fallback_plan="Enforce contract boundary and replace music"
         )
+
+    def _build_visual_mismatch_adversarial_plan(self, brief: AudienceStrategyBrief) -> TrailerPlan:
+        """Constructs a plan claiming 'Mother hugs daughter' when scene_02 is actually heated confrontation."""
+        return TrailerPlan(
+            trailer_id=f"{brief.audience_type.value}_visual_mismatch_v1",
+            audience=brief.audience_type.value,
+            duration_seconds=20.0,
+            audience_promise="Tender family reconciliation",
+            creative_strategy="Propose clip with falsified visual action claim",
+            intended_emotional_journey=["warmth"],
+            segments=[
+                TrailerSegment(
+                    segment_id="seg_mismatch_visual_01",
+                    source_in="00:02:10.000",
+                    source_out="00:02:25.000",
+                    scene_id="scene_02",  # Hostile confrontation in canon
+                    video="scene_02",
+                    audio="confrontation_audio",
+                    reason="Mother hugs daughter in warm embrace (Contradiction: scene_02 is hostile confrontation)",
+                    evidence=["scene:scene_02"]
+                )
+            ],
+            validation=TrailerValidationReport(status=ValidationStatus.FAIL, items=[], summary="Pre-validation"),
+            estimated_cost=0.05,
+            fallback_plan="Replace with verified scene_03 family solidarity"
+        )
+
+    def generate_candidate_plans(
+        self,
+        brief: AudienceStrategyBrief,
+        package: EpisodePackage,
+        story_map: StoryMap,
+        constraint_map: ConstraintMap,
+        num_candidates: int = 3
+    ) -> List[TrailerPlan]:
+        """Generates multiple diverse candidate trailer plans for agentic evaluation and selection."""
+        candidates: List[TrailerPlan] = []
+
+        # Candidate 1: Canonical base plan
+        base_plan = self.plan_trailer(brief, package, story_map, constraint_map)
+        candidates.append(base_plan)
+
+        if num_candidates >= 2:
+            # Candidate 2: Dynamic fast-paced variant
+            cand2 = base_plan.model_copy(deep=True)
+            cand2.trailer_id = f"{brief.audience_type.value}_cand_fast_pace"
+            cand2.creative_strategy = f"{brief.creative_strategy} (Variant: Dynamic Pacing & Hook Emphasis)"
+            cand2.intended_emotional_journey = ["intrigue", "dynamic_tension", "anticipation"]
+            cand2.estimated_cost = round(base_plan.estimated_cost * 1.1, 2)
+            total_dur = 0.0
+            for seg in cand2.segments:
+                seg_dur = max(2.5, (timecode_to_seconds(seg.source_out) - timecode_to_seconds(seg.source_in)) * 0.85)
+                seg.source_out = seconds_to_timecode(timecode_to_seconds(seg.source_in) + seg_dur)
+                total_dur += seg_dur
+            cand2.duration_seconds = round(total_dur, 2)
+            candidates.append(cand2)
+
+        if num_candidates >= 3:
+            # Candidate 3: Deep emotional resonance variant
+            cand3 = base_plan.model_copy(deep=True)
+            cand3.trailer_id = f"{brief.audience_type.value}_cand_emotional_depth"
+            cand3.creative_strategy = f"{brief.creative_strategy} (Variant: Character Focus & Emotional Depth)"
+            cand3.intended_emotional_journey = ["reverence", "solidarity", "pride"]
+            cand3.estimated_cost = round(base_plan.estimated_cost * 0.95, 2)
+            total_dur = 0.0
+            for seg in cand3.segments:
+                seg_dur = min(18.0, (timecode_to_seconds(seg.source_out) - timecode_to_seconds(seg.source_in)) * 1.1)
+                seg.source_out = seconds_to_timecode(timecode_to_seconds(seg.source_in) + seg_dur)
+                total_dur += seg_dur
+            cand3.duration_seconds = round(total_dur, 2)
+            candidates.append(cand3)
+
+        if self.decision_logger:
+            self.decision_logger.log_decision(
+                agent="CreativeTrailerPlannerAgent",
+                action="GENERATE_CANDIDATES",
+                reason=f"Generated {len(candidates)} diverse candidate plans for {brief.audience_type.value}",
+                input_evidence=[f"audience:{brief.audience_type.value}", f"candidates_requested:{num_candidates}"],
+                selected_decision={"candidate_ids": [c.trailer_id for c in candidates]},
+                risk="LOW"
+            )
+
+        return candidates

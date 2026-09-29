@@ -67,7 +67,8 @@ def parse_args():
             "subtitle_mismatch",
             "model_failure",
             "budget_exceeded",
-            "prompt_injection"
+            "prompt_injection",
+            "visual_mismatch"
         ],
         default="none",
         help="Trigger a specific surprise scenario / adversarial test",
@@ -215,7 +216,7 @@ def main():
             console.print(f"   - Scene: [cyan]{item['scene_id']}[/cyan] | Snippet: \"{sample_text}\" | Verdict: [bold red]{item['verdict']}[/bold red]")
         console.print("   [green][OK] Independent validators rejected malicious contract override; valid plan enforced and repaired.[/green]")
 
-    elif args.scenario in ["spoiler", "missing_scene", "bias", "clickbait", "subtitle_mismatch", "budget_exceeded"]:
+    elif args.scenario in ["spoiler", "missing_scene", "bias", "clickbait", "subtitle_mismatch", "budget_exceeded", "visual_mismatch"]:
         console.print(f"[bold cyan]>> Scenario '{args.scenario}' executed successfully:[/bold cyan]")
         console.print(f"   [yellow]1. Adversarial proposal submitted[/yellow]")
         console.print(f"   [red]2. Independent Validator rejected proposal with FAIL[/red]")
@@ -226,6 +227,12 @@ def main():
     story_map_path = output_dir / "story_map.json"
     with open(story_map_path, "w", encoding="utf-8") as f:
         json.dump(state.story_map.model_dump(), f, indent=2)
+
+    if state.spoiler_map:
+        spoiler_map_path = output_dir / "spoiler_map.json"
+        with open(spoiler_map_path, "w", encoding="utf-8") as f:
+            json.dump(state.spoiler_map.model_dump(), f, indent=2)
+        console.print(f"[green][OK] Saved spoiler map to: {spoiler_map_path}[/green]")
 
     constraint_map_path = output_dir / "constraint_map.json"
     with open(constraint_map_path, "w", encoding="utf-8") as f:
@@ -251,7 +258,12 @@ def main():
 
     for aud_key, plan in state.trailer_plans.items():
         status_color = "green" if plan.validation.status.value == "PASS" else ("yellow" if "WARNING" in plan.validation.status.value else "red")
-        human_req = "Required" if plan.human_approval_requirements else "None"
+        if plan.human_approval_required:
+            human_req = f"Required ({plan.approval_type or 'REVIEW'})"
+        elif plan.human_approval_requirements:
+            human_req = "Required (Flags)"
+        else:
+            human_req = "None"
         table.add_row(
             plan.audience,
             plan.trailer_id,

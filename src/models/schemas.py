@@ -190,6 +190,71 @@ class CostSheet(BaseModel):
     cost_breakdown: List[CostItem] = Field(default_factory=list)
 
 
+class SegmentSourceEvidence(BaseModel):
+    video: str = "episode_01.mp4"
+    start: float = 0.0
+    end: float = 0.0
+    scene_id: Optional[str] = None
+    start_time: Optional[str] = None
+    end_time: Optional[str] = None
+    dialogue_id: Optional[str] = None
+    music_id: Optional[str] = None
+
+
+class DialogueEvidence(BaseModel):
+    metadata_text: str = ""
+    asr_text: str = ""
+    match: bool = True
+    asr_engine: str = "canonical_stem_grounded"
+    dialogue_id: Optional[str] = None
+    speaker: Optional[str] = None
+    spoken_text: Optional[str] = None
+    start_time: Optional[str] = None
+    end_time: Optional[str] = None
+    match_confidence: float = 1.0
+
+
+class SubtitleEvidence(BaseModel):
+    text: str = ""
+    verified: bool = True
+    subtitle_id: Optional[str] = None
+    language: Optional[str] = None
+    verified_accurate: bool = True
+
+
+class RightsEvidence(BaseModel):
+    promotional_use: bool = True
+    territory: str = "GLOBAL"
+    valid: bool = True
+    license_id: Optional[str] = None
+    allowed_territories: List[str] = Field(default_factory=lambda: ["IN", "GLOBAL"])
+    allowed_platforms: List[str] = Field(default_factory=lambda: ["OTT", "SOCIAL_PROMO"])
+    valid_until: Optional[str] = None
+    rights_cleared: bool = True
+
+
+class SpoilerMapEntry(BaseModel):
+    scene_id: str = ""
+    severity: str = "MAJOR"
+    description: str = ""
+    trailer_allowed: bool = False
+    evidence: List[str] = Field(default_factory=list)
+    spoiler_id: Optional[str] = None
+    spoiler_type: str = "SINGLE_SCENE"  # "SINGLE_SCENE" or "COMBINATION"
+    affected_scenes: List[str] = Field(default_factory=list)
+    revealed_by_combination_of: List[List[str]] = Field(default_factory=list)
+    risk_summary: Optional[str] = None
+    remediation_guidance: Optional[str] = None
+
+
+class SpoilerMap(BaseModel):
+    episode_id: str
+    spoilers: List[SpoilerMapEntry] = Field(default_factory=list)
+    single_scene_spoilers: List[SpoilerMapEntry] = Field(default_factory=list)
+    combination_spoilers: List[SpoilerMapEntry] = Field(default_factory=list)
+    total_spoilers: int = 0
+
+
 class TrailerSegment(BaseModel):
     segment_id: str
     source_in: str
@@ -207,6 +272,12 @@ class TrailerSegment(BaseModel):
     reason: str
     evidence: List[str] = Field(default_factory=list)
     risk_flags: List[str] = Field(default_factory=list)
+    source: Optional[SegmentSourceEvidence] = None
+    frame_evidence: List[str] = Field(default_factory=list)
+    dialogue_evidence: Optional[DialogueEvidence] = None
+    subtitle_evidence: Optional[SubtitleEvidence] = None
+    rights_evidence: Optional[RightsEvidence] = None
+    validation_status_map: Dict[str, str] = Field(default_factory=dict)
 
 
 class ValidationResultItem(BaseModel):
@@ -238,6 +309,9 @@ class TrailerPlan(BaseModel):
     warnings: List[str] = Field(default_factory=list)
     assumptions: List[str] = Field(default_factory=list)
     human_approval_requirements: List[str] = Field(default_factory=list)
+    human_approval_required: bool = False
+    approval_type: Optional[str] = None
+    approval_reason: Optional[str] = None
     estimated_cost: float = 0.0
     fallback_plan: str
 

@@ -1,0 +1,196 @@
+{
+  "episode_id": "ep_101",
+  "spoilers": [
+    {
+      "scene_id": "scene_08",
+      "severity": "MINOR",
+      "description": "Night sabotage physically damages the loom shuttles",
+      "trailer_allowed": false,
+      "evidence": [
+        "spoiler:spoil_03",
+        "scene:scene_08"
+      ],
+      "spoiler_id": "spoil_03",
+      "spoiler_type": "SINGLE_SCENE",
+      "affected_scenes": [
+        "scene_08"
+      ],
+      "revealed_by_combination_of": [],
+      "risk_summary": "Incidental plot progression; reveals intermediate peril",
+      "remediation_guidance": "Exclude or truncate scenes ['scene_08'] to prevent premature reveal of: Night sabotage physically damages the loom shuttles"
+    },
+    {
+      "scene_id": "scene_10",
+      "severity": "MAJOR",
+      "description": "Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage",
+      "trailer_allowed": false,
+      "evidence": [
+        "spoiler:spoil_01",
+        "scene:scene_10"
+      ],
+      "spoiler_id": "spoil_01",
+      "spoiler_type": "COMBINATION",
+      "affected_scenes": [
+        "scene_10"
+      ],
+      "revealed_by_combination_of": [
+        [
+          "scene_02",
+          "scene_10"
+        ],
+        [
+          "scene_04",
+          "scene_10"
+        ]
+      ],
+      "risk_summary": "Climax twist reveal fundamentally ruins mystery of the antagonist",
+      "remediation_guidance": "Exclude or truncate scenes ['scene_10'] to prevent premature reveal of: Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage"
+    },
+    {
+      "scene_id": "scene_11",
+      "severity": "MAJOR",
+      "description": "The royal golden seal woven into the fabric legally nullifies Singhania's claim",
+      "trailer_allowed": false,
+      "evidence": [
+        "spoiler:spoil_02",
+        "scene:scene_11"
+      ],
+      "spoiler_id": "spoil_02",
+      "spoiler_type": "COMBINATION",
+      "affected_scenes": [
+        "scene_11"
+      ],
+      "revealed_by_combination_of": [
+        [
+          "scene_06",
+          "scene_11"
+        ]
+      ],
+      "risk_summary": "Reveals the exact resolution and legal outcome of the central conflict",
+      "remediation_guidance": "Exclude or truncate scenes ['scene_11'] to prevent premature reveal of: The royal golden seal woven into the fabric legally nullifies Singhania's claim"
+    },
+    {
+      "scene_id": "scene_08",
+      "severity": "MODERATE",
+      "description": "Directly juxtaposing the cut loom with the fully restored celebratory loom reveals immediate crisis resolution",
+      "trailer_allowed": false,
+      "evidence": [
+        "spoiler:spoil_combo_01",
+        "scene:scene_08",
+        "scene:scene_09"
+      ],
+      "spoiler_id": "spoil_combo_01",
+      "spoiler_type": "COMBINATION",
+      "affected_scenes": [
+        "scene_08",
+        "scene_09"
+      ],
+      "revealed_by_combination_of": [
+        [
+          "scene_08",
+          "scene_09"
+        ]
+      ],
+      "risk_summary": "Combination spoiler: Eliminates narrative tension by showing both the catastrophe and its immediate fix",
+      "remediation_guidance": "Exclude or truncate scenes ['scene_08', 'scene_09'] to prevent premature reveal of: Directly juxtaposing the cut loom with the fully restored celebratory loom reveals immediate crisis resolution"
+    }
+  ],
+  "single_scene_spoilers": [
+    {
+      "scene_id": "scene_08",
+      "severity": "MINOR",
+      "description": "Night sabotage physically damages the loom shuttles",
+      "trailer_allowed": false,
+      "evidence": [
+        "spoiler:spoil_03",
+        "scene:scene_08"
+      ],
+      "spoiler_id": "spoil_03",
+      "spoiler_type": "SINGLE_SCENE",
+      "affected_scenes": [
+        "scene_08"
+      ],
+      "revealed_by_combination_of": [],
+      "risk_summary": "Incidental plot progression; reveals intermediate peril",
+      "remediation_guidance": "Exclude or truncate scenes ['scene_08'] to prevent premature reveal of: Night sabotage physically damages the loom shuttles"
+    }
+  ],
+  "combination_spoilers": [
+    {
+      "scene_id": "scene_10",
+      "severity": "MAJOR",
+      "description": "Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage",
+      "trailer_allowed": false,
+      "evidence": [
+        "spoiler:spoil_01",
+        "scene:scene_10"
+      ],
+      "spoiler_id": "spoil_01",
+      "spoiler_type": "COMBINATION",
+      "affected_scenes": [
+        "scene_10"
+      ],
+      "revealed_by_combination_of": [
+        [
+          "scene_02",
+          "scene_10"
+        ],
+        [
+          "scene_04",
+          "scene_10"
+        ]
+      ],
+      "risk_summary": "Climax twist reveal fundamentally ruins mystery of the antagonist",
+      "remediation_guidance": "Exclude or truncate scenes ['scene_10'] to prevent premature reveal of: Uncle Harish is the secret mastermind behind Vikram's buyout and sabotage"
+    },
+    {
+      "scene_id": "scene_11",
+      "severity": "MAJOR",
+      "description": "The royal golden seal woven into the fabric legally nullifies Singhania's claim",
+      "trailer_allowed": false,
+      "evidence": [
+        "spoiler:spoil_02",
+        "scene:scene_11"
+      ],
+      "spoiler_id": "spoil_02",
+      "spoiler_type": "COMBINATION",
+      "affected_scenes": [
+        "scene_11"
+      ],
+      "revealed_by_combination_of": [
+        [
+          "scene_06",
+          "scene_11"
+        ]
+      ],
+      "risk_summary": "Reveals the exact resolution and legal outcome of the central conflict",
+      "remediation_guidance": "Exclude or truncate scenes ['scene_11'] to prevent premature reveal of: The royal golden seal woven into the fabric legally nullifies Singhania's claim"
+    },
+    {
+      "scene_id": "scene_08",
+      "severity": "MODERATE",
+      "description": "Directly juxtaposing the cut loom with the fully restored celebratory loom reveals immediate crisis resolution",
+      "trailer_allowed": false,
+      "evidence": [
+        "spoiler:spoil_combo_01",
+        "scene:scene_08",
+        "scene:scene_09"
+      ],
+      "spoiler_id": "spoil_combo_01",
+      "spoiler_type": "COMBINATION",
+      "affected_scenes": [
+        "scene_08",
+        "scene_09"
+      ],
+      "revealed_by_combination_of": [
+        [
+          "scene_08",
+          "scene_09"
+        ]
+      ],
+      "risk_summary": "Combination spoiler: Eliminates narrative tension by showing both the catastrophe and its immediate fix",
+      "remediation_guidance": "Exclude or truncate scenes ['scene_08', 'scene_09'] to prevent premature reveal of: Directly juxtaposing the cut loom with the fully restored celebratory loom reveals immediate crisis resolution"
+    }
+  ],
+  "total_spoilers": 4
+}

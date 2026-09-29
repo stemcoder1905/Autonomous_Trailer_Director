@@ -126,6 +126,11 @@ Creative proposals must pass all 9 independent validators located in `src/valida
 9. **`BudgetValidator`**:
    - Evaluates estimated cumulative AI and media processing costs against the hard budget ceiling (`$25.00 USD`).
 
+10. **`MediaValidator`**:
+   - Enforces physical video container duration using OpenCV (`cv2.VideoCapture`). Rejects timecode cuts that overshoot physical media length.
+   - Extracts start, middle, and end frames to disk (`sample_run/frames/`).
+   - Verifies visual ground-truth claims against contradictory frame content (e.g. metadata claiming "Mother hugs daughter" vs. heated industrial confrontation $\to$ `SOURCE_ACCURACY = FAIL`).
+
 ---
 
 ## 5. Change Impact Analysis & Selective Replanning

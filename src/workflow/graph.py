@@ -65,6 +65,7 @@ class TrailerDirectorWorkflow:
         state.current_node = "STORY_ANALYSIS"
         state.execution_history.append("STORY_ANALYSIS")
         state.story_map = self.story_agent.analyze_story(state.episode_package)
+        state.spoiler_map = self.story_agent.generate_spoiler_map(state.story_map)
 
         # Node 3: CONSTRAINT_ANALYSIS
         state.current_node = "CONSTRAINT_ANALYSIS"

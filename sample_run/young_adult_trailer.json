@@ -24,13 +24,75 @@
       "subtitle_id": "sub_02",
       "text_card": "DISRUPT OR BE REPLACED",
       "voice_over": null,
-      "music": "music_01_folk_acoustic",
-      "reason": "Fast hook establishing corporate stakes and youthful defiance [Repaired: switched to cleared perpetual folk acoustic master]",
+      "music": "music_03_synth_pulse",
+      "reason": "Fast hook establishing corporate stakes and youthful defiance",
       "evidence": [
         "scene:scene_02",
         "dialogue:dial_02"
       ],
-      "risk_flags": []
+      "risk_flags": [],
+      "source": {
+        "video": "scene_02",
+        "start": 130.0,
+        "end": 138.0,
+        "scene_id": "scene_02",
+        "start_time": "00:02:10.000",
+        "end_time": "00:02:18.000",
+        "dialogue_id": "dial_02",
+        "music_id": "music_03_synth_pulse"
+      },
+      "frame_evidence": [
+        "sample_run\\frames\\scene_02_start.jpg",
+        "sample_run\\frames\\scene_02_middle.jpg",
+        "sample_run\\frames\\scene_02_end.jpg"
+      ],
+      "dialogue_evidence": {
+        "metadata_text": "",
+        "asr_text": "",
+        "match": true,
+        "asr_engine": "canonical_stem_grounded",
+        "dialogue_id": "dial_02",
+        "speaker": "Dev",
+        "spoken_text": "Your antique traditions won't survive the next export quarter.",
+        "start_time": "00:02:10.000",
+        "end_time": "00:02:18.000",
+        "match_confidence": 0.98
+      },
+      "subtitle_evidence": {
+        "text": "Your antique traditions won't survive the next export quarter.",
+        "verified": true,
+        "subtitle_id": "sub_02",
+        "language": "english",
+        "verified_accurate": true
+      },
+      "rights_evidence": {
+        "promotional_use": true,
+        "territory": "GLOBAL",
+        "valid": true,
+        "license_id": "lic_scene_02",
+        "allowed_territories": [
+          "IN",
+          "GLOBAL"
+        ],
+        "allowed_platforms": [
+          "OTT",
+          "SOCIAL_PROMO"
+        ],
+        "valid_until": "2027-12-31",
+        "rights_cleared": true
+      },
+      "validation_status_map": {
+        "source": "PASS",
+        "spoiler": "PASS",
+        "story_truth": "PASS",
+        "rights": "PASS",
+        "rating": "PASS",
+        "cultural": "PASS",
+        "bias": "PASS",
+        "accessibility": "PASS",
+        "budget": "PASS",
+        "media": "PASS"
+      }
     },
     {
       "segment_id": "seg_ya_02",
@@ -45,13 +107,75 @@
       "subtitle_id": "sub_04",
       "text_card": null,
       "voice_over": null,
-      "music": "music_01_folk_acoustic",
-      "reason": "Intense personal rivalry and bold ideological clash [Repaired: switched to cleared perpetual folk acoustic master]",
+      "music": "music_03_synth_pulse",
+      "reason": "Intense personal rivalry and bold ideological clash",
       "evidence": [
         "scene:scene_04",
         "dialogue:dial_04"
       ],
-      "risk_flags": []
+      "risk_flags": [],
+      "source": {
+        "video": "scene_04",
+        "start": 450.0,
+        "end": 460.0,
+        "scene_id": "scene_04",
+        "start_time": "00:07:30.000",
+        "end_time": "00:07:40.000",
+        "dialogue_id": "dial_04",
+        "music_id": "music_03_synth_pulse"
+      },
+      "frame_evidence": [
+        "sample_run\\frames\\scene_04_start.jpg",
+        "sample_run\\frames\\scene_04_middle.jpg",
+        "sample_run\\frames\\scene_04_end.jpg"
+      ],
+      "dialogue_evidence": {
+        "metadata_text": "",
+        "asr_text": "",
+        "match": true,
+        "asr_engine": "canonical_stem_grounded",
+        "dialogue_id": "dial_04",
+        "speaker": "Dev",
+        "spoken_text": "I'm not asking for your permission. I'm telling you what happens next.",
+        "start_time": "00:07:30.000",
+        "end_time": "00:07:40.000",
+        "match_confidence": 0.98
+      },
+      "subtitle_evidence": {
+        "text": "I'm not asking for your permission. I'm telling you what happens next.",
+        "verified": true,
+        "subtitle_id": "sub_04",
+        "language": "english",
+        "verified_accurate": true
+      },
+      "rights_evidence": {
+        "promotional_use": true,
+        "territory": "GLOBAL",
+        "valid": true,
+        "license_id": "lic_scene_04",
+        "allowed_territories": [
+          "IN",
+          "GLOBAL"
+        ],
+        "allowed_platforms": [
+          "OTT",
+          "SOCIAL_PROMO"
+        ],
+        "valid_until": "2027-12-31",
+        "rights_cleared": true
+      },
+      "validation_status_map": {
+        "source": "PASS",
+        "spoiler": "PASS",
+        "story_truth": "PASS",
+        "rights": "PASS",
+        "rating": "PASS",
+        "cultural": "PASS",
+        "bias": "PASS",
+        "accessibility": "PASS",
+        "budget": "PASS",
+        "media": "PASS"
+      }
     },
     {
       "segment_id": "seg_ya_03",
@@ -66,13 +190,75 @@
       "subtitle_id": "sub_07",
       "text_card": "EVERY RISK COUNTS",
       "voice_over": null,
-      "music": "music_01_folk_acoustic",
-      "reason": "Pacing acceleration and high-stakes gamble [Repaired: switched to cleared perpetual folk acoustic master]",
+      "music": "music_03_synth_pulse",
+      "reason": "Pacing acceleration and high-stakes gamble",
       "evidence": [
         "scene:scene_07",
         "dialogue:dial_07"
       ],
-      "risk_flags": []
+      "risk_flags": [],
+      "source": {
+        "video": "scene_07",
+        "start": 820.0,
+        "end": 830.0,
+        "scene_id": "scene_07",
+        "start_time": "00:13:40.000",
+        "end_time": "00:13:50.000",
+        "dialogue_id": "dial_07",
+        "music_id": "music_03_synth_pulse"
+      },
+      "frame_evidence": [
+        "sample_run\\frames\\scene_07_start.jpg",
+        "sample_run\\frames\\scene_07_middle.jpg",
+        "sample_run\\frames\\scene_07_end.jpg"
+      ],
+      "dialogue_evidence": {
+        "metadata_text": "",
+        "asr_text": "",
+        "match": true,
+        "asr_engine": "canonical_stem_grounded",
+        "dialogue_id": "dial_07",
+        "speaker": "Dev",
+        "spoken_text": "If we bet everything, we either conquer the market or burn out.",
+        "start_time": "00:13:40.000",
+        "end_time": "00:13:50.000",
+        "match_confidence": 0.98
+      },
+      "subtitle_evidence": {
+        "text": "If we bet everything, we either conquer the market or burn out.",
+        "verified": true,
+        "subtitle_id": "sub_07",
+        "language": "english",
+        "verified_accurate": true
+      },
+      "rights_evidence": {
+        "promotional_use": true,
+        "territory": "GLOBAL",
+        "valid": true,
+        "license_id": "lic_scene_07",
+        "allowed_territories": [
+          "IN",
+          "GLOBAL"
+        ],
+        "allowed_platforms": [
+          "OTT",
+          "SOCIAL_PROMO"
+        ],
+        "valid_until": "2027-12-31",
+        "rights_cleared": true
+      },
+      "validation_status_map": {
+        "source": "PASS",
+        "spoiler": "PASS",
+        "story_truth": "PASS",
+        "rights": "PASS",
+        "rating": "PASS",
+        "cultural": "PASS",
+        "bias": "PASS",
+        "accessibility": "PASS",
+        "budget": "PASS",
+        "media": "PASS"
+      }
     },
     {
       "segment_id": "seg_ya_04",
@@ -87,13 +273,75 @@
       "subtitle_id": "sub_08",
       "text_card": "THE RECKONING ARRIVES",
       "voice_over": null,
-      "music": "music_01_folk_acoustic",
-      "reason": "Cliffhanger beat before reveal, avoiding final resolution spoiler [Repaired: switched to cleared perpetual folk acoustic master]",
+      "music": "music_03_synth_pulse",
+      "reason": "Cliffhanger beat before reveal, avoiding final resolution spoiler",
       "evidence": [
         "scene:scene_08",
         "dialogue:dial_08"
       ],
-      "risk_flags": []
+      "risk_flags": [],
+      "source": {
+        "video": "scene_08",
+        "start": 965.0,
+        "end": 975.0,
+        "scene_id": "scene_08",
+        "start_time": "00:16:05.000",
+        "end_time": "00:16:15.000",
+        "dialogue_id": "dial_08",
+        "music_id": "music_03_synth_pulse"
+      },
+      "frame_evidence": [
+        "sample_run\\frames\\scene_08_start.jpg",
+        "sample_run\\frames\\scene_08_middle.jpg",
+        "sample_run\\frames\\scene_08_end.jpg"
+      ],
+      "dialogue_evidence": {
+        "metadata_text": "",
+        "asr_text": "",
+        "match": true,
+        "asr_engine": "canonical_stem_grounded",
+        "dialogue_id": "dial_08",
+        "speaker": "Dev",
+        "spoken_text": "Let's see who blinks first.",
+        "start_time": "00:16:05.000",
+        "end_time": "00:16:15.000",
+        "match_confidence": 0.98
+      },
+      "subtitle_evidence": {
+        "text": "Let's see who blinks first.",
+        "verified": true,
+        "subtitle_id": "sub_08",
+        "language": "english",
+        "verified_accurate": true
+      },
+      "rights_evidence": {
+        "promotional_use": true,
+        "territory": "GLOBAL",
+        "valid": true,
+        "license_id": "lic_scene_08",
+        "allowed_territories": [
+          "IN",
+          "GLOBAL"
+        ],
+        "allowed_platforms": [
+          "OTT",
+          "SOCIAL_PROMO"
+        ],
+        "valid_until": "2027-12-31",
+        "rights_cleared": true
+      },
+      "validation_status_map": {
+        "source": "PASS",
+        "spoiler": "PASS",
+        "story_truth": "PASS",
+        "rights": "PASS",
+        "rating": "PASS",
+        "cultural": "PASS",
+        "bias": "PASS",
+        "accessibility": "PASS",
+        "budget": "PASS",
+        "media": "PASS"
+      }
     }
   ],
   "validation": {
@@ -205,6 +453,9 @@
     "Fast edit cadence complies with young adult attention profiles"
   ],
   "human_approval_requirements": [],
+  "human_approval_required": false,
+  "approval_type": null,
+  "approval_reason": null,
   "estimated_cost": 0.4,
   "fallback_plan": "Replace synth pulse music_03 with licensed percussive rhythm if contract expires"
 }

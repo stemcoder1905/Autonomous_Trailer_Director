@@ -5,6 +5,7 @@ from typing import Optional, Type, Dict, Any
 from pydantic import BaseModel
 from src.providers.base import BaseModelProvider
 from src.providers.mock import MockLLMProvider
+from src.providers.live import LiveLLMProvider
 from src.utils.logger import logger
 
 
@@ -60,7 +61,7 @@ class FallbackLLMProvider(BaseModelProvider):
 
 
 class ProviderManager:
-    """Manages primary, secondary, and mock providers with automated fallback and cost tracking."""
+    """Manages live, primary, secondary, and mock providers with automated fallback and cost tracking."""
 
     def __init__(
         self,
@@ -70,6 +71,7 @@ class ProviderManager:
         self.mock_provider = MockLLMProvider()
         self.primary_provider = PrimaryLLMProvider()
         self.fallback_provider = FallbackLLMProvider()
+        self.live_provider = LiveLLMProvider()
         self.simulate_primary_failure = simulate_primary_failure
         self.preferred_provider = preferred_provider or os.getenv("LLM_PROVIDER", "mock")
         self.active_provider_name = "mock"
@@ -79,15 +81,20 @@ class ProviderManager:
         if self.preferred_provider == "mock" or self.simulate_primary_failure:
             self.active_provider_name = "mock"
             return self.mock_provider
-        
+
+        # Check live provider if configured
+        if self.preferred_provider == "live" and self.live_provider.is_healthy():
+            self.active_provider_name = self.live_provider.get_provider_name()
+            return self.live_provider
+
         if self.primary_provider.is_healthy():
             self.active_provider_name = self.primary_provider.get_provider_name()
             return self.primary_provider
-        
+
         if self.fallback_provider.is_healthy():
             self.active_provider_name = self.fallback_provider.get_provider_name()
             return self.fallback_provider
-        
+
         logger.info("[ProviderManager] Falling back to deterministic MockLLMProvider.")
         self.active_provider_name = "mock"
         return self.mock_provider

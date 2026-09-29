@@ -1,7 +1,7 @@
 [
   {
     "log_id": "log_0001",
-    "timestamp": "2026-09-29T12:14:42.468370+00:00",
+    "timestamp": "2026-09-29T13:44:15.582730+00:00",
     "agent": "StoryUnderstandingAgent",
     "action": "ANALYZE_STORY",
     "input_evidence": [
@@ -23,7 +23,29 @@
   },
   {
     "log_id": "log_0002",
-    "timestamp": "2026-09-29T12:14:42.471312+00:00",
+    "timestamp": "2026-09-29T13:44:15.584497+00:00",
+    "agent": "StoryUnderstandingAgent",
+    "action": "GENERATE_SPOILER_MAP",
+    "input_evidence": [
+      "episode:ep_101",
+      "total_spoilers:4"
+    ],
+    "selected_decision": {
+      "single": 1,
+      "combo": 3
+    },
+    "rejected_decisions": [],
+    "validation_results": [],
+    "risk": "HIGH",
+    "cost": 0.0,
+    "affected_segments": [],
+    "revision": 1,
+    "reason": "Synthesized spoiler map with 1 single-scene and 3 combination spoilers",
+    "model_provider": "mock"
+  },
+  {
+    "log_id": "log_0003",
+    "timestamp": "2026-09-29T13:44:15.586100+00:00",
     "agent": "ConstraintAnalysisAgent",
     "action": "COMPILE_CONSTRAINTS",
     "input_evidence": [
@@ -44,8 +66,8 @@
     "model_provider": "mock"
   },
   {
-    "log_id": "log_0003",
-    "timestamp": "2026-09-29T12:14:42.473478+00:00",
+    "log_id": "log_0004",
+    "timestamp": "2026-09-29T13:44:15.588103+00:00",
     "agent": "AudienceStrategyAgent",
     "action": "DEVELOP_STRATEGY",
     "input_evidence": [
@@ -72,8 +94,8 @@
     "model_provider": "mock"
   },
   {
-    "log_id": "log_0004",
-    "timestamp": "2026-09-29T12:14:42.475708+00:00",
+    "log_id": "log_0005",
+    "timestamp": "2026-09-29T13:44:15.590749+00:00",
     "agent": "CreativeTrailerPlannerAgent",
     "action": "PLAN_TRAILER",
     "input_evidence": [
@@ -94,8 +116,8 @@
     "model_provider": "mock"
   },
   {
-    "log_id": "log_0005",
-    "timestamp": "2026-09-29T12:14:42.477219+00:00",
+    "log_id": "log_0006",
+    "timestamp": "2026-09-29T13:44:15.593957+00:00",
     "agent": "AudienceStrategyAgent",
     "action": "DEVELOP_STRATEGY",
     "input_evidence": [
@@ -122,8 +144,8 @@
     "model_provider": "mock"
   },
   {
-    "log_id": "log_0006",
-    "timestamp": "2026-09-29T12:14:42.482539+00:00",
+    "log_id": "log_0007",
+    "timestamp": "2026-09-29T13:44:15.597617+00:00",
     "agent": "CreativeTrailerPlannerAgent",
     "action": "PLAN_TRAILER",
     "input_evidence": [
@@ -144,8 +166,8 @@
     "model_provider": "mock"
   },
   {
-    "log_id": "log_0007",
-    "timestamp": "2026-09-29T12:14:42.485317+00:00",
+    "log_id": "log_0008",
+    "timestamp": "2026-09-29T13:44:15.599611+00:00",
     "agent": "AudienceStrategyAgent",
     "action": "DEVELOP_STRATEGY",
     "input_evidence": [
@@ -172,8 +194,8 @@
     "model_provider": "mock"
   },
   {
-    "log_id": "log_0008",
-    "timestamp": "2026-09-29T12:14:42.488592+00:00",
+    "log_id": "log_0009",
+    "timestamp": "2026-09-29T13:44:15.602421+00:00",
     "agent": "CreativeTrailerPlannerAgent",
     "action": "PLAN_TRAILER",
     "input_evidence": [
@@ -194,8 +216,8 @@
     "model_provider": "mock"
   },
   {
-    "log_id": "log_0009",
-    "timestamp": "2026-09-29T12:14:42.492834+00:00",
+    "log_id": "log_0010",
+    "timestamp": "2026-09-29T13:44:15.749088+00:00",
     "agent": "IndependentValidationAgent",
     "action": "VALIDATE_TRAILER",
     "input_evidence": [
@@ -314,8 +336,8 @@
     "model_provider": "mock"
   },
   {
-    "log_id": "log_0010",
-    "timestamp": "2026-09-29T12:14:42.498181+00:00",
+    "log_id": "log_0011",
+    "timestamp": "2026-09-29T13:44:15.957994+00:00",
     "agent": "IndependentValidationAgent",
     "action": "VALIDATE_TRAILER",
     "input_evidence": [
@@ -434,8 +456,8 @@
     "model_provider": "mock"
   },
   {
-    "log_id": "log_0011",
-    "timestamp": "2026-09-29T12:14:42.503739+00:00",
+    "log_id": "log_0012",
+    "timestamp": "2026-09-29T13:44:16.283060+00:00",
     "agent": "IndependentValidationAgent",
     "action": "VALIDATE_TRAILER",
     "input_evidence": [
@@ -551,444 +573,6 @@
     "affected_segments": [],
     "revision": 1,
     "reason": "VALIDATION PASSED WITH WARNINGS: 1 non-critical warnings noted.",
-    "model_provider": "mock"
-  },
-  {
-    "log_id": "log_0012",
-    "timestamp": "2026-09-29T12:14:42.514409+00:00",
-    "agent": "IndependentValidationAgent",
-    "action": "VALIDATE_TRAILER",
-    "input_evidence": [
-      "trailer:young_adult_v1",
-      "segments:4"
-    ],
-    "selected_decision": {
-      "status": "FAIL",
-      "failures": 4,
-      "warnings": 1
-    },
-    "rejected_decisions": [],
-    "validation_results": [
-      {
-        "validator": "source_validator",
-        "status": "PASS",
-        "severity": "LOW",
-        "message": "All segments, timecodes, dialogue, and assets verified against episode source.",
-        "evidence": [
-          "verified_segments:4"
-        ],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      },
-      {
-        "validator": "spoiler_validator",
-        "status": "PASS",
-        "severity": "LOW",
-        "message": "Zero major spoilers detected; narrative twists and climax protected.",
-        "evidence": [],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      },
-      {
-        "validator": "story_truth_validator",
-        "status": "PASS",
-        "severity": "LOW",
-        "message": "Story truth verified: all relationships and events conform to canon.",
-        "evidence": [],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      },
-      {
-        "validator": "rights_validator",
-        "status": "FAIL",
-        "severity": "CRITICAL",
-        "message": "Segment 'seg_ya_01' uses music track 'music_03_synth_pulse' whose sync license EXPIRED on 2026-03-31.",
-        "evidence": [
-          "rule_id:rule_contract_music_03",
-          "music:music_03_synth_pulse",
-          "expiry:2026-03-31",
-          "ref_date:2026-02-15"
-        ],
-        "affected_segments": [
-          "seg_ya_01"
-        ],
-        "suggested_action": "CHANGE_MUSIC",
-        "suggested_replacement": null
-      },
-      {
-        "validator": "rights_validator",
-        "status": "FAIL",
-        "severity": "CRITICAL",
-        "message": "Segment 'seg_ya_02' uses music track 'music_03_synth_pulse' whose sync license EXPIRED on 2026-03-31.",
-        "evidence": [
-          "rule_id:rule_contract_music_03",
-          "music:music_03_synth_pulse",
-          "expiry:2026-03-31",
-          "ref_date:2026-02-15"
-        ],
-        "affected_segments": [
-          "seg_ya_02"
-        ],
-        "suggested_action": "CHANGE_MUSIC",
-        "suggested_replacement": null
-      },
-      {
-        "validator": "rights_validator",
-        "status": "FAIL",
-        "severity": "CRITICAL",
-        "message": "Segment 'seg_ya_03' uses music track 'music_03_synth_pulse' whose sync license EXPIRED on 2026-03-31.",
-        "evidence": [
-          "rule_id:rule_contract_music_03",
-          "music:music_03_synth_pulse",
-          "expiry:2026-03-31",
-          "ref_date:2026-02-15"
-        ],
-        "affected_segments": [
-          "seg_ya_03"
-        ],
-        "suggested_action": "CHANGE_MUSIC",
-        "suggested_replacement": null
-      },
-      {
-        "validator": "rights_validator",
-        "status": "FAIL",
-        "severity": "CRITICAL",
-        "message": "Segment 'seg_ya_04' uses music track 'music_03_synth_pulse' whose sync license EXPIRED on 2026-03-31.",
-        "evidence": [
-          "rule_id:rule_contract_music_03",
-          "music:music_03_synth_pulse",
-          "expiry:2026-03-31",
-          "ref_date:2026-02-15"
-        ],
-        "affected_segments": [
-          "seg_ya_04"
-        ],
-        "suggested_action": "CHANGE_MUSIC",
-        "suggested_replacement": null
-      },
-      {
-        "validator": "rating_validator",
-        "status": "PASS",
-        "severity": "LOW",
-        "message": "Content rating fully compliant with young_adult policy standards.",
-        "evidence": [],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      },
-      {
-        "validator": "cultural_validator",
-        "status": "PASS",
-        "severity": "LOW",
-        "message": "Cultural authenticity and dialect subtitle semantics verified with dignity.",
-        "evidence": [],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      },
-      {
-        "validator": "bias_validator",
-        "status": "PASS_WITH_WARNINGS",
-        "severity": "MEDIUM",
-        "message": "Acknowledged dataset bias warning: Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]",
-        "evidence": [
-          "warning:Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]"
-        ],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      },
-      {
-        "validator": "accessibility_validator",
-        "status": "PASS",
-        "severity": "LOW",
-        "message": "Full accessibility compliance: verified subtitle presence, CPS thresholds, and timing.",
-        "evidence": [],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      },
-      {
-        "validator": "budget_validator",
-        "status": "PASS",
-        "severity": "LOW",
-        "message": "Budget compliance verified: estimated cost ($0.40 USD) within $25.00 limit.",
-        "evidence": [
-          "cost:0.4"
-        ],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      }
-    ],
-    "risk": "HIGH",
-    "cost": 0.045,
-    "affected_segments": [],
-    "revision": 1,
-    "reason": "VALIDATION FAILED: 4 critical violations detected across 4 segments.",
-    "model_provider": "mock"
-  },
-  {
-    "log_id": "log_0013",
-    "timestamp": "2026-09-29T12:14:42.521471+00:00",
-    "agent": "RepairAgent",
-    "action": "REPAIR_CHANGE_MUSIC",
-    "input_evidence": [
-      "Segment 'seg_ya_01' uses music track 'music_03_synth_pulse' whose sync license EXPIRED on 2026-03-31."
-    ],
-    "selected_decision": {
-      "segment_id": "seg_ya_01",
-      "new_music": "music_01_folk_acoustic"
-    },
-    "rejected_decisions": [
-      {
-        "rejected_music": "music_03_synth_pulse"
-      }
-    ],
-    "validation_results": [],
-    "risk": "LOW",
-    "cost": 0.0,
-    "affected_segments": [
-      "seg_ya_01"
-    ],
-    "revision": 1,
-    "reason": "Replaced expired/restricted music 'music_03_synth_pulse' with cleared 'music_01_folk_acoustic'",
-    "model_provider": "mock"
-  },
-  {
-    "log_id": "log_0014",
-    "timestamp": "2026-09-29T12:14:42.529645+00:00",
-    "agent": "RepairAgent",
-    "action": "REPAIR_CHANGE_MUSIC",
-    "input_evidence": [
-      "Segment 'seg_ya_02' uses music track 'music_03_synth_pulse' whose sync license EXPIRED on 2026-03-31."
-    ],
-    "selected_decision": {
-      "segment_id": "seg_ya_02",
-      "new_music": "music_01_folk_acoustic"
-    },
-    "rejected_decisions": [
-      {
-        "rejected_music": "music_03_synth_pulse"
-      }
-    ],
-    "validation_results": [],
-    "risk": "LOW",
-    "cost": 0.0,
-    "affected_segments": [
-      "seg_ya_02"
-    ],
-    "revision": 1,
-    "reason": "Replaced expired/restricted music 'music_03_synth_pulse' with cleared 'music_01_folk_acoustic'",
-    "model_provider": "mock"
-  },
-  {
-    "log_id": "log_0015",
-    "timestamp": "2026-09-29T12:14:42.536973+00:00",
-    "agent": "RepairAgent",
-    "action": "REPAIR_CHANGE_MUSIC",
-    "input_evidence": [
-      "Segment 'seg_ya_03' uses music track 'music_03_synth_pulse' whose sync license EXPIRED on 2026-03-31."
-    ],
-    "selected_decision": {
-      "segment_id": "seg_ya_03",
-      "new_music": "music_01_folk_acoustic"
-    },
-    "rejected_decisions": [
-      {
-        "rejected_music": "music_03_synth_pulse"
-      }
-    ],
-    "validation_results": [],
-    "risk": "LOW",
-    "cost": 0.0,
-    "affected_segments": [
-      "seg_ya_03"
-    ],
-    "revision": 1,
-    "reason": "Replaced expired/restricted music 'music_03_synth_pulse' with cleared 'music_01_folk_acoustic'",
-    "model_provider": "mock"
-  },
-  {
-    "log_id": "log_0016",
-    "timestamp": "2026-09-29T12:14:42.543212+00:00",
-    "agent": "RepairAgent",
-    "action": "REPAIR_CHANGE_MUSIC",
-    "input_evidence": [
-      "Segment 'seg_ya_04' uses music track 'music_03_synth_pulse' whose sync license EXPIRED on 2026-03-31."
-    ],
-    "selected_decision": {
-      "segment_id": "seg_ya_04",
-      "new_music": "music_01_folk_acoustic"
-    },
-    "rejected_decisions": [
-      {
-        "rejected_music": "music_03_synth_pulse"
-      }
-    ],
-    "validation_results": [],
-    "risk": "LOW",
-    "cost": 0.0,
-    "affected_segments": [
-      "seg_ya_04"
-    ],
-    "revision": 1,
-    "reason": "Replaced expired/restricted music 'music_03_synth_pulse' with cleared 'music_01_folk_acoustic'",
-    "model_provider": "mock"
-  },
-  {
-    "log_id": "log_0017",
-    "timestamp": "2026-09-29T12:14:42.551455+00:00",
-    "agent": "IndependentValidationAgent",
-    "action": "VALIDATE_TRAILER",
-    "input_evidence": [
-      "trailer:young_adult_v1",
-      "segments:4"
-    ],
-    "selected_decision": {
-      "status": "PASS_WITH_WARNINGS",
-      "failures": 0,
-      "warnings": 1
-    },
-    "rejected_decisions": [],
-    "validation_results": [
-      {
-        "validator": "source_validator",
-        "status": "PASS",
-        "severity": "LOW",
-        "message": "All segments, timecodes, dialogue, and assets verified against episode source.",
-        "evidence": [
-          "verified_segments:4"
-        ],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      },
-      {
-        "validator": "spoiler_validator",
-        "status": "PASS",
-        "severity": "LOW",
-        "message": "Zero major spoilers detected; narrative twists and climax protected.",
-        "evidence": [],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      },
-      {
-        "validator": "story_truth_validator",
-        "status": "PASS",
-        "severity": "LOW",
-        "message": "Story truth verified: all relationships and events conform to canon.",
-        "evidence": [],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      },
-      {
-        "validator": "rights_validator",
-        "status": "PASS",
-        "severity": "LOW",
-        "message": "All music, actor, and scene rights cleared and active under current contract licenses.",
-        "evidence": [],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      },
-      {
-        "validator": "rating_validator",
-        "status": "PASS",
-        "severity": "LOW",
-        "message": "Content rating fully compliant with young_adult policy standards.",
-        "evidence": [],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      },
-      {
-        "validator": "cultural_validator",
-        "status": "PASS",
-        "severity": "LOW",
-        "message": "Cultural authenticity and dialect subtitle semantics verified with dignity.",
-        "evidence": [],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      },
-      {
-        "validator": "bias_validator",
-        "status": "PASS_WITH_WARNINGS",
-        "severity": "MEDIUM",
-        "message": "Acknowledged dataset bias warning: Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]",
-        "evidence": [
-          "warning:Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!]"
-        ],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      },
-      {
-        "validator": "accessibility_validator",
-        "status": "PASS",
-        "severity": "LOW",
-        "message": "Full accessibility compliance: verified subtitle presence, CPS thresholds, and timing.",
-        "evidence": [],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      },
-      {
-        "validator": "budget_validator",
-        "status": "PASS",
-        "severity": "LOW",
-        "message": "Budget compliance verified: estimated cost ($0.40 USD) within $25.00 limit.",
-        "evidence": [
-          "cost:0.4"
-        ],
-        "affected_segments": [],
-        "suggested_action": null,
-        "suggested_replacement": null
-      }
-    ],
-    "risk": "MEDIUM",
-    "cost": 0.045,
-    "affected_segments": [],
-    "revision": 1,
-    "reason": "VALIDATION PASSED WITH WARNINGS: 1 non-critical warnings noted.",
-    "model_provider": "mock"
-  },
-  {
-    "log_id": "log_0018",
-    "timestamp": "2026-09-29T12:14:42.560979+00:00",
-    "agent": "ChangeImpactAgent",
-    "action": "SELECTIVE_REPLAN",
-    "input_evidence": [
-      "changed_rule:rule_contract_music_03",
-      "status:EXPIRED"
-    ],
-    "selected_decision": {
-      "affected": [
-        "young_adult_v1"
-      ],
-      "unaffected": [
-        "family_v1",
-        "dialect_region_v1"
-      ]
-    },
-    "rejected_decisions": [],
-    "validation_results": [],
-    "risk": "LOW",
-    "cost": 0.0,
-    "affected_segments": [
-      "seg_ya_01",
-      "seg_ya_02",
-      "seg_ya_03",
-      "seg_ya_04"
-    ],
-    "revision": 1,
-    "reason": "Selective replanning executed for 1 affected trailers; 2 preserved untouched.",
     "model_provider": "mock"
   }
 ]

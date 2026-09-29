@@ -21,18 +21,21 @@ from src.validators import (
     AccessibilityValidator,
     BudgetValidator,
 )
+from src.media.media_validator import MediaValidator
 from src.utils.logger import logger, DecisionLogger
 
 
 class IndependentValidationAgent:
-    """Orchestrates independent, deterministic verification across all nine validation layers."""
+    """Orchestrates independent, deterministic verification across all nine validation layers + physical media."""
 
     def __init__(
         self,
         reference_date: Optional[str] = "2026-04-15",
-        decision_logger: Optional[DecisionLogger] = None
+        decision_logger: Optional[DecisionLogger] = None,
+        media_validator: Optional[MediaValidator] = None
     ):
         self.decision_logger = decision_logger
+        self.media_validator = media_validator or MediaValidator()
         self.validators: List[BaseValidator] = [
             SourceValidator(),
             SpoilerValidator(),
@@ -65,6 +68,44 @@ class IndependentValidationAgent:
                     overall_status = ValidationStatus.FAIL
                 elif item.status == ValidationStatus.PASS_WITH_WARNINGS and overall_status != ValidationStatus.FAIL:
                     overall_status = ValidationStatus.PASS_WITH_WARNINGS
+
+        # Build scene lookup for media validation
+        scene_by_id = {s.scene_id: s for s in package.scenes}
+
+        # Media validation per segment
+        for segment in plan.segments:
+            sc = scene_by_id.get(segment.scene_id)
+            media_results = self.media_validator.validate_segment_media(segment, scene=sc)
+            for item in media_results:
+                all_items.append(item)
+                if item.status == ValidationStatus.FAIL:
+                    overall_status = ValidationStatus.FAIL
+                elif item.status == ValidationStatus.PASS_WITH_WARNINGS and overall_status != ValidationStatus.FAIL:
+                    overall_status = ValidationStatus.PASS_WITH_WARNINGS
+
+        # Populate per-segment validation status map
+        for segment in plan.segments:
+            status_map = {
+                "source": "PASS",
+                "spoiler": "PASS",
+                "story_truth": "PASS",
+                "rights": "PASS",
+                "rating": "PASS",
+                "cultural": "PASS",
+                "bias": "PASS",
+                "accessibility": "PASS",
+                "budget": "PASS",
+                "media": "PASS"
+            }
+            # Check items affecting this segment
+            for it in all_items:
+                if segment.segment_id in it.affected_segments:
+                    key = it.validator.replace("_validator", "")
+                    if it.status == ValidationStatus.FAIL:
+                        status_map[key] = "FAIL"
+                    elif it.status == ValidationStatus.PASS_WITH_WARNINGS and status_map.get(key) != "FAIL":
+                        status_map[key] = "PASS_WITH_WARNINGS"
+            segment.validation_status_map = status_map
 
         # Generate summary
         failures = [i for i in all_items if i.status == ValidationStatus.FAIL]
