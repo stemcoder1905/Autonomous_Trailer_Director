@@ -194,12 +194,12 @@ Interactive Swagger documentation is available at `http://127.0.0.1:8000/docs`.
 
 ## 5. Automated Test Suite
 
-Run all 64 comprehensive unit, integration, multimodal, scenario resilience, and audit enhancement tests:
+Run all 67 comprehensive unit, integration, multimodal, scenario resilience, and audit enhancement tests:
 
 ```bash
 python -m pytest -v
 ```
-All 64 tests pass deterministically (zero external network requirement for replay suite).
+All 67 tests pass deterministically (zero external network requirement for replay suite).
 
 
 ---

@@ -74,13 +74,23 @@ class DecisionLogger:
         return entry
 
     def persist(self, path: Optional[Path] = None):
-        """Save all log entries to a JSON file."""
+        """Save all log entries to a JSON file with atomic write resilience."""
         target = path or self.log_path
         if not target:
             return
+        target = Path(target).resolve()
         target.parent.mkdir(parents=True, exist_ok=True)
-        with open(target, "w", encoding="utf-8") as f:
-            json.dump([e.model_dump() for e in self.entries], f, indent=2)
+        try:
+            temp_target = target.with_suffix(".tmp")
+            with open(temp_target, "w", encoding="utf-8") as f:
+                json.dump([e.model_dump() for e in self.entries], f, indent=2)
+            temp_target.replace(target)
+        except OSError:
+            try:
+                with open(target, "w", encoding="utf-8") as f:
+                    json.dump([e.model_dump() for e in self.entries], f, indent=2)
+            except OSError:
+                pass
 
     def get_entries_by_agent(self, agent_name: str) -> List[DecisionLogEntry]:
         return [e for e in self.entries if e.agent == agent_name]

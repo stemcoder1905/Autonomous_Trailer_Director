@@ -73,8 +73,10 @@ class TrailerDirectorWorkflow:
         selected_audiences: Optional[List[AudienceType]] = None,
         scenario: Optional[str] = None
     ) -> DirectorState:
-        """Execute the end-to-end multi-agent graph workflow."""
-        state = DirectorState(active_scenario=scenario)
+        state = DirectorState(
+            active_scenario=scenario,
+            reference_date=self.reference_date or "2026-02-15"
+        )
         audiences = selected_audiences or [
             AudienceType.FAMILY,
             AudienceType.YOUNG_ADULT,
@@ -123,7 +125,8 @@ class TrailerDirectorWorkflow:
                 self.validator_agent,
                 state.episode_package,
                 state.story_map,
-                state.constraint_map
+                state.constraint_map,
+                brief=brief
             )
             state.trailer_plans[aud.value] = plan
 

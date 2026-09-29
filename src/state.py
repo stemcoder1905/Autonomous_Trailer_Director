@@ -29,3 +29,5 @@ class DirectorState(BaseModel):
     actual_cost_usd: float = 0.0
     total_cost_usd: float = 0.0  # Backwards compatibility alias
     cost_breakdown: Dict[str, Any] = Field(default_factory=dict)
+    resource_usage: Dict[str, Any] = Field(default_factory=dict)
+    reference_date: str = "2026-02-15"

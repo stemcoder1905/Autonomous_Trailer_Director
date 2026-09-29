@@ -226,6 +226,8 @@ class DialogueEvidence(BaseModel):
     source_type: SourceType = SourceType.METADATA
     verification_method: str = "metadata_grounding"
     verified: bool = False
+    evidence_verified: bool = False  # Separated from validator check_passed
+    check_passed: bool = True       # True if dialogue metadata matches expected canon
     timestamp: Optional[Union[float, str]] = None
     metadata_text: str = ""
     asr_text: str = ""
@@ -234,6 +236,7 @@ class DialogueEvidence(BaseModel):
     is_asr_output: bool = False
     audio_status: str = "AUDIO_STREAM_NOT_AVAILABLE"
     dialogue_id: Optional[str] = None
+    track_id: Optional[str] = None
     speaker: Optional[str] = None
     spoken_text: Optional[str] = None
     start_time: Optional[str] = None
@@ -246,11 +249,17 @@ class SubtitleEvidence(BaseModel):
     source_type: SourceType = SourceType.METADATA
     verification_method: str = "canonical_subtitle_verification"
     verified: bool = False
+    evidence_verified: bool = False  # Separated from validator check_passed
+    check_passed: bool = True
     timestamp: Optional[Union[float, str]] = None
     text: str = ""
     subtitle_id: Optional[str] = None
+    track_id: Optional[str] = None  # Explicit track representation e.g. "bhojpuri_purvanchal", "standard_hindi"
+    dialect_variant: Optional[str] = None
     language: Optional[str] = None
     verified_accurate: bool = False
+    semantic_match: bool = True
+    meaning_changed: bool = False
 
 
 class RightsEvidence(BaseModel):
@@ -302,6 +311,7 @@ class TrailerSegment(BaseModel):
     dialogue_id: Optional[str] = None
     subtitle: Optional[str] = None
     subtitle_id: Optional[str] = None
+    subtitle_track: Optional[str] = None  # e.g., "bhojpuri_purvanchal", "standard_hindi", "english"
     text_card: Optional[str] = None
     voice_over: Optional[str] = None
     music: Optional[str] = None
@@ -356,6 +366,8 @@ class TrailerPlan(BaseModel):
     estimated_cost: float = 0.0
     actual_cost: Optional[float] = None
     cost_breakdown: Dict[str, Any] = Field(default_factory=dict)
+    resource_usage: Dict[str, Any] = Field(default_factory=dict)
+    reference_date: Optional[str] = None
     candidate_selection_report: Optional[Dict[str, Any]] = None
     generation_provenance: Optional[Dict[str, Any]] = None
     fallback_plan: str

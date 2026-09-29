@@ -49,7 +49,53 @@ class BiasValidator(BaseValidator):
                     )
                 )
 
-        # 2. Check if trailer plan contains unresolved bias warnings
+        # 2. Hidden Bias Detection: detect suspicious social/regional behavioral stereotyping
+        import re
+        hidden_bias_patterns = [
+            re.compile(r"\b(rustic\s+slapstick|slapstick|crude\s+humor|simple[- ]minded|hot[- ]tempered\s+villagers?|backward\s+region|dialect\s+buffoonery|unrefined\s+villagers?)\b", re.IGNORECASE),
+            re.compile(r"\b(dialect\s+viewers?\s+prefer\s+(?:violence|slapstick|fighting))\b", re.IGNORECASE)
+        ]
+
+        for seg in plan.segments:
+            seg_text = f"{seg.reason or ''} {seg.text_card or ''} {seg.dialogue or ''}"
+            for pat in hidden_bias_patterns:
+                m = pat.search(seg_text)
+                if m:
+                    results.append(
+                        ValidationResultItem(
+                            validator=self.name,
+                            status=ValidationStatus.FAIL,
+                            severity=Severity.HIGH,
+                            message=f"Hidden bias detected in segment '{seg.segment_id}': "
+                                    f"Inferred personality, humor, or behavior from dialect/location alone ('{m.group(0)}'). "
+                                    f"Episode-grounded evidence is strictly required before using regional justifications.",
+                            evidence=[f"segment:{seg.segment_id}", f"match:{m.group(0)}"],
+                            affected_segments=[seg.segment_id],
+                            suggested_action=RepairAction.REPLACE_SEGMENT,
+                        )
+                    )
+
+        # 3. Require episode-grounded evidence for demographic creative justifications
+        story_scene_ids = {s.scene_id for s in package.scenes}
+        for seg in plan.segments:
+            for ev in seg.evidence:
+                if any(k in ev.lower() for k in ["demographic_preference", "rural_bias", "dialect_assumption"]):
+                    # Verify if grounded in story map
+                    if seg.scene_id not in story_scene_ids:
+                        results.append(
+                            ValidationResultItem(
+                                validator=self.name,
+                                status=ValidationStatus.FAIL,
+                                severity=Severity.MEDIUM,
+                                message=f"Ungrounded demographic correlation in segment '{seg.segment_id}': "
+                                        f"Evidence '{ev}' is not grounded in canonical episode story evidence.",
+                                evidence=[f"segment:{seg.segment_id}", f"unverified_evidence:{ev}"],
+                                affected_segments=[seg.segment_id],
+                                suggested_action=RepairAction.REPLACE_SEGMENT,
+                            )
+                        )
+
+        # 4. Check if trailer plan contains unresolved bias warnings
         for warning in plan.warnings:
             if "spurious correlation" in warning.lower() or "bias_alert" in warning.lower():
                 results.append(

@@ -29,7 +29,7 @@
 | `cultural_validator` | PASS | LOW | Cultural authenticity and dialect subtitle semantics verified with dignity. |
 | `bias_validator` | PASS_WITH_WARNINGS | MEDIUM | Acknowledged dataset bias warning: Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!] |
 | `accessibility_validator` | PASS | LOW | Full accessibility compliance: verified subtitle presence, CPS thresholds, and timing. |
-| `budget_validator` | PASS | LOW | Budget compliance verified: estimated cost ($0.45 USD) within $25.00 limit. |
+| `budget_validator` | PASS | LOW | Budget compliance verified: estimated cost ($0.45 USD), actual cost ($0.00 USD) within $25.00 limit. Resource calls within quotas. |
 
 ### Trailer: `young_adult_v1` (young_adult)
 **Overall Status:** `PASS_WITH_WARNINGS`  
@@ -45,7 +45,7 @@
 | `cultural_validator` | PASS | LOW | Cultural authenticity and dialect subtitle semantics verified with dignity. |
 | `bias_validator` | PASS_WITH_WARNINGS | MEDIUM | Acknowledged dataset bias warning: Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!] |
 | `accessibility_validator` | PASS | LOW | Full accessibility compliance: verified subtitle presence, CPS thresholds, and timing. |
-| `budget_validator` | PASS | LOW | Budget compliance verified: estimated cost ($0.40 USD) within $25.00 limit. |
+| `budget_validator` | PASS | LOW | Budget compliance verified: estimated cost ($0.40 USD), actual cost ($0.00 USD) within $25.00 limit. Resource calls within quotas. |
 
 ### Trailer: `dialect_region_v1` (dialect_region)
 **Overall Status:** `PASS_WITH_WARNINGS`  
@@ -61,4 +61,4 @@
 | `cultural_validator` | PASS | LOW | Cultural authenticity and dialect subtitle semantics verified with dignity. |
 | `bias_validator` | PASS_WITH_WARNINGS | MEDIUM | Acknowledged dataset bias warning: Spurious correlation detected in historical data for 'dialect_region': UNVERIFIED MARKETING HYPOTHESIS: 'Regional dialect audiences respond primarily to physical violence or slapstick comedy.' [BIAS_ALERT: Correlation is spurious and reflects urban marketer bias. Do not use as evidence for dialect trailer selection!] |
 | `accessibility_validator` | PASS | LOW | Full accessibility compliance: verified subtitle presence, CPS thresholds, and timing. |
-| `budget_validator` | PASS | LOW | Budget compliance verified: estimated cost ($0.42 USD) within $25.00 limit. |
+| `budget_validator` | PASS | LOW | Budget compliance verified: estimated cost ($0.42 USD), actual cost ($0.00 USD) within $25.00 limit. Resource calls within quotas. |

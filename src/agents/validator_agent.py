@@ -121,19 +121,32 @@ class IndependentValidationAgent:
                 segment.rights_evidence.verified = (status_map.get("rights") != "FAIL")
 
             if segment.subtitle_evidence:
-                segment.subtitle_evidence.verified_accurate = (status_map.get("cultural") == "PASS")
-                segment.subtitle_evidence.verified = (status_map.get("cultural") != "FAIL")
+                is_sub_valid = (status_map.get("cultural") == "PASS")
+                segment.subtitle_evidence.verified_accurate = is_sub_valid
+                segment.subtitle_evidence.check_passed = (status_map.get("cultural") != "FAIL" and status_map.get("accessibility") != "FAIL")
+                segment.subtitle_evidence.verified = is_sub_valid
+                segment.subtitle_evidence.evidence_verified = is_sub_valid
+                segment.subtitle_evidence.semantic_match = is_sub_valid
+
+            if segment.dialogue_evidence:
+                segment.dialogue_evidence.check_passed = (status_map.get("source") != "FAIL")
+                # Do NOT mark verified=True if is_asr_output is False (honest grounding)
+                if not segment.dialogue_evidence.is_asr_output:
+                    segment.dialogue_evidence.verified = False
+                    segment.dialogue_evidence.evidence_verified = False
 
             segment.spoiler_evidence = {
                 "spoiler_free": (status_map.get("spoiler") != "FAIL"),
                 "status": status_map.get("spoiler", "PASS"),
-                "verified": True
+                "check_passed": (status_map.get("spoiler") != "FAIL"),
+                "evidence_verified": True
             }
 
             segment.story_truth_evidence = {
                 "canon_truthful": (status_map.get("story_truth") != "FAIL"),
                 "status": status_map.get("story_truth", "PASS"),
-                "verified": True
+                "check_passed": (status_map.get("story_truth") != "FAIL"),
+                "evidence_verified": True
             }
 
             segment.provenance = {

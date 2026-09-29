@@ -80,6 +80,12 @@ def parse_args():
         default=None,
         help="Path to external episode video/audio file (switches to REAL_MEDIA mode)",
     )
+    parser.add_argument(
+        "--reference-date",
+        type=str,
+        default="2026-02-15",
+        help="Authoritative reference date for contract and rights evaluation (YYYY-MM-DD)",
+    )
     return parser.parse_args()
 
 
@@ -195,12 +201,12 @@ def main():
     console.print(f"   [yellow]Video Stream:[/yellow] {'DETECTED (' + str(v_meta.width) + 'x' + str(v_meta.height) + ' @ ' + str(v_meta.fps) + 'fps, ' + str(v_meta.duration_seconds) + 's)' if v_meta.has_video_stream else '[bold red]NO VIDEO STREAM DETECTED[/bold red]'}")
     console.print(f"   [yellow]Audio Stream:[/yellow] {'DETECTED (' + audio_msg + ')' if has_audio else '[bold red]AUDIO_STREAM_NOT_AVAILABLE[/bold red]'}")
 
-    # Baseline reference date for planning: 2026-02-15 (active contracts)
+    # Baseline reference date for planning: args.reference_date (e.g. 2026-02-15)
     workflow = TrailerDirectorWorkflow(
         base_dir=input_dir,
         provider_manager=provider_mgr,
         decision_logger=decision_logger,
-        reference_date="2026-02-15",
+        reference_date=args.reference_date,
         media_path=media_path,
         execution_mode=execution_mode,
         media_source=media_source

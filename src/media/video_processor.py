@@ -244,3 +244,58 @@ class VideoProcessor:
         """Convenience method returning dictionary result for boundary validation."""
         valid, reason, evidence = cls.validate_segment_bounds(video_path, start_sec, end_sec)
         return {"valid": valid, "reason": reason, "evidence": evidence}
+
+    @classmethod
+    def detect_shot_boundaries(
+        cls,
+        video_path: Union[str, Path],
+        threshold: float = 30.0,
+        sample_step_frames: int = 5
+    ) -> list:
+        """Detect shot transitions / visual cuts using frame difference analysis in OpenCV.
+        
+        Returns a list of detected cut timestamps with confidence and frame indices.
+        """
+        cuts = []
+        if not OPENCV_AVAILABLE:
+            return cuts
+
+        v_path = Path(video_path)
+        if not v_path.exists():
+            return cuts
+
+        cap = cv2.VideoCapture(str(v_path))
+        if not cap.isOpened():
+            return cuts
+
+        try:
+            fps = float(cap.get(cv2.CAP_PROP_FPS) or 24.0)
+            prev_gray = None
+            frame_idx = 0
+
+            while True:
+                ret, frame = cap.read()
+                if not ret:
+                    break
+
+                if frame_idx % sample_step_frames == 0:
+                    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                    gray = cv2.resize(gray, (160, 90))
+
+                    if prev_gray is not None:
+                        diff = cv2.absdiff(prev_gray, gray)
+                        mean_diff = float(diff.mean())
+                        if mean_diff > threshold:
+                            timestamp_sec = round(frame_idx / fps, 3)
+                            cuts.append({
+                                "frame_index": frame_idx,
+                                "timestamp_seconds": timestamp_sec,
+                                "mean_pixel_diff": round(mean_diff, 2),
+                                "cut_type": "HARD_CUT" if mean_diff > threshold * 1.5 else "TRANSITION"
+                            })
+                    prev_gray = gray
+                frame_idx += 1
+        finally:
+            cap.release()
+
+        return cuts

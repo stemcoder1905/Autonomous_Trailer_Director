@@ -68,7 +68,7 @@ platform win32 -- Python 3.10.0, pytest-9.1.1, pluggy-1.6.0
 rootdir: D:\Autonomous_Trailer_Director
 configfile: pyproject.toml
 testpaths: tests
-collected 64 items
+collected 67 items
 
 tests/test_agentic_planning.py (4 tests) PASSED
 tests/test_api.py (3 tests) PASSED
@@ -80,7 +80,7 @@ tests/test_end_to_end_scenarios.py (10 tests) PASSED
 tests/test_media_input_architecture.py (6 tests) PASSED
 tests/test_media_processing.py (5 tests) PASSED
 tests/test_missing_scene.py (1 test) PASSED
-tests/test_model_fallback.py (2 tests) PASSED
+tests/test_model_fallback.py (5 tests) PASSED
 tests/test_multimodal_grounding.py (4 tests) PASSED
 tests/test_prompt_injection.py (1 test) PASSED
 tests/test_rating.py (1 test) PASSED
@@ -90,6 +90,6 @@ tests/test_story_truth.py (1 test) PASSED
 tests/test_subtitle_mismatch.py (1 test) PASSED
 tests/test_vision_asr_and_agentic_flow.py (8 tests) PASSED
 
-============================= 64 passed in 59.13s ==============================
+============================= 67 passed in 66.36s ==============================
 ```
 

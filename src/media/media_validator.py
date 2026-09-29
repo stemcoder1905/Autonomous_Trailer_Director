@@ -90,35 +90,45 @@ class MediaValidator:
                 source_type=source_type
             )
             dialogue_source_type = SourceType.METADATA if not asr_res.is_asr_output else SourceType.REAL_MEDIA
+            is_evidence_verified = bool(asr_res.is_asr_output and asr_res.verified)
+            effective_asr_text = asr_res.transcript_text if asr_res.is_asr_output else "AUDIO_STREAM_NOT_AVAILABLE"
+            source_ref = str(target_video) if asr_res.is_asr_output else "dialogue_metadata"
+
             if segment.dialogue_evidence is None:
                 segment.dialogue_evidence = DialogueEvidence(
-                    source=str(target_video),
+                    source=source_ref,
                     source_type=dialogue_source_type,
                     verification_method=asr_res.verification_method,
-                    verified=asr_res.verified if asr_res.is_asr_output else True,
+                    verified=asr_res.metadata_match,
+                    evidence_verified=is_evidence_verified,
+                    check_passed=asr_res.metadata_match,
                     metadata_text=segment.dialogue or "",
-                    asr_text=asr_res.transcript_text,
+                    asr_text=effective_asr_text,
                     asr_engine=asr_res.asr_engine,
                     is_asr_output=asr_res.is_asr_output,
                     audio_status=asr_res.audio_status,
                     dialogue_id=segment.dialogue_id,
+                    track_id=segment.subtitle_track or "primary_audio",
                     start_time=segment.source_in,
                     end_time=segment.source_out,
                     match=asr_res.metadata_match,
                     match_confidence=asr_res.average_confidence if asr_res.is_asr_output else 0.0
                 )
             else:
-                segment.dialogue_evidence.source = str(target_video)
+                segment.dialogue_evidence.source = source_ref
                 segment.dialogue_evidence.source_type = dialogue_source_type
                 segment.dialogue_evidence.verification_method = asr_res.verification_method
                 segment.dialogue_evidence.audio_status = asr_res.audio_status
                 segment.dialogue_evidence.asr_engine = asr_res.asr_engine
                 segment.dialogue_evidence.is_asr_output = asr_res.is_asr_output
-                segment.dialogue_evidence.asr_text = asr_res.transcript_text
+                segment.dialogue_evidence.asr_text = effective_asr_text
+                segment.dialogue_evidence.track_id = segment.subtitle_track or segment.dialogue_evidence.track_id or "primary_audio"
                 segment.dialogue_evidence.start_time = segment.source_in
                 segment.dialogue_evidence.end_time = segment.source_out
                 segment.dialogue_evidence.match = asr_res.metadata_match
-                segment.dialogue_evidence.verified = asr_res.verified if asr_res.is_asr_output else True
+                segment.dialogue_evidence.check_passed = asr_res.metadata_match
+                segment.dialogue_evidence.verified = asr_res.metadata_match
+                segment.dialogue_evidence.evidence_verified = is_evidence_verified
                 segment.dialogue_evidence.match_confidence = asr_res.average_confidence if asr_res.is_asr_output else 0.0
 
         # 1. If physical media file exists, enforce physical media boundary mathematics
