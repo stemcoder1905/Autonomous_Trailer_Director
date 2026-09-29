@@ -63,13 +63,23 @@ class AudioProcessor:
         if suffix in [".wav", ".mp3", ".aac", ".m4a", ".flac", ".ogg"]:
             return True, "AUDIO_STREAM_DETECTED"
 
-        # MP4/MOV atom probe: check for 'soun' handler box
+        # MP4/MOV atom probe: check for 'soun' handler box or audio codec boxes
         if suffix in [".mp4", ".mov", ".m4v"]:
             try:
+                file_size = m_path.stat().st_size
                 with open(m_path, "rb") as f:
-                    chunk = f.read(1024 * 1024 * 2)  # Read first 2MB
-                    if b"soun" in chunk:
+                    # Check beginning (faststart / web-optimized)
+                    head = f.read(min(file_size, 1024 * 1024 * 2))
+                    if b"soun" in head or b"mp4a" in head:
                         return True, "AUDIO_STREAM_DETECTED"
+                    
+                    # Check end of file (standard recordings where moov atom is at the end)
+                    if file_size > len(head):
+                        tail_size = min(file_size - len(head), 1024 * 1024 * 2)
+                        f.seek(file_size - tail_size)
+                        tail = f.read(tail_size)
+                        if b"soun" in tail or b"mp4a" in tail:
+                            return True, "AUDIO_STREAM_DETECTED"
             except Exception:
                 pass
 
