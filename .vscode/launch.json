@@ -1,0 +1,74 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Trailer Director: Replay Mode (All Audiences)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "src.main",
+      "args": [
+        "--input", "sample_data",
+        "--output", "sample_run",
+        "--mode", "replay"
+      ],
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Scenario: Contract Change (Selective Replanning)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "src.main",
+      "args": [
+        "--scenario", "contract_change",
+        "--output", "sample_run"
+      ],
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Scenario: Bias Guardrail Rejection & Repair",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "src.main",
+      "args": [
+        "--scenario", "bias",
+        "--output", "sample_run"
+      ],
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Scenario: Budget Exceeded Fallback",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "src.main",
+      "args": [
+        "--scenario", "budget_exceeded",
+        "--output", "sample_run"
+      ],
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Scenario: Prompt Injection Defense",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "src.main",
+      "args": [
+        "--scenario", "prompt_injection",
+        "--output", "sample_run"
+      ],
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "FastAPI Web Server (Swagger UI)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": [
+        "src.api:app",
+        "--host", "127.0.0.1",
+        "--port", "8000",
+        "--reload"
+      ],
+      "console": "integratedTerminal"
+    }
+  ]
+}
