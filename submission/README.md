@@ -16,7 +16,7 @@ Traditional manual workflows require hours of senior video editor time per cut, 
 4. **Cultural stereotyping & Algorithmic bias**: Blindly translating unverified correlation data into offensive regional caricatures.
 5. **Prompt Injection vulnerability**: Allowing untrusted metadata or dialogue to hijack editorial rules.
 
-The **Autonomous Trailer Director** solves these challenges using a **State-Graph Multi-Agent Architecture** where creative planning and independent deterministic validation are rigorously decoupled. The primary deliverable is a machine-readable, execution-ready **Edit Decision List (EDL)** that a human editor or automated NLE rendering pipeline can directly execute.
+The **Autonomous Trailer Director** solves these challenges using a **State-Graph Multi-Agent Architecture** where creative planning and independent deterministic validation are rigorously decoupled. The primary deliverable is a machine-readable, execution-ready **Edit Decision List (EDL)** that a human editor or automated NLE rendering pipeline can directly execute. The system uses 10 independent deterministic validation layers covering source bounds, spoilers, story truth, rights, rating, culture, bias, accessibility, budget and physical-media verification.
 
 ---
 
@@ -214,5 +214,5 @@ All 67 tests pass deterministically (zero external network requirement for repla
 | `young_adult_trailer.json` | Precise EDL trailer plan for young adult audiences. |
 | `dialect_region_trailer.json` | Precise EDL trailer plan for regional dialect audiences. |
 | `decision_log.json` | Chronological audit trail logging every agent decision, rationale, rejected alternative, and cost. |
-| `validation_report.md` | Executive validation report summarizing status across nine deterministic policy/content validators and physical media verification. |
+| `validation_report.md` | Executive validation report summarizing status across 10 independent deterministic validation layers. |
 | `change_impact_report.json` | Dependency audit report generated during selective replanning events. |

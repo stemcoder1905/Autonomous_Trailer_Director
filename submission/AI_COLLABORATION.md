@@ -26,7 +26,7 @@ During the development lifecycle, generative coding assistants frequently propos
 - **Why It Was Fundamentally Flawed:**  
   LLMs are notoriously prone to sycophancy, context-window blindness, and hallucinated permissions. If a contract restricts an actor or a music sync license expires on a specific date, asking an LLM introduces non-deterministic hallucinations into a legal compliance checkpoint.
 - **The Engineering Correction:**  
-  Rigorously separated planning from validation. Implemented 9 **deterministic, programmatic validators** (`SourceValidator`, `RightsValidator`, `SpoilerValidator`, etc.) where timecodes, active dates, contract IDs, and relationship graphs are checked with exact Boolean and mathematical logic.
+  Rigorously separated planning from validation. The system uses 10 independent deterministic validation layers covering source bounds, spoilers, story truth, rights, rating, culture, bias, accessibility, budget and physical-media verification (`SourceValidator`, `RightsValidator`, `SpoilerValidator`, `MediaValidator`, etc.) where timecodes, active dates, contract IDs, and relationship graphs are checked with exact Boolean and mathematical logic.
 
 ---
 

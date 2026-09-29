@@ -26,7 +26,7 @@ from src.utils.logger import logger, DecisionLogger
 
 
 class IndependentValidationAgent:
-    """Orchestrates independent, deterministic verification across all nine validation layers + physical media."""
+    """The system uses 10 independent deterministic validation layers covering source bounds, spoilers, story truth, rights, rating, culture, bias, accessibility, budget and physical-media verification."""
 
     def __init__(
         self,
@@ -56,7 +56,7 @@ class IndependentValidationAgent:
         story_map: StoryMap,
         constraint_map: ConstraintMap
     ) -> TrailerValidationReport:
-        logger.info(f"[IndependentValidationAgent] Running 9 independent validators on trailer '{plan.trailer_id}'")
+        logger.info(f"[IndependentValidationAgent] Running 10 independent validation layers on trailer '{plan.trailer_id}'")
 
         all_items: List[ValidationResultItem] = []
         overall_status = ValidationStatus.PASS
@@ -166,7 +166,7 @@ class IndependentValidationAgent:
         elif overall_status == ValidationStatus.PASS_WITH_WARNINGS:
             summary = f"VALIDATION PASSED WITH WARNINGS: {len(warnings)} non-critical warnings noted."
         else:
-            summary = "VALIDATION PASSED: All 9 independent validators verified compliance with rights, rating, truth, and safety."
+            summary = "VALIDATION PASSED: All 10 independent validation layers verified compliance with rights, rating, truth, safety, and media bounds."
 
         report = TrailerValidationReport(
             status=overall_status,

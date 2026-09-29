@@ -56,7 +56,7 @@ flowchart TD
 | **C. Constraint Analysis** | `ConstraintAnalysisAgent` | Compiles legal contracts, age ratings, promotional riders, and budget ceilings into executable, time-evaluated validation rules. | `EpisodePackage` ➔ `ConstraintMap` |
 | **D. Audience Strategy** | `AudienceStrategyAgent` | Develops creative briefs for Family, Young Adult, and Dialect cohorts. Detects and isolates spurious correlations / dataset bias. | `AudienceProfile` ➔ `AudienceStrategyBrief` |
 | **E. Trailer Planner** | `CreativeTrailerPlannerAgent` | Selects grounded clips, arranges narrative pacing, sets exact timecode cuts, attaches subtitles and cleared music stems. | `AudienceStrategyBrief` ➔ `TrailerPlan` |
-| **F. Validation Layer** | `IndependentValidationAgent` | Runs 9 independent, deterministic validators across source bounds, spoilers, truth, rights, rating, culture, bias, accessibility, and cost. | `TrailerPlan` ➔ `TrailerValidationReport` |
+| **F. Validation Layer** | `IndependentValidationAgent` | Runs 10 independent deterministic validation layers covering source bounds, spoilers, story truth, rights, rating, culture, bias, accessibility, budget and physical-media verification. | `TrailerPlan` ➔ `TrailerValidationReport` |
 | **G. Repair & Rejection** | `RepairAgent` | Diagnoses validation failures, identifies root offending segments, searches safe alternatives, and validates repaired plan. | Failed `TrailerPlan` ➔ Repaired `TrailerPlan` |
 | **H. Change Impact** | `ChangeImpactAgent` | Evaluates downstream dependency ripples when a contract expires or changes; selectively replans ONLY affected cuts without touching unaffected trailers. | `ConstraintRule` + Plans ➔ `ChangeImpactReport` |
 | **I. Observability Logger** | `DecisionLogger` | Records a structured audit entry for every action, rejection, validation trace, cost increment, and replacement. | State events ➔ `decision_log.json` |
@@ -107,7 +107,7 @@ class DirectorState(BaseModel):
 
 ## 4. The Independent Validation Layer
 
-The system uses nine deterministic policy/content validators, supplemented by an independent physical-media validation layer (`MediaValidator`):
+The system uses 10 independent deterministic validation layers covering source bounds, spoilers, story truth, rights, rating, culture, bias, accessibility, budget and physical-media verification:
 
 1. **`SourceValidator`**:
    - Verifies referenced `scene_id` exists in the verified master package (e.g. rejects hallucinated `scene_25`).

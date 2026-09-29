@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "autonomous-trailer-director"
+version = "1.0.0"
+description = "OTT Dialect Platform - Autonomous Trailer Director Agentic System"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "pydantic>=2.5.0",
+    "fastapi>=0.109.0",
+    "uvicorn>=0.27.0",
+    "pytest>=8.0.0",
+    "python-dotenv>=1.0.0",
+    "rich>=13.7.0",
+    "typing-extensions>=4.9.0"
+]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = "-ra -q -v"
+testpaths = ["tests"]
+pythonpath = ["."]

@@ -80,7 +80,7 @@ At scale, human editors will reject EDLs if cuts slice actors mid-word or mid-mo
 ## 6. What did the AI coding assistant suggest that looked plausible but was wrong?
 
 *(See [AI_COLLABORATION.md](AI_COLLABORATION.md) for full context)*
-1. **Self-grading LLM validation:** Suggested asking the LLM if its own trailer was compliant. Replaced with 9 deterministic, rule-based validators.
+1. **Self-grading LLM validation:** Suggested asking the LLM if its own trailer was compliant. Replaced with 10 deterministic, rule-based validation layers.
 2. **Whole-batch re-generation on contract changes:** Suggested regenerating all 3 trailers from scratch when 1 music track expired. Replaced with `ChangeImpactAgent` selective replanning.
 3. **Windows `cp1252` Unicode Charset Crash:** Suggested using `\u2713` checkmark symbols in CLI tables, causing instant crashes on Windows terminals. Corrected to cross-platform ASCII tokens.
 4. **Incomplete Clickbait Sanitization:** Replaced the on-screen text card during repair, but left the romantic clickbait rationale in `segment.reason`. Corrected to sanitize both reason and audience promises.

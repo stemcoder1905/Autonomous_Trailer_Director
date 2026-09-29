@@ -1,0 +1,33 @@
+{
+  "max_total_budget_usd": 25.0,
+  "max_llm_calls": 50,
+  "max_vision_calls": 20,
+  "max_media_processing_cost_usd": 10.0,
+  "current_total_cost_usd": 0.0,
+  "cost_breakdown": [
+    {
+      "operation_type": "llm_completion",
+      "unit_cost_usd": 0.05,
+      "units_consumed": 0,
+      "total_cost_usd": 0.0
+    },
+    {
+      "operation_type": "vision_analysis",
+      "unit_cost_usd": 0.10,
+      "units_consumed": 0,
+      "total_cost_usd": 0.0
+    },
+    {
+      "operation_type": "audio_analysis",
+      "unit_cost_usd": 0.05,
+      "units_consumed": 0,
+      "total_cost_usd": 0.0
+    },
+    {
+      "operation_type": "validator_call",
+      "unit_cost_usd": 0.005,
+      "units_consumed": 0,
+      "total_cost_usd": 0.0
+    }
+  ]
+}

@@ -51,7 +51,7 @@ This document provides a comprehensive verification checklist auditing the imple
 
 - **Structured Multimodal Metadata:** **IMPLEMENTED**. Timecode bounds, dialogue transcripts, subtitle alignments, audio stem tags, and emotional tags are fully grounded, schema-validated, and verified.
 - **Agentic Planning & Graph Orchestration:** **IMPLEMENTED**. State graph workflow, creative planner, audience briefs, and story understanding.
-- **Independent Deterministic Verification:** **IMPLEMENTED**. 9 decoupled validators executing strict rules without LLM self-grading.
+- **Independent Deterministic Verification:** **IMPLEMENTED**. The system uses 10 independent deterministic validation layers covering source bounds, spoilers, story truth, rights, rating, culture, bias, accessibility, budget and physical-media verification.
 - **Autonomous Repair & Fallback:** **IMPLEMENTED**. Automated candidate replacement, subtitle canonical restoration, text-card sanitization, and deterministic budget fallback.
 - **Change Impact & Selective Replanning:** **IMPLEMENTED**. Dependency tracking, minimal footprint replanning, and comprehensive impact reporting.
 - **Adversarial Security & Bias Defenses:** **IMPLEMENTED**. Untrusted data isolation, prompt injection scanning, contract boundary enforcement, and anti-stereotyping guardrails.
