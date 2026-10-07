@@ -1,16 +1,25 @@
 """Autonomous Trailer Video Renderer.
 
-Slices and stitches video footage according to the Edit Decision List (EDL) in
+Slices and stitches video and audio footage according to the Edit Decision List (EDL) in
 a TrailerPlan, burning in cinematic titles, text cards, and dialogue subtitles.
 """
 from pathlib import Path
 from typing import Optional, Union, List, Dict, Any, Tuple
+import os
+import subprocess
+import tempfile
 import cv2
 import numpy as np
 
 from src.models.schemas import TrailerPlan, TrailerSegment
 from src.utils.timecode import timecode_to_seconds
 from src.utils.logger import logger
+
+try:
+    import imageio_ffmpeg
+    FFMPEG_EXE = imageio_ffmpeg.get_ffmpeg_exe()
+except Exception:
+    FFMPEG_EXE = None
 
 
 class TrailerRenderer:
@@ -67,7 +76,7 @@ class TrailerRenderer:
         tc_display = f"{int(trailer_time_sec // 60):02d}:{int(trailer_time_sec % 60):02d}.{int((trailer_time_sec % 1) * 10):01d}"
         cv2.putText(canvas, tc_display, (w - 75, 24), cv2.FONT_HERSHEY_SIMPLEX, 0.44, (100, 255, 130), 1, cv2.LINE_AA)
 
-        # 2. Cinematic Center Text Card (shown prominently during first 2.0s if segment has a text card)
+        # 2. Cinematic Center Text Card (shown prominently during first 2.2s if segment has a text card)
         if segment.text_card and segment_elapsed_sec <= 2.2:
             card_alpha = 0.90 if segment_elapsed_sec <= 1.8 else max(0.0, (2.2 - segment_elapsed_sec) / 0.4 * 0.90)
             card_overlay = canvas.copy()
@@ -110,6 +119,90 @@ class TrailerRenderer:
         return canvas
 
     @classmethod
+    def _mux_audio(
+        cls,
+        source_media_path: Path,
+        temp_video_path: Path,
+        final_video_path: Path,
+        plan: TrailerPlan
+    ) -> bool:
+        """Extracts and concatenates audio slices for the trailer segments and muxes with video."""
+        if not FFMPEG_EXE:
+            return False
+
+        temp_dir = Path(tempfile.mkdtemp(prefix="trailer_audio_"))
+        audio_slices = []
+
+        try:
+            for idx, seg in enumerate(plan.segments):
+                try:
+                    start_sec = timecode_to_seconds(seg.source_in)
+                    end_sec = timecode_to_seconds(seg.source_out)
+                except Exception:
+                    start_sec, end_sec = 0.0, 10.0
+
+                duration = max(0.5, end_sec - start_sec)
+                slice_path = temp_dir / f"slice_{idx}.aac"
+
+                cmd = [
+                    FFMPEG_EXE, "-y",
+                    "-ss", str(start_sec),
+                    "-t", str(duration),
+                    "-i", str(source_media_path),
+                    "-vn", "-c:a", "aac",
+                    str(slice_path)
+                ]
+                proc = subprocess.run(cmd, capture_output=True, text=True)
+                if proc.returncode == 0 and slice_path.exists() and slice_path.stat().st_size > 0:
+                    audio_slices.append(slice_path)
+
+            if not audio_slices:
+                return False
+
+            # Create concat list
+            concat_txt = temp_dir / "concat.txt"
+            with open(concat_txt, "w", encoding="utf-8") as f:
+                for a_file in audio_slices:
+                    f.write(f"file '{a_file.name}'\n")
+
+            combined_audio = temp_dir / "combined.aac"
+            concat_cmd = [
+                FFMPEG_EXE, "-y",
+                "-f", "concat", "-safe", "0",
+                "-i", str(concat_txt),
+                "-c", "copy",
+                str(combined_audio)
+            ]
+            proc = subprocess.run(concat_cmd, capture_output=True, text=True)
+            if proc.returncode != 0 or not combined_audio.exists():
+                return False
+
+            # Mux video + audio
+            mux_cmd = [
+                FFMPEG_EXE, "-y",
+                "-i", str(temp_video_path),
+                "-i", str(combined_audio),
+                "-c:v", "copy",
+                "-c:a", "aac",
+                "-shortest",
+                str(final_video_path)
+            ]
+            proc = subprocess.run(mux_cmd, capture_output=True, text=True)
+            return proc.returncode == 0 and final_video_path.exists()
+
+        except Exception as e:
+            logger.warning(f"[TrailerRenderer] Audio muxing exception: {e}")
+            return False
+        finally:
+            # Clean up temp audio dir
+            try:
+                for p in temp_dir.glob("*"):
+                    p.unlink(missing_ok=True)
+                temp_dir.rmdir()
+            except Exception:
+                pass
+
+    @classmethod
     def render_trailer(
         cls,
         plan: TrailerPlan,
@@ -130,7 +223,7 @@ class TrailerRenderer:
             target_fps: Optional output FPS override.
             
         Returns:
-            Dict containing render result status, duration, frame count, and file path.
+            Dict containing render result status, duration, frame count, file path, and audio status.
         """
         source_path = Path(media_path)
         out_path = Path(output_video_path)
@@ -140,8 +233,10 @@ class TrailerRenderer:
             candidates = [
                 source_path.parent / "media" / source_path.name,
                 Path("sample_data") / "media" / source_path.name,
+                Path("sample_data") / "media" / "real_video.mp4",
+                Path("submission") / "sample_data" / "media" / "real_video.mp4",
                 Path("sample_data") / "media" / "episode_01.mp4",
-                Path("submission/sample_data/media/episode_01.mp4"),
+                Path("submission") / "sample_data" / "media" / "episode_01.mp4",
             ]
             for cand in candidates:
                 if cand.exists():
@@ -160,19 +255,21 @@ class TrailerRenderer:
         src_fps = cap.get(cv2.CAP_PROP_FPS) or 24.0
         fps = target_fps if target_fps else (int(src_fps) if src_fps > 0 else cls.DEFAULT_FPS)
 
+        # Temporary video path if muxing audio
+        temp_video_path = out_path.parent / f"_raw_{out_path.name}"
         fourcc = cv2.VideoWriter_fourcc(*"mp4v")
-        writer = cv2.VideoWriter(str(out_path), fourcc, fps, (target_width, target_height))
+        writer = cv2.VideoWriter(str(temp_video_path), fourcc, fps, (target_width, target_height))
 
         if not writer.isOpened():
             cap.release()
-            logger.error(f"[TrailerRenderer] Failed to initialize VideoWriter at '{out_path}'")
-            return {"rendered": False, "error": f"Cannot write video to '{out_path}'"}
+            logger.error(f"[TrailerRenderer] Failed to initialize VideoWriter at '{temp_video_path}'")
+            return {"rendered": False, "error": f"Cannot write video to '{temp_video_path}'"}
 
         total_frames_rendered = 0
         trailer_time_sec = 0.0
 
         try:
-            logger.info(f"[TrailerRenderer] Rendering trailer '{plan.trailer_id}' ({plan.audience}) to '{out_path}'")
+            logger.info(f"[TrailerRenderer] Rendering trailer '{plan.trailer_id}' ({plan.audience}) from '{source_path.name}' to '{out_path.name}'")
 
             for seg_idx, seg in enumerate(plan.segments):
                 try:
@@ -239,8 +336,18 @@ class TrailerRenderer:
             writer.release()
             cap.release()
 
+            # Mux Audio if available
+            audio_muxed = cls._mux_audio(source_path, temp_video_path, out_path, plan)
+            if not audio_muxed or not out_path.exists():
+                # If audio muxing wasn't applicable, use the raw video directly
+                if out_path.exists():
+                    out_path.unlink()
+                temp_video_path.rename(out_path)
+            else:
+                temp_video_path.unlink(missing_ok=True)
+
             rendered_duration = round(total_frames_rendered / fps, 2)
-            logger.info(f"[TrailerRenderer] Successfully rendered trailer: '{out_path}' ({rendered_duration}s, {total_frames_rendered} frames)")
+            logger.info(f"[TrailerRenderer] Successfully rendered trailer: '{out_path}' ({rendered_duration}s, {total_frames_rendered} frames, audio={audio_muxed})")
 
             return {
                 "rendered": True,
@@ -248,7 +355,8 @@ class TrailerRenderer:
                 "duration_seconds": rendered_duration,
                 "frame_count": total_frames_rendered,
                 "resolution": f"{target_width}x{target_height}",
-                "fps": fps
+                "fps": fps,
+                "audio_muxed": audio_muxed
             }
 
         except Exception as e:
@@ -256,5 +364,7 @@ class TrailerRenderer:
                 writer.release()
             if cap:
                 cap.release()
+            if temp_video_path.exists():
+                temp_video_path.unlink(missing_ok=True)
             logger.error(f"[TrailerRenderer] Unexpected error during render: {e}")
             return {"rendered": False, "error": str(e)}

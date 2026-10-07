@@ -198,16 +198,27 @@ def main():
     # Determine execution_mode (replay vs live) and media_source (replay_fixture vs real_media)
     execution_mode = args.mode.lower()
     if args.media:
-        media_path = Path(args.media).resolve()
-        if not media_path.exists():
-            # Check nested media/ subdirectory or input_dir/media/
-            if (media_path.parent / "media" / media_path.name).exists():
-                media_path = (media_path.parent / "media" / media_path.name).resolve()
-            elif (input_dir / "media" / media_path.name).exists():
-                media_path = (input_dir / "media" / media_path.name).resolve()
-        media_source = "real_media" if "sample_data" not in str(media_path).lower() else "replay_fixture"
+        raw_target = Path(args.media)
+        if raw_target.exists():
+            media_path = raw_target.resolve()
+        elif (raw_target.parent / "media" / raw_target.name).exists():
+            media_path = (raw_target.parent / "media" / raw_target.name).resolve()
+        elif (input_dir / "media" / raw_target.name).exists():
+            media_path = (input_dir / "media" / raw_target.name).resolve()
+        elif (Path("submission/sample_data/media") / raw_target.name).exists():
+            media_path = (Path("submission/sample_data/media") / raw_target.name).resolve()
+        else:
+            # Fuzzy match any other real video file (.mp4) present in media directories
+            candidates = list(input_dir.glob("media/*.mp4")) + list(Path("sample_data/media").glob("*.mp4")) + list(Path("submission/sample_data/media").glob("*.mp4"))
+            real_candidates = [c.resolve() for c in candidates if c.name != "episode_01.mp4"]
+            if real_candidates:
+                media_path = real_candidates[0]
+            else:
+                media_path = (input_dir / "media" / "episode_01.mp4").resolve()
+
+        media_source = "real_media" if "episode_01.mp4" not in media_path.name.lower() else "replay_fixture"
     else:
-        media_path = input_dir / "media" / "episode_01.mp4"
+        media_path = (input_dir / "media" / "episode_01.mp4").resolve()
         media_source = "replay_fixture"
 
     from src.media.video_processor import VideoProcessor
