@@ -86,6 +86,18 @@ def parse_args():
         default="2026-02-15",
         help="Authoritative reference date for contract and rights evaluation (YYYY-MM-DD)",
     )
+    parser.add_argument(
+        "--render",
+        "--render-video",
+        action="store_true",
+        default=True,
+        help="Render playable MP4 trailer video(s) from generated trailer plans (default: True)",
+    )
+    parser.add_argument(
+        "--no-render",
+        action="store_true",
+        help="Disable MP4 video rendering (output JSON plans only)",
+    )
     return parser.parse_args()
 
 
@@ -187,7 +199,13 @@ def main():
     execution_mode = args.mode.lower()
     if args.media:
         media_path = Path(args.media).resolve()
-        media_source = "real_media"
+        if not media_path.exists():
+            # Check nested media/ subdirectory or input_dir/media/
+            if (media_path.parent / "media" / media_path.name).exists():
+                media_path = (media_path.parent / "media" / media_path.name).resolve()
+            elif (input_dir / "media" / media_path.name).exists():
+                media_path = (input_dir / "media" / media_path.name).resolve()
+        media_source = "real_media" if "sample_data" not in str(media_path).lower() else "replay_fixture"
     else:
         media_path = input_dir / "media" / "episode_01.mp4"
         media_source = "replay_fixture"
@@ -277,6 +295,22 @@ def main():
         with open(plan_file, "w", encoding="utf-8") as f:
             json.dump(plan.model_dump(), f, indent=2)
 
+    rendered_videos = {}
+    if args.render and not args.no_render:
+        from src.media.trailer_renderer import TrailerRenderer
+        for aud_key, plan in state.trailer_plans.items():
+            video_file = output_dir / f"{aud_key}_trailer.mp4"
+            render_res = TrailerRenderer.render_trailer(
+                plan=plan,
+                media_path=media_path,
+                output_video_path=video_file
+            )
+            if render_res.get("rendered"):
+                rendered_videos[aud_key] = video_file.name
+                console.print(f"[bold green][OK] Rendered playable trailer video:[/bold green] [cyan]{video_file}[/cyan] ({render_res['duration_seconds']}s, {render_res['frame_count']} frames)")
+            else:
+                console.print(f"[yellow][WARN] Video render skipped for '{aud_key}': {render_res.get('error')}[/yellow]")
+
     validation_report_path = output_dir / "validation_report.md"
     export_validation_report_markdown(validation_report_path, state)
     decision_logger.persist(decision_log_path)
@@ -288,6 +322,7 @@ def main():
     table.add_column("Duration", justify="right", style="yellow")
     table.add_column("Segments", justify="right")
     table.add_column("Validation Status", style="bold")
+    table.add_column("Rendered Video", style="green")
     table.add_column("Human Approval", style="red")
 
     for aud_key, plan in state.trailer_plans.items():
@@ -298,12 +333,14 @@ def main():
             human_req = "Required (Flags)"
         else:
             human_req = "None"
+        video_col = rendered_videos.get(aud_key, "[dim]None[/dim]")
         table.add_row(
             plan.audience,
             plan.trailer_id,
             f"{plan.duration_seconds}s",
             str(len(plan.segments)),
             f"[{status_color}]{plan.validation.status.value}[/{status_color}]",
+            video_col,
             human_req
         )
 
