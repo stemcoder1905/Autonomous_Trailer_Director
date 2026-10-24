@@ -1,11 +1,23 @@
 """Test 12: Verification of FastAPI web endpoints."""
-from src.api import health_check, analyze_episode, run_workflow, RunRequest
+from src.api import health_check, analyze_episode, run_workflow, RunRequest, root_homepage, list_available_media
 
 
 def test_api_health():
     res = health_check()
     assert res["status"] == "healthy"
     assert "version" in res
+
+
+def test_api_homepage():
+    res = root_homepage()
+    assert res.status_code == 200
+    assert "Autonomous Trailer Synthesis Studio" in res.body.decode("utf-8")
+
+
+def test_api_media_list():
+    res = list_available_media()
+    assert "media" in res
+    assert len(res["media"]) > 0
 
 
 def test_api_analyze():

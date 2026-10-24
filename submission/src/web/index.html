@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autonomous Trailer Director — OTT Dialect Platform</title>
+  <style>
+    :root {
+      --bg-dark: #0b0e14;
+      --bg-card: #151922;
+      --bg-card-hover: #1c222e;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-active: #3b82f6;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --accent-gold: #f59e0b;
+      --accent-cyan: #06b6d4;
+      --accent-blue: #3b82f6;
+      --accent-green: #10b981;
+      --accent-red: #ef4444;
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding-bottom: 60px;
+    }
+
+    /* Header Nav */
+    header {
+      background: rgba(17, 24, 39, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      font-size: 28px;
+    }
+
+    .brand-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      background: linear-gradient(135deg, #60a5fa, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .nav-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .nav-link:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .badge-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent-green);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      box-shadow: 0 0 8px var(--accent-green);
+    }
+
+    /* Main Container */
+    main {
+      max-width: 1200px;
+      margin: 32px auto;
+      padding: 0 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    /* Hero Banner */
+    .hero {
+      text-align: center;
+      padding: 24px 0 12px;
+    }
+
+    .hero h1 {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .hero p {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* Grid Layout */
+    .director-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+
+    @media (max-width: 900px) {
+      .director-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Card Panels */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 14px;
+    }
+
+    .card-step-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--accent-blue);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    /* Movie Input Tabs */
+    .tab-pills {
+      display: flex;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 4px;
+      border-radius: 8px;
+      gap: 4px;
+    }
+
+    .tab-pill {
+      flex: 1;
+      text-align: center;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .tab-pill.active {
+      background: var(--accent-blue);
+      color: white;
+    }
+
+    .tab-pane {
+      display: none;
+    }
+
+    .tab-pane.active {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* Media Select List */
+    .media-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .media-item:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .media-item.selected {
+      border-color: var(--accent-blue);
+      background: rgba(59, 130, 246, 0.12);
+    }
+
+    .media-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .media-name {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .media-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      gap: 12px;
+    }
+
+    .tag-audio {
+      color: var(--accent-green);
+      font-weight: 600;
+    }
+
+    /* Upload Zone */
+    .upload-zone {
+      border: 2px dashed rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 28px 20px;
+      text-align: center;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.02);
+      transition: all 0.2s;
+    }
+
+    .upload-zone:hover, .upload-zone.dragover {
+      border-color: var(--accent-blue);
+      background: rgba(59, 130, 246, 0.05);
+    }
+
+    .upload-icon {
+      font-size: 36px;
+      margin-bottom: 8px;
+      color: var(--accent-blue);
+    }
+
+    .upload-text {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .upload-hint {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* Form Controls */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .text-input {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: white;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .text-input:focus {
+      border-color: var(--accent-blue);
+    }
+
+    /* Audience Cohort Selection Cards */
+    .cohort-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .cohort-card {
+      border: 1px solid var(--border-color);
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+
+    .cohort-card:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .cohort-card.selected {
+      border-color: var(--accent-blue);
+      background: rgba(59, 130, 246, 0.15);
+    }
+
+    .cohort-title {
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .cohort-desc {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Action CTA Button */
+    .btn-generate {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: white;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+    }
+
+    .btn-generate:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
+    }
+
+    .btn-generate:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Pipeline Progress Stepper */
+    .stepper {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 16px;
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .stepper.active {
+      display: flex;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+
+    .step-item.current {
+      color: var(--accent-cyan);
+      font-weight: 700;
+    }
+
+    .step-item.completed {
+      color: var(--accent-green);
+    }
+
+    .step-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid currentColor;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+    }
+
+    /* Video Player & Results Section */
+    .results-section {
+      display: none;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .results-section.active {
+      display: flex;
+    }
+
+    .cinema-player-box {
+      background: #000;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .player-header {
+      padding: 12px 20px;
+      background: #11141d;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .trailer-tabs {
+      display: flex;
+      gap: 8px;
+    }
+
+    .trailer-tab-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .trailer-tab-btn.active {
+      background: var(--accent-blue);
+      color: white;
+      border-color: var(--accent-blue);
+    }
+
+    video {
+      width: 100%;
+      max-height: 540px;
+      background: #000;
+      outline: none;
+    }
+
+    /* Metrics Bar */
+    .metrics-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 650px) {
+      .metrics-bar {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .metric-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .metric-title {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .metric-value {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--accent-cyan);
+    }
+
+    /* EDL Cuts Breakdown */
+    .edl-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+
+    .edl-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .edl-cut {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 14px 18px;
+    }
+
+    .cut-idx {
+      background: rgba(255, 255, 255, 0.1);
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+
+    .cut-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .cut-tc {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent-gold);
+    }
+
+    .cut-sub {
+      font-size: 14px;
+      color: #e5e7eb;
+    }
+
+    .cut-reason {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* Download button */
+    .btn-download {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--border-color);
+      color: white;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+
+    .btn-download:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Spin icon */
+    .spin {
+      display: inline-block;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <div class="brand-icon">🎬</div>
+      <div>
+        <div class="brand-title">OTT Autonomous Trailer Director</div>
+        <div class="brand-subtitle">Editorial Agentic Pipeline & Video Synthesis</div>
+      </div>
+    </div>
+    <div class="nav-links">
+      <div class="badge-status">
+        <span class="status-dot"></span>
+        <span>Director Core Active</span>
+      </div>
+      <a href="/docs" target="_blank" class="nav-link">API Docs</a>
+      <a href="/health" target="_blank" class="nav-link">System Health</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <div class="hero">
+      <h1>Autonomous Trailer Synthesis Studio</h1>
+      <p>Provide a full movie or episode. The AI Director analyzes narrative structure, compiles legal rights, enforces safety constraints, and renders a broadcast-ready trailer with synchronized audio and burned-in subtitles.</p>
+    </div>
+
+    <!-- Director Input Grid -->
+    <div class="director-grid">
+
+      <!-- Left Card: Movie Input -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-step-num">1</div>
+          <div class="card-title">Select or Upload Movie</div>
+        </div>
+
+        <!-- Movie Input Mode Tabs -->
+        <div class="tab-pills">
+          <div class="tab-pill active" onclick="switchMovieTab('library')">Workspace Library</div>
+          <div class="tab-pill" onclick="switchMovieTab('upload')">Upload Movie File</div>
+          <div class="tab-pill" onclick="switchMovieTab('path')">Custom Path</div>
+        </div>
+
+        <!-- Tab 1: Library Media -->
+        <div id="tab-library" class="tab-pane active">
+          <div id="media-list" style="display:flex; flex-direction:column; gap:10px;">
+            <!-- Dynamically populated or defaults -->
+            <div class="media-item selected" onclick="selectMediaItem(this, 'sample_data/media/real_video.mp4')">
+              <div class="media-info">
+                <div class="media-name">🎥 real_video.mp4 (Paragliding Vlog - Full Movie)</div>
+                <div class="media-meta">
+                  <span>Duration: 22m 11s</span>
+                  <span>426x240 @ 30fps</span>
+                  <span class="tag-audio">🔊 Audio Detected</span>
+                </div>
+              </div>
+            </div>
+            <div class="media-item" onclick="selectMediaItem(this, 'sample_data/media/episode_01.mp4')">
+              <div class="media-info">
+                <div class="media-name">🎞 episode_01.mp4 (Synthetic Replay Fixture)</div>
+                <div class="media-meta">
+                  <span>Duration: 22m 30s</span>
+                  <span>320x180 @ 5fps</span>
+                  <span>🔇 No Audio</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Upload File -->
+        <div id="tab-upload" class="tab-pane">
+          <div class="upload-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
+            <div class="upload-icon">📤</div>
+            <div class="upload-text" id="upload-label">Drag & drop full movie (.mp4, .mov, .mkv)</div>
+            <div class="upload-hint">or click to browse from your computer</div>
+            <input type="file" id="file-input" accept="video/mp4,video/quicktime,video/x-matroska,video/avi" style="display:none" onchange="handleFileSelect(event)">
+          </div>
+          <div id="upload-status" style="font-size:12px; color:var(--text-muted); text-align:center;"></div>
+        </div>
+
+        <!-- Tab 3: Custom Path -->
+        <div id="tab-path" class="tab-pane">
+          <div class="form-group">
+            <label class="form-label">Full Video File Path on Disk</label>
+            <input type="text" id="custom-path-input" class="text-input" placeholder="e.g. sample_data/media/real_video.mp4" value="sample_data/media/real_video.mp4">
+          </div>
+        </div>
+
+        <!-- Selected Video Path Badge -->
+        <div style="font-size:12px; color:var(--text-muted); background:rgba(0,0,0,0.25); padding:8px 12px; border-radius:6px; display:flex; justify-content:space-between; align-items:center;">
+          <span>Selected Movie:</span>
+          <strong id="active-media-display" style="color:var(--accent-cyan); font-family:monospace;">sample_data/media/real_video.mp4</strong>
+        </div>
+      </div>
+
+      <!-- Right Card: Editorial Configuration & Action -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-step-num">2</div>
+          <div class="card-title">Editorial Directive & Generation</div>
+        </div>
+
+        <!-- Audience Cohort Selection -->
+        <div class="form-group">
+          <label class="form-label">Target Audience Cohort</label>
+          <div class="cohort-grid">
+            <div class="cohort-card selected" onclick="selectCohort(this, 'family')">
+              <div class="cohort-title">👨‍👩‍👧 Family Cut</div>
+              <div class="cohort-desc">Warmth, generational heritage, uplifting arc</div>
+            </div>
+            <div class="cohort-card" onclick="selectCohort(this, 'young_adult')">
+              <div class="cohort-title">⚡ Young Adult Cut</div>
+              <div class="cohort-desc">Fast pacing, disruptive tech, rivalry & energy</div>
+            </div>
+            <div class="cohort-card" onclick="selectCohort(this, 'dialect_region')">
+              <div class="cohort-title">🌾 Dialect Region Cut</div>
+              <div class="cohort-desc">Vernacular dignity, authentic artisan pride</div>
+            </div>
+            <div class="cohort-card" onclick="selectCohort(this, 'all')">
+              <div class="cohort-title">🌐 All Three Cuts</div>
+              <div class="cohort-desc">Render parallel trailers for all 3 cohorts</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Execution Mode & Guardrail Test -->
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+          <div class="form-group">
+            <label class="form-label">Execution Mode</label>
+            <select id="mode-select" class="text-input" style="cursor:pointer;">
+              <option value="replay" selected>Replay Mode (Instant)</option>
+              <option value="live">Live Model Mode (LLM)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Adversarial Test</label>
+            <select id="scenario-select" class="text-input" style="cursor:pointer;">
+              <option value="none" selected>Standard Production</option>
+              <option value="spoiler">Spoiler Defense</option>
+              <option value="contract_change">Contract License Expiry</option>
+              <option value="clickbait">Clickbait Interception</option>
+              <option value="bias">Algorithmic Bias Test</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Stepper (Shown during run) -->
+        <div class="stepper" id="pipeline-stepper">
+          <div class="step-item current" id="step-1">
+            <div class="step-icon">1</div>
+            <span>Ingesting movie frames & audio streams...</span>
+          </div>
+          <div class="step-item" id="step-2">
+            <div class="step-icon">2</div>
+            <span>Extracting narrative story map & spoiler index...</span>
+          </div>
+          <div class="step-item" id="step-3">
+            <div class="step-icon">3</div>
+            <span>Evaluating rights contracts & safety constraints...</span>
+          </div>
+          <div class="step-item" id="step-4">
+            <div class="step-icon">4</div>
+            <span>Synthesizing audience narrative arc & EDL cuts...</span>
+          </div>
+          <div class="step-item" id="step-5">
+            <div class="step-icon">5</div>
+            <span>Verifying 10 independent validation layers...</span>
+          </div>
+          <div class="step-item" id="step-6">
+            <div class="step-icon">6</div>
+            <span>Cutting video footage & muxing synchronized audio...</span>
+          </div>
+        </div>
+
+        <!-- Generate Button -->
+        <button id="btn-generate" class="btn-generate" onclick="generateTrailer()">
+          <span id="btn-icon">🎬</span>
+          <span id="btn-text">Generate Autonomous Trailer</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Trailer Output Section (Appears after generation) -->
+    <div id="results-section" class="results-section">
+
+      <!-- Cinema Video Player Box -->
+      <div class="cinema-player-box">
+        <div class="player-header">
+          <div id="trailer-title-display" style="font-weight:700; font-size:16px; color:#f3f4f6;">
+            🎬 Rendered Trailer: <span id="current-trailer-name" style="color:var(--accent-cyan);">Family Cut</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div id="trailer-cohort-tabs" class="trailer-tabs">
+              <!-- Dynamically rendered if multiple trailers -->
+            </div>
+            <a id="btn-download-video" class="btn-download" href="#" download>
+              <span>⬇</span>
+              <span>Download MP4</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Video Player -->
+        <video id="trailer-player" controls autoplay playsinline preload="auto">
+          <source id="video-source" src="" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+
+      <!-- Metrics Bar -->
+      <div class="metrics-bar">
+        <div class="metric-card">
+          <div class="metric-title">Trailer Duration</div>
+          <div class="metric-value" id="metric-duration">45.5s</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-title">Cuts / Segments</div>
+          <div class="metric-value" id="metric-cuts">4 Cuts</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-title">Validation Gates</div>
+          <div class="metric-value" style="color:var(--accent-green);" id="metric-validation">10 / 10 PASS</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-title">Audio Track</div>
+          <div class="metric-value" style="color:var(--accent-gold);" id="metric-audio">Stereo Muxed</div>
+        </div>
+      </div>
+
+      <!-- EDL Cut Breakdown Section -->
+      <div class="edl-section">
+        <h3 style="font-size:18px; font-weight:700; margin-bottom:4px;">Edit Decision List (EDL) Timeline Cuts</h3>
+        <p style="font-size:13px; color:var(--text-muted);">Frame-accurate cut sequence with director reasoning and burned-in dialogue subtitles.</p>
+        <div class="edl-list" id="edl-list-container">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    let selectedMediaPath = 'sample_data/media/real_video.mp4';
+    let selectedCohort = 'family';
+    let currentRenderResult = null;
+
+    // Switch between media tabs
+    function switchMovieTab(tabId) {
+      document.querySelectorAll('.tab-pill').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+
+      event.target.classList.add('active');
+      document.getElementById('tab-' + tabId).classList.add('active');
+
+      if (tabId === 'path') {
+        selectedMediaPath = document.getElementById('custom-path-input').value;
+      }
+      updateActiveMediaDisplay();
+    }
+
+    function selectMediaItem(element, path) {
+      document.querySelectorAll('.media-item').forEach(el => el.classList.remove('selected'));
+      element.classList.add('selected');
+      selectedMediaPath = path;
+      updateActiveMediaDisplay();
+    }
+
+    function updateActiveMediaDisplay() {
+      document.getElementById('active-media-display').innerText = selectedMediaPath;
+    }
+
+    document.getElementById('custom-path-input').addEventListener('input', function(e) {
+      selectedMediaPath = e.target.value.trim();
+      updateActiveMediaDisplay();
+    });
+
+    // Select cohort
+    function selectCohort(element, cohortKey) {
+      document.querySelectorAll('.cohort-card').forEach(c => c.classList.remove('selected'));
+      element.classList.add('selected');
+      selectedCohort = cohortKey;
+    }
+
+    // File upload
+    async function handleFileSelect(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const uploadStatus = document.getElementById('upload-status');
+      const uploadLabel = document.getElementById('upload-label');
+      uploadLabel.innerText = "Uploading " + file.name + "...";
+      uploadStatus.innerText = "Transferring movie file to director workspace...";
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        const res = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+        if (data.status === 'success') {
+          selectedMediaPath = data.path;
+          uploadLabel.innerText = "Uploaded: " + file.name;
+          uploadStatus.innerHTML = `<span style="color:var(--accent-green)">✔ Upload complete (${(data.size_bytes / (1024*1024)).toFixed(1)} MB, ${data.duration_seconds}s)</span>`;
+          updateActiveMediaDisplay();
+        } else {
+          uploadStatus.innerHTML = `<span style="color:var(--accent-red)">Upload failed: ${data.detail || 'Error'}</span>`;
+        }
+      } catch (err) {
+        uploadStatus.innerHTML = `<span style="color:var(--accent-red)">Upload error: ${err.message}</span>`;
+      }
+    }
+
+    // Generate trailer workflow
+    async function generateTrailer() {
+      const btn = document.getElementById('btn-generate');
+      const btnIcon = document.getElementById('btn-icon');
+      const btnText = document.getElementById('btn-text');
+      const stepper = document.getElementById('pipeline-stepper');
+      const resultsSection = document.getElementById('results-section');
+
+      btn.disabled = true;
+      btnIcon.innerHTML = `<span class="spin">⏳</span>`;
+      btnText.innerText = "Autonomous Director Synthesizing...";
+      stepper.classList.add('active');
+
+      // Animate progress steps
+      const steps = [
+        document.getElementById('step-1'),
+        document.getElementById('step-2'),
+        document.getElementById('step-3'),
+        document.getElementById('step-4'),
+        document.getElementById('step-5'),
+        document.getElementById('step-6')
+      ];
+
+      let currentStep = 0;
+      const stepInterval = setInterval(() => {
+        if (currentStep < steps.length - 1) {
+          steps[currentStep].classList.remove('current');
+          steps[currentStep].classList.add('completed');
+          currentStep++;
+          steps[currentStep].classList.add('current');
+        }
+      }, 1500);
+
+      const payload = {
+        media_path: selectedMediaPath,
+        audience: selectedCohort,
+        mode: document.getElementById('mode-select').value,
+        scenario: document.getElementById('scenario-select').value
+      };
+
+      try {
+        const response = await fetch('/api/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        clearInterval(stepInterval);
+        steps.forEach(s => {
+          s.classList.remove('current');
+          s.classList.add('completed');
+        });
+
+        const data = await response.json();
+        if (data.status === 'success') {
+          currentRenderResult = data;
+          displayTrailerResults(data);
+        } else {
+          alert('Generation failed: ' + (data.detail || 'Unknown error'));
+        }
+      } catch (err) {
+        clearInterval(stepInterval);
+        alert('Network or Director error: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btnIcon.innerText = "🎬";
+        btnText.innerText = "Generate Autonomous Trailer";
+      }
+    }
+
+    // Display results in cinema player & metrics
+    function displayTrailerResults(data) {
+      const resultsSection = document.getElementById('results-section');
+      resultsSection.classList.add('active');
+
+      const tabsContainer = document.getElementById('trailer-cohort-tabs');
+      tabsContainer.innerHTML = '';
+
+      const cohorts = Object.keys(data.videos);
+      cohorts.forEach((cohort, idx) => {
+        const tabBtn = document.createElement('button');
+        tabBtn.className = 'trailer-tab-btn' + (idx === 0 ? ' active' : '');
+        tabBtn.innerText = cohort.replace('_', ' ').toUpperCase();
+        tabBtn.onclick = () => switchTrailerCut(cohort, tabBtn);
+        tabsContainer.appendChild(tabBtn);
+      });
+
+      // Load first trailer
+      switchTrailerCut(cohorts[0], tabsContainer.children[0]);
+
+      // Scroll to video player
+      resultsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function switchTrailerCut(cohortKey, tabElement) {
+      if (!currentRenderResult) return;
+
+      document.querySelectorAll('.trailer-tab-btn').forEach(b => b.classList.remove('active'));
+      if (tabElement) tabElement.classList.add('active');
+
+      const videoUrl = currentRenderResult.videos[cohortKey];
+      const plan = currentRenderResult.plans[cohortKey];
+
+      document.getElementById('current-trailer-name').innerText = cohortKey.replace('_', ' ').toUpperCase() + " CUT";
+
+      const player = document.getElementById('trailer-player');
+      const source = document.getElementById('video-source');
+      source.src = videoUrl;
+      player.load();
+      player.play().catch(() => {});
+
+      document.getElementById('btn-download-video').href = videoUrl;
+
+      // Update metrics
+      document.getElementById('metric-duration').innerText = (plan.duration_seconds || 45.0) + 's';
+      document.getElementById('metric-cuts').innerText = (plan.segments ? plan.segments.length : 0) + ' Cuts';
+      document.getElementById('metric-validation').innerText = (plan.validation && plan.validation.status) ? plan.validation.status : 'PASS';
+      document.getElementById('metric-audio').innerText = currentRenderResult.has_audio ? 'Stereo Muxed' : 'Video Only';
+
+      // Render EDL Cuts
+      const edlContainer = document.getElementById('edl-list-container');
+      edlContainer.innerHTML = '';
+
+      if (plan.segments) {
+        plan.segments.forEach((seg, i) => {
+          const cutDiv = document.createElement('div');
+          cutDiv.className = 'edl-cut';
+          cutDiv.innerHTML = `
+            <div class="cut-idx">${i + 1}</div>
+            <div class="cut-content">
+              <div class="cut-tc">${seg.source_in} ➔ ${seg.source_out} (${seg.scene_id || 'SCENE'})</div>
+              ${seg.text_card ? `<div style="font-size:12px; font-weight:700; color:var(--accent-cyan); text-transform:uppercase;">CARD: ${seg.text_card}</div>` : ''}
+              <div class="cut-sub">"${seg.subtitle || seg.dialogue || 'Instrumental / Visual narrative beat'}"</div>
+              <div class="cut-reason">${seg.reason || ''}</div>
+            </div>
+          `;
+          edlContainer.appendChild(cutDiv);
+        });
+      }
+    }
+  </script>
+</body>
+</html>
