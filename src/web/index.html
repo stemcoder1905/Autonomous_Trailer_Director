@@ -870,8 +870,8 @@
           <div class="metric-value" id="metric-cuts">4 Cuts</div>
         </div>
         <div class="metric-card">
-          <div class="metric-title">Validation Gates</div>
-          <div class="metric-value" style="color:var(--accent-green);" id="metric-validation">10 / 10 PASS</div>
+          <div class="metric-title">Video Quality</div>
+          <div class="metric-value" style="color:var(--accent-green);" id="metric-quality">HD 720p (H.264)</div>
         </div>
         <div class="metric-card">
           <div class="metric-title">Audio Track</div>
@@ -1081,7 +1081,11 @@
       // Update metrics
       document.getElementById('metric-duration').innerText = (plan.duration_seconds || 45.0) + 's';
       document.getElementById('metric-cuts').innerText = (plan.segments ? plan.segments.length : 0) + ' Cuts';
-      document.getElementById('metric-validation').innerText = (plan.validation && plan.validation.status) ? plan.validation.status : 'PASS';
+      const qEl = document.getElementById('metric-quality');
+      if (qEl) {
+        const resStr = (currentRenderResult.rendered_details && currentRenderResult.rendered_details[cohortKey] && currentRenderResult.rendered_details[cohortKey].resolution) ? currentRenderResult.rendered_details[cohortKey].resolution : '1280x720';
+        qEl.innerText = resStr + ' (H.264)';
+      }
       document.getElementById('metric-audio').innerText = currentRenderResult.has_audio ? 'Stereo Muxed' : 'Video Only';
 
       // Render EDL Cuts
