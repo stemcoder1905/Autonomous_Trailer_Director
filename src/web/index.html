@@ -1123,6 +1123,64 @@
     let selectedCohort = 'family';
     let currentRenderResult = null;
 
+    async function loadMediaLibrary() {
+      try {
+        const res = await fetch('/api/media-list');
+        const data = await res.json();
+        if (data.media && data.media.length > 0) {
+          const container = document.getElementById('media-list');
+          container.innerHTML = '';
+          
+          let selectedSet = false;
+          data.media.forEach((m, idx) => {
+            const isCurrentSelected = m.path === selectedMediaPath;
+            const isDefaultReal = !selectedSet && m.is_real;
+            const isSelected = isCurrentSelected || isDefaultReal || (!selectedSet && idx === data.media.length - 1);
+            
+            if (isSelected && !selectedSet) {
+              selectedMediaPath = m.path;
+              selectedSet = true;
+            }
+            
+            const item = document.createElement('div');
+            item.className = 'media-item' + (isSelected ? ' selected' : '');
+            item.onclick = () => selectMediaItem(item, m.path);
+            
+            const mins = Math.floor(m.duration_seconds / 60);
+            const secs = Math.floor(m.duration_seconds % 60);
+            const durationStr = `${mins}m ${secs}s`;
+            
+            const icon = m.is_real ? '🎥' : '🎞';
+            const badge = m.is_real 
+              ? `<span style="background:rgba(16,185,129,0.2); color:#10b981; padding:2px 8px; border-radius:4px; font-weight:700; font-size:11px;">✔ Real Movie Footage</span>`
+              : `<span style="background:rgba(156,163,175,0.2); color:#9ca3af; padding:2px 8px; border-radius:4px; font-weight:600; font-size:11px;">Synthetic Fixture</span>`;
+            
+            const audioBadge = m.has_audio
+              ? `<span class="tag-audio">🔊 Audio Detected</span>`
+              : `<span style="color:var(--text-muted)">🔇 No Audio</span>`;
+              
+            item.innerHTML = `
+              <div class="media-info">
+                <div class="media-name" style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+                  <span>${icon} ${m.filename}</span>
+                  ${badge}
+                </div>
+                <div class="media-meta">
+                  <span>Duration: ${durationStr}</span>
+                  <span>${m.resolution} @ ${m.fps}fps</span>
+                  ${audioBadge}
+                </div>
+              </div>
+            `;
+            container.appendChild(item);
+          });
+          updateActiveMediaDisplay();
+        }
+      } catch (err) {
+        console.warn('Could not load dynamic media list:', err);
+      }
+    }
+
     // Switch between media tabs
     function switchMovieTab(tabId) {
       document.querySelectorAll('.tab-pill').forEach(p => p.classList.remove('active'));
@@ -1184,6 +1242,7 @@
           uploadLabel.innerText = "Uploaded: " + file.name;
           uploadStatus.innerHTML = `<span style="color:var(--accent-green)">✔ Upload complete (${(data.size_bytes / (1024*1024)).toFixed(1)} MB, ${data.duration_seconds}s)</span>`;
           updateActiveMediaDisplay();
+          await loadMediaLibrary();
         } else {
           uploadStatus.innerHTML = `<span style="color:var(--accent-red)">Upload failed: ${data.detail || 'Error'}</span>`;
         }
@@ -1336,6 +1395,8 @@
         });
       }
     }
+
+    window.addEventListener('DOMContentLoaded', loadMediaLibrary);
   </script>
 </body>
 </html>

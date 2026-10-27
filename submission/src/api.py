@@ -94,7 +94,12 @@ def health_check():
 @app.get("/api/media-list")
 def list_available_media():
     """Returns discovered movie / media files in the workspace with metadata."""
-    search_dirs = [Path("sample_data/media"), Path("submission/sample_data/media")]
+    search_dirs = [
+        Path("sample_data/media"),
+        Path("submission/sample_data/media"),
+        Path("sample_data/media/uploads"),
+        Path("submission/sample_data/media/uploads")
+    ]
     results = []
     seen = set()
     for sdir in search_dirs:
@@ -116,6 +121,8 @@ def list_available_media():
                 "audio_msg": audio_msg,
                 "is_real": "episode_01" not in mp4_file.name.lower()
             })
+    # Sort so real movie footage and uploaded movies appear first
+    results.sort(key=lambda m: (not m["is_real"], m["filename"]))
     return {"media": results}
 
 
@@ -158,6 +165,8 @@ def generate_trailer_api(request: GenerateRequest):
             input_dir / "media" / raw_path.name,
             Path("sample_data/media") / raw_path.name,
             Path("submission/sample_data/media") / raw_path.name,
+            Path("sample_data/media/uploads") / raw_path.name,
+            Path("submission/sample_data/media/uploads") / raw_path.name,
             Path("sample_data/media/real_video.mp4"),
             Path("submission/sample_data/media/real_video.mp4"),
             input_dir / "media" / "episode_01.mp4"
