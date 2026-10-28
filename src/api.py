@@ -205,16 +205,49 @@ def generate_trailer_api(request: GenerateRequest):
     state = workflow.run(selected_audiences=audiences, scenario=scenario)
 
     # Render video for each trailer
+    import re
+    from src.utils.timecode import timecode_to_seconds, seconds_to_timecode
+
     web_trailers_dir = Path("sample_run/web_trailers")
     web_trailers_dir.mkdir(parents=True, exist_ok=True)
+
+    # Unique media slug so different movies NEVER overwrite or share trailer files
+    media_slug = re.sub(r'[^a-zA-Z0-9_-]', '_', media_path.stem)
+
+    # Inspect physical movie duration to adapt trailer cuts if movie has a different length
+    meta_media = VideoProcessor.extract_metadata(media_path)
+    movie_dur = meta_media.duration_seconds if meta_media.is_valid and meta_media.duration_seconds > 0 else 1350.0
 
     video_urls = {}
     rendered_details = {}
     for aud_key, plan in state.trailer_plans.items():
-        out_vid = web_trailers_dir / f"{aud_key}_trailer.mp4"
-        # If pre-rendered exists in sample_run, copy to web_trailers
-        source_prerendered = Path("sample_run") / f"{aud_key}_trailer.mp4"
-        if not out_vid.exists() and source_prerendered.exists() and "real_video.mp4" in str(media_path).lower():
+        # Adaptive timecodes if video duration is shorter than planned timecodes
+        needs_adaptation = False
+        for seg in plan.segments:
+            try:
+                t_end = timecode_to_seconds(seg.source_out)
+                t_in = timecode_to_seconds(seg.source_in)
+                if t_end > movie_dur or t_in >= movie_dur:
+                    needs_adaptation = True
+                    break
+            except Exception:
+                pass
+
+        if needs_adaptation and movie_dur > 5.0:
+            num_s = len(plan.segments)
+            seg_len = min(10.0, max(2.5, (movie_dur * 0.7) / num_s))
+            spacing = max(0.0, (movie_dur - seg_len) / max(1, num_s))
+            for s_idx, seg in enumerate(plan.segments):
+                s_in = max(0.0, min(movie_dur - seg_len, spacing * s_idx + 0.5))
+                s_out = min(movie_dur, s_in + seg_len)
+                seg.source_in = seconds_to_timecode(s_in)
+                seg.source_out = seconds_to_timecode(s_out)
+
+        out_vid = web_trailers_dir / f"{media_slug}_{aud_key}_trailer.mp4"
+
+        # If real_video is used and pre-rendered exists, seed out_vid
+        source_prerendered = Path("sample_run/web_trailers") / f"{aud_key}_trailer.mp4"
+        if not out_vid.exists() and source_prerendered.exists() and "real_video" in media_slug.lower():
             try:
                 shutil.copy2(source_prerendered, out_vid)
             except Exception:

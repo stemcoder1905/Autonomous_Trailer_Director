@@ -286,13 +286,26 @@ class TrailerRenderer:
         slice_files = []
         total_duration = 0.0
 
+        # Obtain source duration to ensure cuts always fall within physical file
+        from src.media.video_processor import VideoProcessor
+        meta_src = VideoProcessor.extract_metadata(source_path)
+        src_duration = meta_src.duration_seconds if meta_src.is_valid and meta_src.duration_seconds > 0 else 0.0
+
         try:
+            num_segs = len(plan.segments)
             for idx, seg in enumerate(plan.segments):
                 try:
                     start_sec = timecode_to_seconds(seg.source_in)
                     end_sec = timecode_to_seconds(seg.source_out)
                 except Exception:
                     start_sec, end_sec = 0.0, 10.0
+
+                # Adaptive bounds if cut exceeds source video duration
+                if src_duration > 0 and (end_sec > src_duration or start_sec >= src_duration):
+                    seg_dur = min(8.0, max(2.0, (src_duration * 0.75) / num_segs))
+                    spacing = max(0.0, (src_duration - seg_dur) / max(1, num_segs))
+                    start_sec = max(0.0, min(src_duration - seg_dur, spacing * idx + 0.5))
+                    end_sec = min(src_duration, start_sec + seg_dur)
 
                 duration = max(0.5, end_sec - start_sec)
                 total_duration += duration
@@ -439,21 +452,23 @@ class TrailerRenderer:
             logger.warning(f"[TrailerRenderer] Media source '{source_path}' does not exist.")
             return {"rendered": False, "error": f"Media source '{source_path}' not found"}
 
-        # 1. Instant Cache Check: If output video already exists and is healthy, return immediately
+        # 1. Instant Cache Check: If output video already exists, is healthy, AND is newer than source_path
         if out_path.exists() and out_path.stat().st_size > 100000:
-            from src.media.video_processor import VideoProcessor
-            meta = VideoProcessor.extract_metadata(out_path)
-            if meta.is_valid and meta.duration_seconds > 5.0:
-                logger.info(f"[TrailerRenderer] Reusing existing trailer video: '{out_path.name}' ({meta.duration_seconds}s)")
-                return {
-                    "rendered": True,
-                    "video_path": str(out_path),
-                    "duration_seconds": round(meta.duration_seconds, 2),
-                    "frame_count": meta.frame_count,
-                    "resolution": f"{meta.width}x{meta.height}",
-                    "fps": meta.fps,
-                    "codec": "h264_yuv420p"
-                }
+            source_mtime = source_path.stat().st_mtime if source_path.exists() else 0
+            if out_path.stat().st_mtime >= source_mtime:
+                from src.media.video_processor import VideoProcessor
+                meta = VideoProcessor.extract_metadata(out_path)
+                if meta.is_valid and meta.duration_seconds > 2.0:
+                    logger.info(f"[TrailerRenderer] Reusing existing trailer video: '{out_path.name}' ({meta.duration_seconds}s)")
+                    return {
+                        "rendered": True,
+                        "video_path": str(out_path),
+                        "duration_seconds": round(meta.duration_seconds, 2),
+                        "frame_count": meta.frame_count,
+                        "resolution": f"{meta.width}x{meta.height}",
+                        "fps": meta.fps,
+                        "codec": "h264_yuv420p"
+                    }
 
         cap = cv2.VideoCapture(str(source_path))
         if not cap.isOpened():
@@ -495,6 +510,8 @@ class TrailerRenderer:
         try:
             logger.info(f"[TrailerRenderer] Rendering HD trailer '{plan.trailer_id}' ({plan.audience}) from '{source_path.name}' to '{out_path.name}' ({width}x{height} @ {fps}fps)")
 
+            src_duration = cap.get(cv2.CAP_PROP_FRAME_COUNT) / src_fps if src_fps > 0 else 0.0
+            num_segs = len(plan.segments)
             for seg_idx, seg in enumerate(plan.segments):
                 try:
                     start_sec = timecode_to_seconds(seg.source_in)
@@ -503,6 +520,12 @@ class TrailerRenderer:
                     logger.warning(f"[TrailerRenderer] Invalid timecodes for segment {seg.segment_id}: {e}")
                     start_sec = 0.0
                     end_sec = 10.0
+
+                if src_duration > 0 and (end_sec > src_duration or start_sec >= src_duration):
+                    seg_duration = min(8.0, max(2.0, (src_duration * 0.75) / num_segs))
+                    spacing = max(0.0, (src_duration - seg_duration) / max(1, num_segs))
+                    start_sec = max(0.0, min(src_duration - seg_duration, spacing * seg_idx + 0.5))
+                    end_sec = min(src_duration, start_sec + seg_duration)
 
                 seg_duration = max(0.5, end_sec - start_sec)
                 start_frame = int(start_sec * src_fps)

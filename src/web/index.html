@@ -1354,11 +1354,12 @@
       const videoUrl = currentRenderResult.videos[cohortKey];
       const plan = currentRenderResult.plans[cohortKey];
 
-      document.getElementById('current-trailer-name').innerText = cohortKey.replace('_', ' ').toUpperCase() + " CUT";
+      const movieTitle = currentRenderResult.title || 'Movie';
+      document.getElementById('current-trailer-name').innerText = `${movieTitle} — ${cohortKey.replace('_', ' ').toUpperCase()} CUT`;
 
       const player = document.getElementById('trailer-player');
       const source = document.getElementById('video-source');
-      source.src = videoUrl;
+      source.src = videoUrl + '?t=' + Date.now();
       player.load();
       player.play().catch(() => {});
 
