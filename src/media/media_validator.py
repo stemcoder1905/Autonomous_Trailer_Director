@@ -58,6 +58,9 @@ class MediaValidator:
         self.asr_mgr = asr_provider_manager or ASRProviderManager(
             preferred_provider="live" if is_live_exec else "mock"
         )
+        self._meta_cache: Dict[str, Any] = {}
+        self._audio_cache: Dict[str, Tuple[bool, str]] = {}
+        self._frame_cache: Dict[Tuple[str, str, int, int], Dict[str, Any]] = {}
 
     def validate_segment_media(
         self,
@@ -72,8 +75,11 @@ class MediaValidator:
         # Determine explicit evidence provenance based on media_source
         source_type = SourceType.REAL_MEDIA if self.media_source == "real_media" else SourceType.REPLAY_FIXTURE
 
-        # Check audio stream existence on physical container
-        has_audio, audio_status = AudioProcessor.detect_audio_stream(target_video)
+        # Check audio stream existence on physical container (cached)
+        v_key = str(target_video)
+        if v_key not in self._audio_cache:
+            self._audio_cache[v_key] = AudioProcessor.detect_audio_stream(target_video)
+        has_audio, audio_status = self._audio_cache[v_key]
 
         # Convert segment timecodes to exact physical seconds
         from src.utils.timecode import timecode_to_seconds
@@ -133,7 +139,9 @@ class MediaValidator:
 
         # 1. If physical media file exists, enforce physical media boundary mathematics
         if target_video.exists() and VideoProcessor.is_available():
-            meta = VideoProcessor.extract_metadata(target_video)
+            if v_key not in self._meta_cache:
+                self._meta_cache[v_key] = VideoProcessor.extract_metadata(target_video)
+            meta = self._meta_cache[v_key]
 
             # Update segment source provenance
             if segment.source is None:
@@ -174,14 +182,17 @@ class MediaValidator:
                     )
                 )
 
-            # Extract actual visual frames for evidence
-            frame_res = FrameExtractor.extract_scene_frames(
-                video_path=target_video,
-                scene_id=segment.scene_id,
-                start_seconds=t_in,
-                end_seconds=t_out,
-                output_dir=self.frames_dir
-            )
+            # Extract actual visual frames for evidence (cached)
+            frame_cache_key = (v_key, segment.scene_id, int(t_in), int(t_out))
+            if frame_cache_key not in self._frame_cache:
+                self._frame_cache[frame_cache_key] = FrameExtractor.extract_scene_frames(
+                    video_path=target_video,
+                    scene_id=segment.scene_id,
+                    start_seconds=t_in,
+                    end_seconds=t_out,
+                    output_dir=self.frames_dir
+                )
+            frame_res = self._frame_cache[frame_cache_key]
             segment.frame_evidence = frame_res.get("frames_checked", [])
 
         # 2. Visual Content & Grounding Claim Verification (Requirement #3 & #16)
