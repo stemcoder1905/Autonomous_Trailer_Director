@@ -1119,6 +1119,7 @@
   </main>
 
   <script>
+    let uploadedMediaPath = null;
     let selectedMediaPath = 'sample_data/media/real_video.mp4';
     let selectedCohort = 'family';
     let currentRenderResult = null;
@@ -1131,16 +1132,22 @@
           const container = document.getElementById('media-list');
           container.innerHTML = '';
           
-          let selectedSet = false;
-          data.media.forEach((m, idx) => {
-            const isCurrentSelected = m.path === selectedMediaPath;
-            const isDefaultReal = !selectedSet && m.is_real;
-            const isSelected = isCurrentSelected || isDefaultReal || (!selectedSet && idx === data.media.length - 1);
-            
-            if (isSelected && !selectedSet) {
-              selectedMediaPath = m.path;
-              selectedSet = true;
+          // Determine which item should be selected:
+          // 1. If selectedMediaPath matches an item in data.media, preserve it!
+          // 2. If uploadedMediaPath exists and matches an item, preserve it!
+          // 3. Otherwise, pick the first real video, or the first item.
+          const inList = data.media.some(m => m.path === selectedMediaPath);
+          if (!inList) {
+            if (uploadedMediaPath && data.media.some(m => m.path === uploadedMediaPath)) {
+              selectedMediaPath = uploadedMediaPath;
+            } else {
+              const firstReal = data.media.find(m => m.is_real);
+              selectedMediaPath = firstReal ? firstReal.path : data.media[0].path;
             }
+          }
+          
+          data.media.forEach((m) => {
+            const isSelected = (m.path === selectedMediaPath);
             
             const item = document.createElement('div');
             item.className = 'media-item' + (isSelected ? ' selected' : '');
@@ -1191,6 +1198,16 @@
 
       if (tabId === 'path') {
         selectedMediaPath = document.getElementById('custom-path-input').value;
+      } else if (tabId === 'upload') {
+        if (uploadedMediaPath) {
+          selectedMediaPath = uploadedMediaPath;
+        }
+      } else if (tabId === 'library') {
+        const selectedItem = document.querySelector('.media-item.selected');
+        if (!selectedItem) {
+          const first = document.querySelector('.media-item');
+          if (first) first.click();
+        }
       }
       updateActiveMediaDisplay();
     }
@@ -1203,7 +1220,10 @@
     }
 
     function updateActiveMediaDisplay() {
-      document.getElementById('active-media-display').innerText = selectedMediaPath;
+      const el = document.getElementById('active-media-display');
+      if (el) {
+        el.innerText = selectedMediaPath;
+      }
     }
 
     document.getElementById('custom-path-input').addEventListener('input', function(e) {
@@ -1238,11 +1258,13 @@
         });
         const data = await res.json();
         if (data.status === 'success') {
+          uploadedMediaPath = data.path;
           selectedMediaPath = data.path;
           uploadLabel.innerText = "Uploaded: " + file.name;
           uploadStatus.innerHTML = `<span style="color:var(--accent-green)">✔ Upload complete (${(data.size_bytes / (1024*1024)).toFixed(1)} MB, ${data.duration_seconds}s)</span>`;
-          updateActiveMediaDisplay();
           await loadMediaLibrary();
+          selectedMediaPath = data.path;
+          updateActiveMediaDisplay();
         } else {
           uploadStatus.innerHTML = `<span style="color:var(--accent-red)">Upload failed: ${data.detail || 'Error'}</span>`;
         }

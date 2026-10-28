@@ -1,4 +1,5 @@
 """FastAPI Web Service for Autonomous Trailer Director."""
+import re
 import shutil
 from pathlib import Path
 from typing import Optional, List, Dict, Any
@@ -179,6 +180,19 @@ def generate_trailer_api(request: GenerateRequest):
     execution_mode = (request.mode or "replay").lower()
     media_source = "real_media" if "episode_01.mp4" not in media_path.name.lower() else "replay_fixture"
 
+    # Derive movie title from media filename if not standard fixture
+    media_name_lower = media_path.name.lower()
+    if "episode_01" in media_name_lower:
+        custom_movie_title = None
+    elif "real_video" in media_name_lower:
+        custom_movie_title = "Paragliding Odyssey (Full Feature)"
+    else:
+        # User uploaded or custom movie file: clean downloader artifacts and sanitize title
+        clean = re.sub(r'^(vidssave\.com|y2mate\.is|ssyoutube\.com|savefrom\.net)[_\s-]*', '', media_path.stem, flags=re.IGNORECASE)
+        clean = re.sub(r'\[.*?\]|\(.*?\)|480p|720p|1080p|hd|gb|mb', '', clean, flags=re.IGNORECASE)
+        clean = re.sub(r'[_\.-]+', ' ', clean).strip()
+        custom_movie_title = clean.title() if clean else media_path.stem
+
     provider_mgr = ProviderManager(preferred_provider=config.llm_provider if execution_mode == "live" else "mock")
     decision_logger = DecisionLogger()
 
@@ -204,8 +218,10 @@ def generate_trailer_api(request: GenerateRequest):
     scenario = None if (not request.scenario or request.scenario == "none") else request.scenario
     state = workflow.run(selected_audiences=audiences, scenario=scenario)
 
+    if custom_movie_title:
+        state.episode_package.title = custom_movie_title
+
     # Render video for each trailer
-    import re
     from src.utils.timecode import timecode_to_seconds, seconds_to_timecode
 
     web_trailers_dir = Path("sample_run/web_trailers")
@@ -221,7 +237,7 @@ def generate_trailer_api(request: GenerateRequest):
     video_urls = {}
     rendered_details = {}
     for aud_key, plan in state.trailer_plans.items():
-        # Adaptive timecodes if video duration is shorter than planned timecodes
+        # Adaptive timecodes if video duration is shorter than planned timecodes or custom media
         needs_adaptation = False
         for seg in plan.segments:
             try:
@@ -233,15 +249,21 @@ def generate_trailer_api(request: GenerateRequest):
             except Exception:
                 pass
 
-        if needs_adaptation and movie_dur > 5.0:
+        if (needs_adaptation or custom_movie_title) and movie_dur > 5.0:
             num_s = len(plan.segments)
-            seg_len = min(10.0, max(2.5, (movie_dur * 0.7) / num_s))
+            seg_len = min(8.0, max(2.5, (movie_dur * 0.7) / num_s))
             spacing = max(0.0, (movie_dur - seg_len) / max(1, num_s))
             for s_idx, seg in enumerate(plan.segments):
                 s_in = max(0.0, min(movie_dur - seg_len, spacing * s_idx + 0.5))
                 s_out = min(movie_dur, s_in + seg_len)
                 seg.source_in = seconds_to_timecode(s_in)
                 seg.source_out = seconds_to_timecode(s_out)
+                if custom_movie_title:
+                    if "real_video" not in media_name_lower:
+                        seg.subtitle = ""
+                        seg.dialogue = ""
+                    if s_idx == 0:
+                        seg.text_card = custom_movie_title.upper()
 
         out_vid = web_trailers_dir / f"{media_slug}_{aud_key}_trailer.mp4"
 
