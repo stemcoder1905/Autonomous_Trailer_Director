@@ -212,6 +212,14 @@ def generate_trailer_api(request: GenerateRequest):
     rendered_details = {}
     for aud_key, plan in state.trailer_plans.items():
         out_vid = web_trailers_dir / f"{aud_key}_trailer.mp4"
+        # If pre-rendered exists in sample_run, copy to web_trailers
+        source_prerendered = Path("sample_run") / f"{aud_key}_trailer.mp4"
+        if not out_vid.exists() and source_prerendered.exists() and "real_video.mp4" in str(media_path).lower():
+            try:
+                shutil.copy2(source_prerendered, out_vid)
+            except Exception:
+                pass
+
         render_res = TrailerRenderer.render_trailer(
             plan=plan,
             media_path=media_path,

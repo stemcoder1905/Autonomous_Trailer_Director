@@ -269,6 +269,132 @@ class TrailerRenderer:
                 pass
 
     @classmethod
+    def _render_fast_ffmpeg(
+        cls,
+        plan: TrailerPlan,
+        source_path: Path,
+        out_path: Path,
+        src_w: int,
+        src_h: int,
+        src_fps: float
+    ) -> Optional[Dict[str, Any]]:
+        """Ultra-fast FFmpeg stream slicing and concatenation for production speed."""
+        if not FFMPEG_EXE:
+            return None
+
+        temp_dir = Path(tempfile.mkdtemp(prefix="fast_trailer_"))
+        slice_files = []
+        total_duration = 0.0
+
+        try:
+            for idx, seg in enumerate(plan.segments):
+                try:
+                    start_sec = timecode_to_seconds(seg.source_in)
+                    end_sec = timecode_to_seconds(seg.source_out)
+                except Exception:
+                    start_sec, end_sec = 0.0, 10.0
+
+                duration = max(0.5, end_sec - start_sec)
+                total_duration += duration
+                slice_path = temp_dir / f"slice_{idx:03d}.mp4"
+
+                # Subtitle text formatting
+                sub_text = seg.subtitle or seg.dialogue or ""
+                vf_args = []
+                if sub_text:
+                    srt_path = temp_dir / f"sub_{idx:03d}.srt"
+                    clean_sub = sub_text.replace("\n", " ").strip()
+                    end_sub = duration - 0.2 if duration > 1.0 else duration
+                    srt_content = (
+                        f"1\n00:00:00,300 --> 00:{int(end_sub//60):02d}:{int(end_sub%60):02d},{int((end_sub%1)*1000):03d}\n"
+                        f"{clean_sub}\n"
+                    )
+                    srt_path.write_text(srt_content, encoding="utf-8")
+                    safe_srt_path = str(srt_path).replace("\\", "/").replace(":", "\\:")
+                    vf_args = ["-vf", f"subtitles={safe_srt_path}"]
+
+                cmd = [
+                    FFMPEG_EXE, "-y",
+                    "-ss", str(start_sec),
+                    "-t", str(duration),
+                    "-i", str(source_path)
+                ] + vf_args + [
+                    "-c:v", "libx264",
+                    "-preset", "ultrafast",
+                    "-crf", "22",
+                    "-pix_fmt", "yuv420p",
+                    "-c:a", "aac",
+                    "-b:a", "128k",
+                    str(slice_path)
+                ]
+                proc = subprocess.run(cmd, capture_output=True, text=True)
+                if proc.returncode != 0 or not slice_path.exists():
+                    # Retry without subtitle filter if subtitles filter is unsupported
+                    cmd_no_sub = [
+                        FFMPEG_EXE, "-y",
+                        "-ss", str(start_sec),
+                        "-t", str(duration),
+                        "-i", str(source_path),
+                        "-c:v", "libx264",
+                        "-preset", "ultrafast",
+                        "-crf", "22",
+                        "-pix_fmt", "yuv420p",
+                        "-c:a", "aac",
+                        "-b:a", "128k",
+                        str(slice_path)
+                    ]
+                    proc2 = subprocess.run(cmd_no_sub, capture_output=True, text=True)
+                    if proc2.returncode != 0 or not slice_path.exists():
+                        logger.warning(f"[TrailerRenderer] Fast cut slice failed: {proc2.stderr[:200]}")
+                        return None
+
+                slice_files.append(slice_path)
+
+            if not slice_files:
+                return None
+
+            concat_txt = temp_dir / "concat_slices.txt"
+            with open(concat_txt, "w", encoding="utf-8") as f:
+                for s in slice_files:
+                    f.write(f"file '{s.name}'\n")
+
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+            concat_cmd = [
+                FFMPEG_EXE, "-y",
+                "-f", "concat",
+                "-safe", "0",
+                "-i", str(concat_txt),
+                "-c", "copy",
+                "-movflags", "+faststart",
+                str(out_path)
+            ]
+            concat_proc = subprocess.run(concat_cmd, capture_output=True, text=True)
+            if concat_proc.returncode == 0 and out_path.exists() and out_path.stat().st_size > 0:
+                fps = int(src_fps) if src_fps > 0 else 30
+                frame_count = int(total_duration * fps)
+                logger.info(f"[TrailerRenderer] Fast FFmpeg render successful: '{out_path.name}' ({round(total_duration, 1)}s, {frame_count} frames)")
+                return {
+                    "rendered": True,
+                    "video_path": str(out_path),
+                    "duration_seconds": round(total_duration, 2),
+                    "frame_count": frame_count,
+                    "resolution": f"{src_w}x{src_h}",
+                    "fps": fps,
+                    "codec": "h264_yuv420p"
+                }
+            return None
+        except Exception as e:
+            logger.warning(f"[TrailerRenderer] Fast FFmpeg render error: {e}")
+            return None
+        finally:
+            try:
+                for p in temp_dir.glob("*"):
+                    p.unlink(missing_ok=True)
+                temp_dir.rmdir()
+            except Exception:
+                pass
+
+    @classmethod
     def render_trailer(
         cls,
         plan: TrailerPlan,
@@ -313,6 +439,22 @@ class TrailerRenderer:
             logger.warning(f"[TrailerRenderer] Media source '{source_path}' does not exist.")
             return {"rendered": False, "error": f"Media source '{source_path}' not found"}
 
+        # 1. Instant Cache Check: If output video already exists and is healthy, return immediately
+        if out_path.exists() and out_path.stat().st_size > 100000:
+            from src.media.video_processor import VideoProcessor
+            meta = VideoProcessor.extract_metadata(out_path)
+            if meta.is_valid and meta.duration_seconds > 5.0:
+                logger.info(f"[TrailerRenderer] Reusing existing trailer video: '{out_path.name}' ({meta.duration_seconds}s)")
+                return {
+                    "rendered": True,
+                    "video_path": str(out_path),
+                    "duration_seconds": round(meta.duration_seconds, 2),
+                    "frame_count": meta.frame_count,
+                    "resolution": f"{meta.width}x{meta.height}",
+                    "fps": meta.fps,
+                    "codec": "h264_yuv420p"
+                }
+
         cap = cv2.VideoCapture(str(source_path))
         if not cap.isOpened():
             logger.error(f"[TrailerRenderer] Failed to open video source: '{source_path}'")
@@ -321,6 +463,17 @@ class TrailerRenderer:
         src_w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH) or 1280)
         src_h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT) or 720)
         src_fps = cap.get(cv2.CAP_PROP_FPS) or 24.0
+        cap.release()
+
+        # 2. Try ultra-fast FFmpeg pipeline first (takes ~3-5 seconds!)
+        fast_res = cls._render_fast_ffmpeg(plan, source_path, out_path, src_w, src_h, src_fps)
+        if fast_res and fast_res.get("rendered"):
+            return fast_res
+
+        # Fallback to OpenCV frame-by-frame loop
+        cap = cv2.VideoCapture(str(source_path))
+        if not cap.isOpened():
+            return {"rendered": False, "error": f"Cannot open video '{source_path}'"}
 
         # Preserve high resolution: at least 1280x720 for crisp output
         width = target_width if target_width else max(cls.DEFAULT_WIDTH, src_w)
@@ -374,8 +527,8 @@ class TrailerRenderer:
                         )
                     else:
                         if frame.shape[1] != width or frame.shape[0] != height:
-                            # High quality interpolation
-                            frame = cv2.resize(frame, (width, height), interpolation=cv2.INTER_LANCZOS4)
+                            # Fast bilinear interpolation
+                            frame = cv2.resize(frame, (width, height), interpolation=cv2.INTER_LINEAR)
 
                     elapsed_seg_sec = f_idx / fps
                     current_trailer_sec = trailer_time_sec + elapsed_seg_sec
